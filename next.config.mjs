@@ -133,6 +133,15 @@ if (mode !== "export") {
       beforeFiles: ret,
     };
   };
+} else {
+  nextConfig.headers = async () => {
+    return [
+      {
+        source: "/:path*",
+        headers: IndexHeaders,
+      },
+    ];
+  };
 }
 
 export default nextConfig;
