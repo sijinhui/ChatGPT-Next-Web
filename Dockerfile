@@ -19,6 +19,8 @@ COPY package.json ./
 #RUN yarn config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
 #RUN # 清理遗留的缓存
 #RUN yarn cache clean
+RUN npm install cnpm -g --registry=https://registry.npmmirror.com
+RUN #cnpm i
 RUN yarn install
 
 # 避免下面那个报错
@@ -29,11 +31,13 @@ FROM base AS builder
 ENV OPENAI_API_KEY=""
 ENV GOOGLE_API_KEY=""
 ENV CODE=""
+#ENV NEXT_SHARP_PATH=./node_modules/sharp
 
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
+RUN yarn next telemetry disable
 RUN yarn build
 
 FROM base AS runner

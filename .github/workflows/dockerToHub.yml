@@ -1,4 +1,4 @@
-name: PRO DEPLOY TO TY
+name: PRODUCT
 on:
   workflow_dispatch:
   push:

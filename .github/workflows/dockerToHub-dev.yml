@@ -1,4 +1,4 @@
-name: DEV DEPLOY TO TX
+name: DEV
 on:
   workflow_dispatch:
 #  push:
@@ -29,7 +29,7 @@ jobs:
           sed -i 's|23000:|23001:|g' docker-compose.yml
           docker-compose build
           docker-compose push
-          yes | docker system prune --filter "until=30d"
+          yes | docker system prune --filter "until=720h"
   deploy-tx:
     name: 部署到dev服务器tx
     runs-on: self
