@@ -23,15 +23,15 @@ jobs:
           echo ${{ secrets.ALY_DOCKER_PASSWORD }} | docker login registry.cn-hangzhou.aliyuncs.com -u ${{ secrets.ALY_DOCKER_USERNAME }} --password-stdin
           echo "${{ secrets.DOCKER_ENV }}" > .env
           echo "COMPOSE_PROJECT_NAME=test-chatgpt-web" >> .env
-          bash ./start.sh
+          #bash ./start.sh
           # 替换测试镜像
           sed -i 's@image: registry.cn-hangzhou.aliyuncs.com/si-private/chatgpt-next-web@image: registry.cn-hangzhou.aliyuncs.com/si-private/chatgpt-next-web:test@g' docker-compose.yml
           sed -i 's|23000:|23001:|g' docker-compose.yml
           docker-compose build
           docker-compose push
-          yes | docker system prune --filter "until=168h"
-  deploy:
-    name: 部署到dev服务器
+          yes | docker system prune --filter "until=30d"
+  deploy-tx:
+    name: 部署到dev服务器tx
     runs-on: self
     needs: build
     steps:
@@ -47,9 +47,8 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Sync repository to tx
         run: |
-          yes | docker image prune
           ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }} root@${{ secrets.TX_SSH_IP }} 'mkdir -p /data/test/ChatGPT-Next-Web'
-          rsync -az -e 'ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }}' --delete $GITHUB_WORKSPACE/ root@tx.xiaosi.cc:/data/test/ChatGPT-Next-Web
+          rsync -az -e 'ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }}' --delete $GITHUB_WORKSPACE/docker-compose.yml root@tx.xiaosi.cc:/data/test/ChatGPT-Next-Web
       - name: deploy-to-tx
         uses: appleboy/ssh-action@master
         env:
@@ -74,13 +73,15 @@ jobs:
             yes | docker image prune
             rm -rf /www/server/nginx/proxy_cache_dir/* || true
             rm -rf /www/server/nginx/proxy_temp_dir/* || true
-
-
+  deploy-nm:
+    name: 部署到dev服务器nm
+    runs-on: self
+    needs: build
+    steps:
       - name: Sync repository to xy-nm
         run: |
-          yes | docker image prune
           ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }} root@${{ secrets.NM_SSH_IP }} 'mkdir -p /data/test/ChatGPT-Next-Web'
-          rsync -az -e 'ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }}' --delete $GITHUB_WORKSPACE/ root@xy-nm.xiaosi.cc:/data/test/ChatGPT-Next-Web
+          rsync -az -e 'ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }}' --delete $GITHUB_WORKSPACE/docker-compose.yml root@xy-nm.xiaosi.cc:/data/test/ChatGPT-Next-Web
       - name: deploy-to-xy-nm
         uses: appleboy/ssh-action@master
         env:
