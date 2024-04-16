@@ -30,15 +30,16 @@ jobs:
           docker-compose build
           docker-compose push
           yes | docker system prune --filter "until=720h"
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
   deploy-tx:
     name: 部署到dev服务器tx
     runs-on: self
     needs: build
     steps:
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Sync repository to tx
         run: |
           ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }} root@${{ secrets.TX_SSH_IP }} 'mkdir -p /data/test/ChatGPT-Next-Web'
@@ -72,6 +73,10 @@ jobs:
     runs-on: self
     needs: build
     steps:
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Sync repository to xy-nm
         run: |
           ssh -o StrictHostKeyChecking=no -p${{ secrets.SSH_PORT }} root@${{ secrets.NM_SSH_IP }} 'mkdir -p /data/test/ChatGPT-Next-Web'
