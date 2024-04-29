@@ -65,7 +65,6 @@ async function handle(
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
             allowToLogin: item.allowToLogin,
-            isAdmin: item.isAdmin,
           };
         }),
       });
