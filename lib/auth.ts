@@ -8,7 +8,6 @@ import { User } from "@prisma/client";
 import { isEmail, isName } from "@/lib/auth_list";
 import {createTransport} from "nodemailer";
 import { comparePassword, hashPassword } from "@/lib/utils";
-import {getCurStartEnd} from "@/app/utils/custom";
 const SECURE_COOKIES:boolean = !!process.env.SECURE_COOKIES;
 type PartialUser = Partial<User>;
 
@@ -141,13 +140,6 @@ export const authOptions: NextAuthOptions = {
             // console.log('=============', token, user,)
             if (user) {
                 token.user = user;
-            } else {
-              const updateUser = await prisma.user.findUnique({ where: { id: token.sub }});
-              // console.log('========', updateUser)
-              if (!updateUser || !updateUser.allowToLogin) {
-                throw new Error('无法刷新令牌，用户状态不正确');
-              }
-              token.user = updateUser;
             }
             return token;
         },
