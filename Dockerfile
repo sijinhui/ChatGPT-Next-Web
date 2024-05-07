@@ -1,7 +1,13 @@
 #FROM registry.cn-hangzhou.aliyuncs.com/sijinhui/node:18-alpine AS base
-FROM hub.siji.ci/library/node:20-alpine AS base
+FROM hub.siji.ci/library/node:22.1-alpine AS base
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update && apk add --no-cache git tzdata
+RUN apk add --no-cache \
+        vips-dev \
+        fftw-dev \
+        glib-dev \
+        glib \
+        expat-dev
 # 设置时区环境变量
 ENV TZ=Asia/Chongqing
 # 更新并安装时区工具
@@ -14,37 +20,33 @@ WORKDIR /app
 
 COPY package.json ./
 
-#RUN yarn config set registry 'https://registry.npmmirror.com/'
-#RUN yarn config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp"
-#RUN yarn config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
+RUN yarn config set registry 'https://registry.npmmirror.com/'
+RUN yarn config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp"
+RUN yarn config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
 #RUN # 清理遗留的缓存
-#RUN yarn cache clean
-RUN npm install cnpm -g --registry=https://registry.npmmirror.com
-RUN #cnpm i
+RUN yarn cache clean
 RUN yarn install
-
-# 避免下面那个报错
-RUN mkdir -p "/app/node_modules/tiktoken"
 
 FROM base AS builder
 
 ENV OPENAI_API_KEY=""
 ENV GOOGLE_API_KEY=""
 ENV CODE=""
-#ENV NEXT_SHARP_PATH=./node_modules/sharp
 
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+# 避免下面那个报错
+RUN mkdir -p "/app/node_modules/tiktoken"
+RUN mkdir -p "/app/node_modules/sharp"
 
-RUN yarn next telemetry disable
 RUN yarn build
 
 FROM base AS runner
 WORKDIR /app
-#
-#RUN apk add proxychains-ng
-#
+
+RUN apk add proxychains-ng
+
 ENV PROXY_URL=""
 ENV OPENAI_API_KEY=""
 ENV GOOGLE_API_KEY=""
@@ -56,8 +58,8 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/.next/server ./.next/server
 
 # 一个插件一直有问题。
-COPY --from=deps /app/node_modules/tiktoken ./node_modules/tiktoken
-
+COPY --from=builder /app/node_modules/tiktoken ./node_modules/tiktoken
+COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
 #COPY out/ .
 
 RUN rm -f .env
