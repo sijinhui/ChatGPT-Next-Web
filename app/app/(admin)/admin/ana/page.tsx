@@ -1,5 +1,5 @@
 import UsageByModel from "./usage-by-model-chart";
-// import UserByMap from "./user-by-map";
+import { LogAnaChartCom } from "./log-ana-chart";
 
 import { Flex } from "antd";
 
@@ -9,6 +9,7 @@ export default async function AdminPage() {
       <Flex gap="middle" vertical>
         <UsageByModel />
         {/*<UserByMap />*/}
+        <LogAnaChartCom />
       </Flex>
     </>
   );
