@@ -5,35 +5,6 @@ import ReactECharts from "echarts-for-react";
 import SiEcharts from "@/app/app/(admin)/components/si-echarts";
 import { EChartsOption } from "echarts";
 
-// const CandleStickChart = ({ OHLC_Data }) => {
-//   const chartContainerRef = useRef(null);
-//
-//   useEffect(() => {
-//     const chart = createChart(chartContainerRef.current, {
-//       width: 700,
-//       height: 400,
-//       timeScale: {
-//         timeVisible: true,
-//         secondsVisible: false,
-//         fixLeftEdge: true,
-//         fixRightEdge: true,
-//       },
-//       crosshair: {
-//         mode: CrosshairMode.Normal,
-//       },
-//     });
-//     const candleSeries = chart.addCandlestickSeries({});
-//
-//     candleSeries.setData(OHLC_Data);
-//
-//     return () => {
-//       chart.remove();
-//     };
-//   }, [OHLC_Data]);
-//
-//   return <div ref={chartContainerRef} />;
-// };
-
 export const LogAnaChartCom = () => {
   const option = {
     xAxis: {

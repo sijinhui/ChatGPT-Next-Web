@@ -93,7 +93,7 @@ function EchartsComponent({ currentDate, setCurrentDate }: ComponentProps) {
       async function fetchData() {
         // console.log("异步", searchDate, currentDateString);
         const response = await fetch(
-          "/api/admin/charts?date=" + currentDateString,
+          "/api/admin/charts/today-log-ana?date=" + currentDateString,
           {
             method: "GET",
           },
