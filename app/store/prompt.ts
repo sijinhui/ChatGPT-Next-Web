@@ -160,7 +160,7 @@ export const usePromptStore = createPersistStore(
     onRehydrateStorage(state) {
       // const PROMPT_URL = "https://cos.xiaosi.cc/next/public/prompts.json";
       // const PROMPT_URL = "https://qn.xiaosi.cc/json/chat/prompts.json";
-      const PROMPT_URL = "./prompts.json"
+      const PROMPT_URL = "./prompts.json";
       const GPT_PROMPT_URL =
         "https://qn.xiaosi.cc/json/chat/prompt_library.json";
 
@@ -169,7 +169,7 @@ export const usePromptStore = createPersistStore(
       fetch(PROMPT_URL)
         .then((res) => res.json())
         .then((res) => {
-          let fetchPrompts = [res.en, res.tw, res.cn];
+          let fetchPrompts = [res.en, res.cn];
           if (getLang() === "cn") {
             fetchPrompts = fetchPrompts.reverse();
           }
@@ -190,8 +190,7 @@ export const usePromptStore = createPersistStore(
           const allPromptsForSearch = builtinPrompts
             .reduce((pre, cur) => pre.concat(cur), [])
             .filter((v) => !!v.title && !!v.content);
-          SearchService.count.builtin =
-            res.en.length + res.cn.length + res.tw.length;
+          SearchService.count.builtin = res.en.length + res.cn.length;
           SearchService.init(allPromptsForSearch, userPrompts);
           // let gptPrompts: Prompt[] = [];
           // try {

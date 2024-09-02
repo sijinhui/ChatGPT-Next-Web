@@ -77,6 +77,12 @@ const en: LocaleType = {
         SubTitle: "Change the current topic",
       },
     },
+    SelfActions: {
+      Title: "Personal information",
+      Description: {
+        Title: "Basic attribute information and simple settings",
+      },
+    },
     Actions: {
       ChatList: "Go To Chat List",
       CompressedHistory: "Compressed History Memory Prompt",

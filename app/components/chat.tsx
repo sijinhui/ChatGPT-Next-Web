@@ -41,6 +41,7 @@ import SizeIcon from "../icons/size.svg";
 import QualityIcon from "../icons/hd.svg";
 import StyleIcon from "../icons/palette.svg";
 import PluginIcon from "../icons/plugin.svg";
+import PeopleAvatar from "../icons/people-avatar.svg";
 // import UploadIcon from "../icons/upload.svg";
 
 import {
@@ -114,6 +115,7 @@ import { MultimodalContent } from "../client/api";
 // import { getTokenLength } from "@/lib/utils";
 import VoiceInput from "./voice-input";
 import { Progress, Tooltip } from "antd";
+import { SelfSettingsModal } from "./self-settings";
 import { white } from "kleur/colors";
 // import GptPrompts from "./gpt-prompts";
 // const VoiceInput = dynamic(
@@ -1448,6 +1450,7 @@ function _Chat() {
   //
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [voiceInputLoading, voiceInputText]);
+  const [showSelfSettings, setShowSelfSettings] = useState(false);
 
   return (
     <div className={styles.chat} key={session.id}>
@@ -1508,6 +1511,15 @@ function _Chat() {
           </div>
         </div>
         <div className="window-actions">
+          <div className="window-action-button">
+            <IconButton
+              icon={<PeopleAvatar />}
+              bordered
+              title={Locale.Chat.SelfActions.Title}
+              aria={Locale.Chat.SelfActions.Title}
+              onClick={() => setShowSelfSettings(true)}
+            />
+          </div>
           {!isMobileScreen && (
             <div className="window-action-button">
               <IconButton
@@ -1960,6 +1972,10 @@ function _Chat() {
             setIsEditingMessage(false);
           }}
         />
+      )}
+
+      {showSelfSettings && (
+        <SelfSettingsModal onClose={() => setShowSelfSettings(false)} />
       )}
     </div>
   );

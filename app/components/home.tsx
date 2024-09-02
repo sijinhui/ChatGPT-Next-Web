@@ -29,6 +29,7 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { type ClientApi, getClientApi } from "../client/api";
 import { useAccessStore } from "../store";
+import { SelfSettingActions } from "./self-settings";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -238,6 +239,7 @@ export function Home() {
     <ErrorBoundary>
       <Router>
         <Screen />
+        <SelfSettingActions />
       </Router>
     </ErrorBoundary>
   );

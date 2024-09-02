@@ -75,6 +75,12 @@ const cn = {
         SubTitle: "更改当前聊天主题",
       },
     },
+    SelfActions: {
+      Title: "个人信息",
+      Description: {
+        Title: "基本属性信息及简单设置",
+      },
+    },
     Actions: {
       ChatList: "查看消息列表",
       CompressedHistory: "查看压缩后的历史 Prompt",
