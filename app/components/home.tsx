@@ -239,7 +239,7 @@ export function Home() {
     <ErrorBoundary>
       <Router>
         <Screen />
-        <SelfSettingActions />
+        {/*<SelfSettingActions />*/}
       </Router>
     </ErrorBoundary>
   );
