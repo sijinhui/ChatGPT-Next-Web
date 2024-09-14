@@ -22,10 +22,10 @@ export function useAllModels() {
     configStore.dontUseModel,
   ]);
 
-  // @ts-expect-error
-  if (status === "authenticated" && !session?.user?.isAdmin) {
-    // 过滤非管理员用户可使用的模型
-    return models.filter((m) => !m.name.endsWith("-all"));
-  }
+  // -@ts-expect-error
+  // if (status === "authenticated" && !session?.user?.isAdmin) {
+  //   // TODO: 过滤非管理员用户可使用的模型
+  //   return models.filter((m) => !m.name.endsWith("-all"));
+  // }
   return models;
 }
