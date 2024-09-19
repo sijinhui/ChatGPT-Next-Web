@@ -1,4 +1,5 @@
 import DeleteIcon from "../icons/delete.svg";
+import BotIcon from "../icons/bot.svg";
 
 import styles from "./home.module.scss";
 import {
@@ -11,7 +12,7 @@ import {
 import { useChatStore } from "../store";
 
 import Locale from "../locales";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../constant";
 import { MaskAvatar } from "./mask";
 import { Mask } from "../store/mask";

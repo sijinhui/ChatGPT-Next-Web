@@ -1,6 +1,7 @@
 import { getClientConfig } from "../config/client";
 import {
   ACCESS_CODE_PREFIX,
+  Azure,
   // AZURE_MODELS,
   ModelProvider,
   ServiceProvider,
@@ -25,8 +26,13 @@ import { SparkApi } from "./platforms/iflytek";
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
 
-export const Models = ["gpt-3.5-turbo", "gpt-4", "midjourney"] as const;
-export const TTSModels = ["tts-1", "tts-1-hd"] as const;
+export const Models = [
+  "gpt-3.5-turbo-16k",
+  "gpt-4-0613",
+  "gpt-4-32k",
+  "midjourney",
+  "emini-pro",
+] as const;
 export type ChatModel = ModelType;
 
 export interface MultimodalContent {
@@ -53,15 +59,6 @@ export interface LLMConfig {
   size?: DalleRequestPayload["size"];
   quality?: DalleRequestPayload["quality"];
   style?: DalleRequestPayload["style"];
-}
-
-export interface SpeechOptions {
-  model: string;
-  input: string;
-  voice: string;
-  response_format?: string;
-  speed?: number;
-  onController?: (controller: AbortController) => void;
 }
 
 export interface ChatOptions {
@@ -99,7 +96,6 @@ export interface LLMModelProvider {
 
 export abstract class LLMApi {
   abstract chat(options: ChatOptions): Promise<void>;
-  abstract speech(options: SpeechOptions): Promise<ArrayBuffer>;
   abstract usage(): Promise<LLMUsage>;
   abstract models(): Promise<LLMModel[]>;
 }
@@ -218,16 +214,13 @@ export function validString(x: string): boolean {
   return x?.length > 0;
 }
 
-export function getHeaders(ignoreHeaders: boolean = false) {
+export function getHeaders() {
   const accessStore = useAccessStore.getState();
   const chatStore = useChatStore.getState();
-  let headers: Record<string, string> = {};
-  if (!ignoreHeaders) {
-    headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    };
-  }
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
 
   const clientConfig = getClientConfig();
 

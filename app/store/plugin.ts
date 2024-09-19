@@ -1,4 +1,5 @@
 import OpenAPIClientAxios from "openapi-client-axios";
+import { getLang, Lang } from "../locales";
 import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";

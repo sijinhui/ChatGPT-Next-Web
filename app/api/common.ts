@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSideConfig } from "../config/server";
-import { OPENAI_BASE_URL, ServiceProvider } from "../constant";
+import {
+  DEFAULT_MODELS,
+  OPENAI_BASE_URL,
+  GEMINI_BASE_URL,
+  ServiceProvider,
+} from "../constant";
 
 // import { makeAzurePath } from "../azure";
 import { getIP } from "@/app/api/auth";

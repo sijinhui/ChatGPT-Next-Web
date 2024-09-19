@@ -3,6 +3,7 @@ import {
   BAIDU_BASE_URL,
   ApiPath,
   ModelProvider,
+  BAIDU_OATUH_URL,
   ServiceProvider,
 } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
