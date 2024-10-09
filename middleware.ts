@@ -55,7 +55,7 @@ export default async function middleware(req: NextRequest) {
 export const config = {
     matcher: [
         // "/api/:path*",
-        "/((?!api/logs/|api/auth/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)",
+        "/((?!api/logs/|api/auth/|openai/realtime|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)",
     ],
 };
 

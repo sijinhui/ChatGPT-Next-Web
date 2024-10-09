@@ -43,7 +43,7 @@ export async function handle(
   // console.log("[OpenAI Route] params ", params);
 
   if (req.method === "OPTIONS") {
-    return NextResponse.json({ body: "OK" }, { status: 200 });
+    return NextResponse.json({ body: "OK" }, { status: 200 } as any);
   }
 
   const subpath = params.path.join("/");
@@ -57,7 +57,7 @@ export async function handle(
       },
       {
         status: 403,
-      },
+      } as any,
     );
   }
 
@@ -89,7 +89,7 @@ export async function handle(
       const availableModels = getModels(resJson);
       return NextResponse.json(availableModels, {
         status: response.status,
-      });
+      } as any);
     }
 
     return response;
