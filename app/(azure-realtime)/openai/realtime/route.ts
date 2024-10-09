@@ -15,11 +15,15 @@ export function SOCKET(
   server: import("ws").WebSocketServer,
 ) {
   const { send, broadcast } = createHelpers(client, server);
-  // realtimeStreaming = new LowLevelRTClient(new URL(endpoint), { key: apiKey }, { deployment: deploymentOrModel });
 
   // When a new client connects broadcast a connect message
   broadcast({ author: "Server", content: "A new client has connected." });
   send({ author: "Server", content: "Welcome!" });
+  // 新链接时同步建立到后台的
+  // realtimeStreaming = new LowLevelRTClient(
+  //   new URL(process.env.AZURE_URL),
+  //   { key: process.env.AZURE_API_KEY },
+  //   { deployment: "gpt-4o-realtime-preview" });
 
   // Relay any message back to other clients
   client.on("message", broadcast);
@@ -27,6 +31,7 @@ export function SOCKET(
   // When this client disconnects broadcast a disconnect message
   client.on("close", () => {
     broadcast({ author: "Server", content: "A client has disconnected." });
+    realtimeStreaming?.close();
   });
 }
 

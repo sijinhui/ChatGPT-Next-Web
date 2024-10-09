@@ -42,6 +42,12 @@ export default async function middleware(req: NextRequest) {
             new URL(`/app${path}`, req.url),
         );
     }
+    // 测试用，回头删了
+    if (path.startsWith("/azureVoice")) {
+      return NextResponse.rewrite(
+        new URL(`/app${path}`, req.url),
+      );
+    }
 
     // if (VerifiedNeedSetPassword(path, session)) {
     //   console.log('-0-0-- 需要修改密码', )
