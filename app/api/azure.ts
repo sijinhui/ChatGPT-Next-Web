@@ -19,7 +19,7 @@ export async function handle(
 
   const authResult = auth(req, ModelProvider.GPT);
   if (authResult.error) {
-    return NextResponse.json(authResult, { status: 401 });
+    return NextResponse.json(authResult, { status: 401 } as any);
   }
 
   try {

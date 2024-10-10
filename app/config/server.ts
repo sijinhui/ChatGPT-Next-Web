@@ -179,6 +179,9 @@ export const getServerSideConfig = () => {
     azureApiVersion: process.env.AZURE_API_VERSION,
 
     azureVoiceKey: process.env.AZURE_VOICE_KEY ?? "",
+    azureTenantId: process.env.AZURE_TENANT_ID ?? "",
+    azureClientId: process.env.AZURE_CLIENT_ID ?? "",
+    azureClientSecret: process.env.AZURE_CLIENT_SECRET ?? "",
 
     isGoogle,
     googleApiKey: getApiKey(process.env.GOOGLE_API_KEY),
