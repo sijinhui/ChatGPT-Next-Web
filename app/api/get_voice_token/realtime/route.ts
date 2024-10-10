@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSideConfig } from "@/app/config/server";
+const serverConfig = getServerSideConfig();
 
 async function getRealtimeAccessToken() {
-  let uri = "https://login.microsoftonline.com/''/oauth2/token";
+
+  let uri = `https://login.microsoftonline.com/${serverConfig.azureTenantId}/oauth2/token`;
   const body = {
     grant_type: "client_credentials",
-    client_id: "",
-    client_secret: "",
+    client_id: serverConfig.azureClientId,
+    client_secret: serverConfig.azureClientSecret,
     resource: "https://cognitiveservices.azure.com/",
   };
   let options: RequestInit = {
