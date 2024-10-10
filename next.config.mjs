@@ -68,11 +68,13 @@ const nextConfig = {
   // 不影响public，https://www.nextjs.cn/docs/api-reference/next.config.js/cdn-support-with-asset-prefix
   // assetPrefix: isProd ? "https://cos.xiaosi.cc" : "",
   images: {
-    unoptimized: mode === "export",
-    // domains: ["cos.xiaosi.cc"],
+    // unoptimized: mode === "export",
+    unoptimized: true,
     remotePatterns: [
       { hostname: "localhost" },
       { hostname: "**.xiaosi.cc" },
+      { hostname: "si.icu" },
+      { hostname: "**.si.icu" },
       { hostname: "public.blob.vercel-storage.com" },
       { hostname: "res.cloudinary.com" },
       { hostname: "abs.twimg.com" },

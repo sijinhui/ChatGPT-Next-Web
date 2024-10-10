@@ -193,6 +193,7 @@ function Screen() {
             <Route path={Path.SearchChat} element={<SearchChat />} />
             <Route path={Path.Chat} element={<Chat />} />
             <Route path={Path.Settings} element={<Settings />} />
+            <Route path={Path.Reward} element={<Reward />} />
           </Routes>
         </WindowContent>
       </>
