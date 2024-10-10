@@ -16,7 +16,7 @@ export class Recorder {
     try {
       this.audioContext = new AudioContext({ sampleRate: 24000 });
       await this.audioContext.audioWorklet.addModule(
-        "./audio-worklet-processor.js",
+        "/audio-worklet-processor.js",
       );
       this.mediaStream = stream;
       this.mediaStreamSource = this.audioContext.createMediaStreamSource(

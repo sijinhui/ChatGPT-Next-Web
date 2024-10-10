@@ -6,7 +6,7 @@ export class Player {
 
   async init(sampleRate: number) {
     const audioContext = new AudioContext({ sampleRate });
-    await audioContext.audioWorklet.addModule("playback-worklet.js");
+    await audioContext.audioWorklet.addModule("/playback-worklet.js");
 
     this.playbackNode = new AudioWorkletNode(audioContext, "playback-worklet");
     this.playbackNode.connect(audioContext.destination);
