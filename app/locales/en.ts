@@ -74,6 +74,7 @@ const en: LocaleType = {
   SideBarHeader: {
     Title: "Start Here...",
     Coffee: "Coffee please",
+    Voice: "VoiceChat(test)",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} messages`,
