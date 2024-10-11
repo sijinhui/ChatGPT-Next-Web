@@ -392,7 +392,7 @@ export function SideBar(props: { className?: string }) {
                 }}
                 title={Locale.Settings.Danger.Clear.Title}
                 icon={<DeleteIcon />}
-                type="danger"
+                // type="danger"
                 className={styles["custom-sidebar-clear-button"]}
               />
             </div>
