@@ -73,6 +73,7 @@ const cn = {
   SideBarHeader: {
     Title: "这里开始……",
     Coffee: "赏杯咖啡",
+    Voice: "语音聊天(测试)",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
