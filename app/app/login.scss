@@ -65,13 +65,27 @@ html {
   height: 100%;
 }
 
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 .container1 {
   height: 100%;
-  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  //background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  background: linear-gradient(to right, #f3f3f6, #9aa0b8);
+  animation: gradient-animation 15s ease infinite;
+
 }
 
 .login-form {
-  background-color: #fff;
+  //background-color: #fff;
   width: 350px;
   height: 500px;
   border-radius: 15px;
@@ -85,7 +99,7 @@ html {
 
   /* 毛玻璃 */
   backdrop-filter: blur(10px); /* 应用模糊效果 */
-  background-color: rgba(255, 255, 255, 0.5); /* 半透明的白色背景 */
+  background-color: rgba(243, 243, 246, 0.5); /* 半透明的灰色背景 */
 }
 
 input {
@@ -141,4 +155,13 @@ input {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
   }
+}
+
+/* tailwind 组件透明度 */
+
+.tail-wind-opacity {
+  --tw-bg-opacity: 0.8 !important;
+}
+.tail-wind-opacity:hover {
+  --tw-bg-opacity: 0.8 !important;
 }

@@ -401,12 +401,15 @@ export default function UserLoginCore() {
               disabled={loading}
               // onClick={() => loginForm.submit()}
               type="submit"
-              className={`${
-                loading
-                  ? "cursor-not-allowed bg-stone-50 dark:bg-stone-800"
-                  : "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              }`}
+              className={
+                `${
+                  loading
+                    ? "cursor-not-allowed bg-stone-50 dark:bg-stone-800"
+                    : "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                } ` + "tail-wind-opacity"
+              }
             >
+              {/*hover:bg-indigo-500  bg-indigo-600*/}
               Sign in
             </button>
           </Form.Item>

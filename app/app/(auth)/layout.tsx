@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { ReactNode } from "react";
 import Image from "next/image";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
 // import { VerifiedUser } from "@/lib/auth";
 // import { redirect } from "next/navigation";
 
@@ -32,10 +33,23 @@ export default async function AuthLayout({
             className="relative mx-auto h-12 w-auto dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
             src="https://oss.xiaosi.cc/chat/public/android-chrome-512x512.png"
           />
-          <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-500">
+          <h2
+            className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight"
+            style={{ color: "var(--primary)" }}
+          >
             Sign in to your account
           </h2>
-          <AntdRegistry>{children}</AntdRegistry>
+          <AntdRegistry>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: "#6a79d1",
+                },
+              }}
+            >
+              {children}
+            </ConfigProvider>
+          </AntdRegistry>
         </div>
       </div>
     </div>
