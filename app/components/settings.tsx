@@ -45,7 +45,7 @@ import Locale, {
   changeLang,
   getLang,
 } from "../locales";
-import { copyToClipboard } from "../utils";
+import { copyToClipboard, semverCompare } from "../utils";
 import {
   Anthropic,
   Azure,
@@ -579,7 +579,7 @@ export function Settings() {
   const [checkingUpdate, setCheckingUpdate] = useState(false);
   const currentVersion = updateStore.formatVersion(updateStore.version);
   const remoteId = updateStore.formatVersion(updateStore.remoteVersion);
-  const hasNewVersion = currentVersion !== remoteId;
+  const hasNewVersion = semverCompare(currentVersion, remoteId) === -1;
   const updateUrl = getClientConfig()?.isApp ? RELEASE_URL : UPDATE_URL;
 
   function checkUpdate(force = false) {
@@ -1351,9 +1351,17 @@ export function Settings() {
           {/*  {checkingUpdate ? (*/}
           {/*    <LoadingIcon />*/}
           {/*  ) : hasNewVersion ? (*/}
-          {/*    <Link href={updateUrl} target="_blank" className="link">*/}
-          {/*      {Locale.Settings.Update.GoToUpdate}*/}
-          {/*    </Link>*/}
+          {/*    clientConfig?.isApp ? (*/}
+          {/*      <IconButton*/}
+          {/*        icon={<ResetIcon></ResetIcon>}*/}
+          {/*        text={Locale.Settings.Update.GoToUpdate}*/}
+          {/*        onClick={() => clientUpdate()}*/}
+          {/*      />*/}
+          {/*    ) : (*/}
+          {/*      <Link href={updateUrl} target="_blank" className="link">*/}
+          {/*        {Locale.Settings.Update.GoToUpdate}*/}
+          {/*      </Link>*/}
+          {/*    )*/}
           {/*  ) : (*/}
           {/*    <IconButton*/}
           {/*      icon={<ResetIcon></ResetIcon>}*/}
