@@ -22,9 +22,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-docker-
+            ${{ runner.os }}-buildx- 
 
       - name: build and deploy to Docker Hub
         run: |
@@ -37,11 +37,19 @@ jobs:
         with:
           context: .
           push: true
+          no-cache-filters: runner,builder
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           tags: |
             registry.si.icu/sijinhui/chatgpt-next-web:latest
             registry.si.icu/sijinhui/chatgpt-next-web:${{ env.DATE_TAG }}
+      - # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+        name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 #      - name: clean build history
 #        run: |
 #          yes | docker system prune --filter "until=720h"
