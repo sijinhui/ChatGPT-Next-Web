@@ -20,6 +20,14 @@ jobs:
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login registry.si.icu -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           echo "${{ secrets.DOCKER_ENV }}" > .env
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
       - name: Get current date
         run: echo "DATE_TAG=$(date +'%Y%m%d')" >> $GITHUB_ENV
       - name: Build and push Docker image
@@ -27,7 +35,8 @@ jobs:
         with:
           context: .
           push: true
-          no-cache: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           tags: |
             registry.si.icu/sijinhui/chatgpt-next-web:latest
             registry.si.icu/sijinhui/chatgpt-next-web:${{ env.DATE_TAG }}
