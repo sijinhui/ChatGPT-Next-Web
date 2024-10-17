@@ -53,9 +53,6 @@ typings
 ## local env files
 #.env*.local
 
-# Next.js build output
-.next/
-# out
 
 # Nuxt.js build output
 .nuxt
@@ -98,3 +95,7 @@ Thumbs.db
 
 # node
 node_modules
+
+# Next.js build output
+.next/
+# out

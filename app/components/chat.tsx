@@ -1573,7 +1573,12 @@ function _Chat() {
       } catch {}
     }
     // 插入判断，展示非流式响应的提示
-    if (currentModel.startsWith("o1") && isLoading) {
+
+    if (
+      currentModel.startsWith("o1") &&
+      !currentModel.endsWith("-all") &&
+      isLoading
+    ) {
       showToast(Locale.StreamTIp, undefined, 5000);
     }
     return () => {

@@ -445,6 +445,30 @@ export const DEFAULT_MODELS = [
     },
   },
   {
+    name: "o1-preview-2024-09-12",
+    describe: "o1备用接口,目前较贵,按量计费",
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
+    },
+  },
+  {
+    name: "o1-preview-all",
+    describe: "o1官方网页版,目前较贵,$0.06 / 次",
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
+    },
+  },
+  {
     name: "gpt-4-turbo-2024-04-09",
     describe: "GPT-4,标准版",
     available: true,
