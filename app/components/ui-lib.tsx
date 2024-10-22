@@ -11,7 +11,7 @@ import CancelIcon from "../icons/cancel.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
 import ClaudeInstantIcon from "../icons/Claude-Instant.svg";
-import AzureIcon from "../icons/Azure.svg";
+import AzureIcon from "../icons/azure.svg";
 import GoogleIcon from "../icons/google.svg";
 import MoonShot from "../icons/Moonshot.svg";
 
