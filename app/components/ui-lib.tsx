@@ -1,3 +1,4 @@
+import "./ui-lib.adp.scss";
 /* eslint-disable @next/next/no-img-element */
 import styles from "./ui-lib.module.scss";
 import LoadingIcon from "../icons/three-dots.svg";
@@ -10,6 +11,8 @@ import CancelIcon from "../icons/cancel.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
 import ClaudeInstantIcon from "../icons/Claude-Instant.svg";
+import AzureIcon from "../icons/Azure.svg";
+import GoogleIcon from "../icons/google.svg";
 import MoonShot from "../icons/Moonshot.svg";
 
 import Locale from "../locales";
@@ -25,8 +28,8 @@ import React, {
   useRef,
 } from "react";
 import { IconButton } from "./button";
-import { List as AntList, Row, Col } from "antd";
-import { OpenAIOutlined, GoogleOutlined } from "@ant-design/icons";
+import { List as AntList, Row, Col, Tag } from "antd";
+import { OpenAIOutlined } from "@ant-design/icons";
 // 自定义图标
 import Icon from "@ant-design/icons";
 
@@ -606,17 +609,32 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
   // console.log("-----", props);
 
   const getCheckCardAvatar = (value: string): React.ReactNode => {
-    if (value.startsWith("gpt")) {
-      return <OpenAIOutlined />;
-    }
     if (value.startsWith("gemini")) {
-      return <GoogleOutlined />;
+      return <Icon component={GoogleIcon} />;
     }
     if (value.startsWith("claude")) {
       return <Icon component={ClaudeInstantIcon} />;
     }
     if (value.startsWith("moon")) {
       return <Icon component={MoonShot} />;
+    }
+
+    const providerName = value.split("@")[1];
+    // console.log('========', providerName)
+    if (providerName === "Azure") {
+      return <Icon component={AzureIcon} />;
+    }
+    if (providerName === "OpenAI") {
+      return <OpenAIOutlined />;
+    }
+
+    return <></>;
+  };
+  const ifHot = (value: string): React.ReactNode => {
+    console.log("-------", value);
+    const hotModels = ["gpt-4o@Azure", "o1-preview@Azure"];
+    if (hotModels.includes(value)) {
+      return <Tag color="red">Hot</Tag>;
     }
     return <></>;
   };
@@ -663,6 +681,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
                       title={item.title}
                       description={item.subTitle}
                       value={item.value}
+                      extra={ifHot(item.value?.toString() ?? "")}
                       onClick={() => {
                         props.onSelection?.([item.value]);
                         props.onClose?.();

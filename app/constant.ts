@@ -458,7 +458,7 @@ export const DEFAULT_MODELS = [
   },
   {
     name: "o1-preview-all",
-    describe: "o1官方网页版,目前较贵,$0.06 / 次",
+    describe: "o1官网版,较贵,$0.06 / 次",
     available: true,
     sorted: seq++,
     provider: {

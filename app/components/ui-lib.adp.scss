@@ -1,0 +1,22 @@
+.ant-pro-checkcard-description {
+  color: var(--color-fg-muted);
+}
+.ant-pro-checkcard-title {
+  color: var(--color-fg-default);
+}
+
+.ant-pro-checkcard {
+  color: var(--black);
+  background-color: var(--white);
+}
+
+.ant-pro-checkcard-checked {
+  border-color: var(--primary);
+}
+.ant-pro-checkcard-checked:after {
+  opacity: 1;
+  border: 10px solid var(--primary);
+  border-block-end: 10px solid transparent;
+  border-inline-start: 10px solid transparent;
+  border-start-end-radius: 6px;
+}
