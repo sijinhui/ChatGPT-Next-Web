@@ -1581,6 +1581,15 @@ function _Chat() {
     ) {
       showToast(Locale.StreamTIp, undefined, 5000);
     }
+
+    // 这个模型比较贵提示一下
+    if (
+      (currentModel.endsWith("-all") || currentModel === "midjourney") &&
+      isLoading
+    ) {
+      showToast("这个模型较贵，求求省着点用……", undefined, 5000);
+    }
+
     return () => {
       setLoadingChange(isLoading);
     };
