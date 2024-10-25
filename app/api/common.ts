@@ -11,6 +11,12 @@ import { getTokenLength } from "@/lib/utils";
 import { isModelAvailableInServer } from "../utils/model";
 import { cloudflareAIGatewayUrl } from "../utils/cloudflare";
 
+import { type LogEntry } from "@prisma/client";
+
+interface CusLogEntry extends LogEntry {
+  logEntry?: string;
+}
+
 const serverConfig = getServerSideConfig();
 
 export async function requestOpenai(
@@ -218,7 +224,7 @@ export async function requestLog(
 
     let { session, name } = await getSessionName();
     // console.log("[中文]", name, session, baseUrl);
-    const logData = {
+    const logData: Partial<CusLogEntry> = {
       ip: ip,
       path: url_path,
       logEntry: JSON.stringify(jsonBody),
@@ -232,15 +238,35 @@ export async function requestLog(
   }
 }
 
-export async function saveLogs(logData: {
-  ip?: string;
-  path?: string;
-  logEntry?: string;
-  model?: string;
-  userName?: string;
-  userID?: string;
-  logToken?: number;
-}) {
+const calLogMoney = (logData: Partial<CusLogEntry>): number => {
+  // 尝试大概计算费用，单位美元
+
+  // azure的先不收费
+  if (logData?.path && logData.path.startsWith("openai/deployments/")) {
+    return 0.0;
+  }
+
+  // 其它模型按照官方的提示补全的平均数计算
+  const logToken = logData?.logToken || 0;
+  switch (logData?.model) {
+    case "midjourney":
+      return 0.2;
+    case "o1-preview-all":
+      return 0.06;
+    case "o1-preview-2024-09-12":
+      return logToken * 0.0000375;
+    case "moonshot-v1-8k":
+      return logToken * 0.00002;
+    case "claude-3-5-sonnet-20241022":
+      return logToken * 0.000009;
+    // 谷歌的本身就免费
+    case "gemini-1.5-pro-latest":
+    default:
+      return 0.0;
+  }
+};
+
+export async function saveLogs(logData: Partial<CusLogEntry>) {
   try {
     if (logData?.logEntry) {
       const regex_message = /(?<="content":")(.*?)(?="}[,\]])/g;
@@ -261,6 +287,9 @@ export async function saveLogs(logData: {
     console.log("[LOG]", "logToken", e);
     logData.logToken = 0;
   }
+
+  logData.logMoney = calLogMoney(logData);
+  console.log("-----------------", logData);
   try {
     const result = await prisma.logEntry.create({
       data: logData,

@@ -81,6 +81,8 @@ model LogEntry {
   createdAt DateTime @default(now())
   // logEntry  String?  @db.Text
   logToken  Int?     @default(0)
+  // 对应费用
+  logMoney  Float?   @default(0.0) @db.Float
   user      User?    @relation(fields: [userID], references: [id], onDelete: SetNull)
 }
 

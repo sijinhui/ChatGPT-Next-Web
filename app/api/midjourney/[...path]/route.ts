@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/api/auth";
 import { ModelProvider } from "@/app/constant";
 import { requestLog } from "@/app/api/common";
+import { getServerSideConfig } from "@/app/config/server";
 
-const BASE_URL = process.env.MIDJOURNEY_PROXY_URL ?? null;
-const MIDJOURNEY_PROXY_KEY = process.env.MIDJOURNEY_PROXY_KEY ?? null;
+// const BASE_URL = process.env.MIDJOURNEY_PROXY_URL ?? null;
+// const MIDJOURNEY_PROXY_KEY = process.env.MIDJOURNEY_PROXY_KEY ?? null;
+
+const serverConfig = getServerSideConfig();
 
 async function handle(
   req: NextRequest,
@@ -13,7 +16,7 @@ async function handle(
   console.log("[Midjourney Route] params ", params);
 
   const customMjProxyUrl = req.headers.get("midjourney-proxy-url");
-  let mjProxyUrl = BASE_URL;
+  let mjProxyUrl = serverConfig.baseUrl;
   if (
     customMjProxyUrl &&
     (customMjProxyUrl.startsWith("http://") ||
@@ -42,12 +45,12 @@ async function handle(
     jsonBody = {};
   }
 
-  const authResult = auth(req, ModelProvider.GPT);
-  // if (authResult.error) {
-  //   return NextResponse.json(authResult, {
-  //     status: 401,
-  //   });
-  // }
+  const authResult = auth(req, ModelProvider.Qwen);
+  if (authResult.error) {
+    return NextResponse.json(authResult, {
+      status: 401,
+    });
+  }
 
   const reqPath = `${req.nextUrl.pathname}${req.nextUrl.search}`.replaceAll(
     "/api/midjourney/",
@@ -70,7 +73,7 @@ async function handle(
     //@ts-ignore
     headers: {
       "Content-Type": "application/json",
-      Authorization: MIDJOURNEY_PROXY_KEY,
+      Authorization: serverConfig.apiKey,
       // "mj-api-secret": API_SECRET,
     },
     cache: "no-store",
