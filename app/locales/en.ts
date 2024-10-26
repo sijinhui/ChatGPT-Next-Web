@@ -209,6 +209,14 @@ const en: LocaleType = {
     Title: "Settings",
     SubTitle: "All Settings",
     ShowPassword: "ShowPassword",
+    UserInfo: {
+      Menu: {
+        Title: "user settings",
+      },
+      UserStatus: {
+        Logout: "Logout",
+      },
+    },
     Danger: {
       Reset: {
         Title: "Reset All Settings",

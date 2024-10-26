@@ -3,15 +3,14 @@ import React, { useEffect, useRef, useMemo, useState, Fragment } from "react";
 import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
-import SettingsIcon from "../icons/settings.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
-// import MaskIcon from "../icons/mask.svg";
 import CoffeeIcon from "../icons/coffee.svg";
 import VoiceIcon from "../icons/voice.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
+import { UserOutlined } from "@ant-design/icons";
 
 import Locale from "../locales";
 import { getLang } from "../locales";
@@ -28,7 +27,9 @@ import {
   ServiceProvider,
 } from "../constant";
 
-import { Link, useNavigate } from "react-router-dom";
+import { UserInfo } from "./user-info";
+
+import { useNavigate } from "react-router-dom";
 import { isIOS, useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, Selector } from "./ui-lib";
@@ -374,13 +375,19 @@ export function SideBar(props: { className?: string }) {
               />
             </div>
             <div className={styles["sidebar-action"]}>
-              <Link to={Path.Settings}>
+              {/*<Link to={Path.Settings}>*/}
+              {/*  <IconButton*/}
+              {/*    aria={Locale.Settings.Title}*/}
+              {/*    icon={<SettingsIcon />}*/}
+              {/*    shadow*/}
+              {/*  />*/}
+              {/*</Link>*/}
+              <UserInfo>
                 <IconButton
-                  aria={Locale.Settings.Title}
-                  icon={<SettingsIcon />}
-                  shadow
+                  icon={<UserOutlined />}
+                  title={Locale.Settings.UserInfo.Menu.Title}
                 />
-              </Link>
+              </UserInfo>
             </div>
             <div className={styles["sidebar-action"]}>
               {/*<a href={REPO_URL} target="_blank" rel="noopener noreferrer">*/}

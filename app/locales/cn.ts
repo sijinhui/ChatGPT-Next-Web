@@ -207,7 +207,14 @@ const cn = {
     Title: "设置",
     SubTitle: "所有设置选项",
     ShowPassword: "显示密码",
-
+    UserInfo: {
+      Menu: {
+        Title: "用户信息设置",
+      },
+      UserStatus: {
+        Logout: "注销",
+      },
+    },
     Danger: {
       Reset: {
         Title: "重置所有设置",
