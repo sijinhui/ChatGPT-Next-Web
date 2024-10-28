@@ -210,11 +210,16 @@ const en: LocaleType = {
     SubTitle: "All Settings",
     ShowPassword: "ShowPassword",
     UserInfo: {
+      Nickname: "nickname: ",
       Menu: {
         Title: "user settings",
       },
       UserStatus: {
         Logout: "Logout",
+      },
+      Money: {
+        Total: "Total: ",
+        Today: "Today: ",
       },
     },
     Danger: {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 // import { addHours, subMinutes } from "date-fns";
-import { EChartsOption } from "echarts";
+import { EChartsOption, BarSeriesOption } from "echarts";
 import { getCurStartEnd } from "@/app/utils/custom";
 
 interface StringKeyedObject {
@@ -11,7 +11,9 @@ type StringSet = Set<string>;
 type StringArray = string[];
 
 function HandleLogData(
-  todayLog: [{ userName: string; logToken: number; model: string }],
+  todayLog: [
+    { userName: string; logToken: number; model: string; logMoney: number },
+  ],
 ) {
   // 先遍历一遍，获取所有的模型和名字。
   let all_models: StringSet = new Set();
@@ -27,6 +29,9 @@ function HandleLogData(
     // 这么顺利，顺便加个总数吧。
     data_by_name[log.userName]["all_token"] =
       (data_by_name[log.userName]["all_token"] || 0) + log.logToken;
+    // 再加个总金额
+    data_by_name[log.userName]["logMoney"] =
+      (data_by_name[log.userName]["logMoney"] || 0) + log.logMoney;
   });
   //
   // 然后遍历并以all_token，排序。
@@ -42,10 +47,16 @@ function HandleLogData(
       }),
     };
   });
+  // 每日每日费用汇总
+  const moneyList = userNameList.map((userName) => {
+    const money = data_by_name[userName]["logMoney"].toFixed(3);
+    return money === "0.000" ? null : money;
+  });
   return {
     modelNameList,
     userNameList,
     data_by_name,
+    moneyList,
   };
 }
 
@@ -70,6 +81,7 @@ async function handle(req: NextRequest) {
   // console.log('log_data', log_data)
 
   const usageByModelOption: EChartsOption = {
+    barGap: "60%",
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -98,21 +110,40 @@ async function handle(req: NextRequest) {
         data: log_data.userNameList,
       },
     ],
-    series: log_data.modelNameList.map((item) => {
-      return {
-        ...item,
-        type: "bar",
-        emphasis: {
-          focus: "series",
+    series: [
+      ...log_data.modelNameList.map((item) => {
+        return {
+          ...item,
+          type: "bar",
+          emphasis: {
+            focus: "series",
+          },
+          label: {
+            show: true,
+            position: "right",
+          },
+          colorBy: "series",
+          stack: "model",
+        };
+      }),
+      ...[
+        {
+          data: log_data.moneyList,
+          type: "bar",
+          name: "Money",
+          stack: "money",
+          colorBy: "series",
+          emphasis: {
+            focus: "series",
+          },
+          label: {
+            show: true,
+            position: "right",
+            formatter: "{c} $",
+          },
         },
-        label: {
-          show: true,
-          position: "right",
-        },
-        colorBy: "series",
-        stack: "model",
-      };
-    }),
+      ],
+    ] as BarSeriesOption,
   };
   return NextResponse.json(usageByModelOption);
 }

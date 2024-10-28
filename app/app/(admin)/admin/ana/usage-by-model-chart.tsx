@@ -191,7 +191,7 @@ function EchartsComponent({ currentDate, setCurrentDate }: ComponentProps) {
   return (
     <div
       id="usage-by-model-chart"
-      style={{ width: "100%", height: "400px" }}
+      style={{ width: "100%", height: "500px" }}
     ></div>
   );
 }

@@ -208,11 +208,16 @@ const cn = {
     SubTitle: "所有设置选项",
     ShowPassword: "显示密码",
     UserInfo: {
+      Nickname: "昵称：",
       Menu: {
         Title: "用户信息设置",
       },
       UserStatus: {
         Logout: "注销",
+      },
+      Money: {
+        Total: "总：",
+        Today: "今日：",
       },
     },
     Danger: {
