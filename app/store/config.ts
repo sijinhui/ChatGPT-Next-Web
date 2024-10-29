@@ -94,6 +94,8 @@ export const DEFAULT_CONFIG = {
     voice: DEFAULT_TTS_VOICE,
     speed: 1.1,
   },
+
+  defaultSubTitleExpanded: true,
 };
 
 export type ChatConfig = typeof DEFAULT_CONFIG;

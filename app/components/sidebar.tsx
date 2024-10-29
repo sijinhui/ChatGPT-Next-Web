@@ -10,7 +10,7 @@ import CoffeeIcon from "../icons/coffee.svg";
 import VoiceIcon from "../icons/voice.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
-import { UserOutlined } from "@ant-design/icons";
+import { DownOutlined, UpOutlined, UserOutlined } from "@ant-design/icons";
 
 import Locale from "../locales";
 import { getLang } from "../locales";
@@ -33,6 +33,9 @@ import { useNavigate } from "react-router-dom";
 import { isIOS, useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, Selector } from "./ui-lib";
+
+import { Typography } from "antd";
+const { Paragraph, Text } = Typography;
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -271,18 +274,42 @@ export function SideBar(props: { className?: string }) {
         </span>
       );
     }
+
     return (
       <span>
         选择一个你自己的助理
         <br />
         <br />
-        1. 有时可能会<b>抽风</b>，点击下方<b>新的聊天</b>试一下吧
-        <br />
-        {
-          "2. 绘图：“/mj 提示词”的格式生成图片（可以搜一下midjourney的提示词工具或使用方法）"
-        }
-        <br />
-        3. 如果觉得还不错，可以给作者赏杯咖啡
+        <Paragraph
+          ellipsis={{
+            rows: 1,
+            expandable: "collapsible",
+            defaultExpanded: config.defaultSubTitleExpanded,
+            // onExpand: (_, info) => setIsExpanded(!isExpanded),
+            symbol: (expanded: boolean) =>
+              expanded ? (
+                <>
+                  <UpOutlined
+                    style={{ marginLeft: 8, color: "var(--sidebar-sub-title)" }}
+                  />
+                </>
+              ) : (
+                <>
+                  <DownOutlined style={{ color: "var(--sidebar-sub-title)" }} />
+                </>
+              ),
+          }}
+          className={styles["sidebar-subtitle"]}
+        >
+          1. 有时可能会<b>抽风</b>，点击下方<b>新的聊天</b>试一下吧
+          <br />
+          <Text className={styles["sidebar-subtitle"]}>
+            2. 绘图：“/mj
+            提示词”的格式生成图片（可以搜一下midjourney的提示词工具或使用方法）
+          </Text>
+          <br />
+          3. 如果觉得还不错，可以给作者赏杯咖啡
+        </Paragraph>
       </span>
     );
   }, [lange]);
