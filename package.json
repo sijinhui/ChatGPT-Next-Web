@@ -75,6 +75,7 @@
   "devDependencies": {
     "@tauri-apps/api": "^1.6.0",
     "@tauri-apps/cli": "1.6.0",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/react": "^16.0.0",
     "@types/bcryptjs": "^2.4.6",
