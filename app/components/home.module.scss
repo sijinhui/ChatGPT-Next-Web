@@ -174,7 +174,7 @@
   font-size: 12px;
   font-weight: 400;
   animation: slide-in ease 0.3s;
-  color: var(--sidebar-sub-title)
+  color: var(--sidebar-sub-title);
 }
 
 .sidebar-body {
@@ -375,4 +375,21 @@
   //padding: 0;
   //height: 20px;
   //margin-top: 15px;
+}
+
+.cus_sidebar-subtitle {
+  color: unset;
+  line-height: unset;
+  font-size: unset;
+  font-family: unset;
+  margin-bottom: unset !important;
+  position: relative;
+  padding-right: 4px;
+}
+
+.cus_sidebar-subtitle-button {
+  //position: absolute;
+  //right: 0;
+  //bottom: 0;
+  color: var(--sidebar-sub-title);
 }
