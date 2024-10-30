@@ -250,6 +250,7 @@ export function SideBar(props: { className?: string }) {
   const [showPluginSelector, setShowPluginSelector] = useState(false);
   const navigate = useNavigate();
   const config = useAppConfig();
+  const updateConfig = config.update;
   const chatStore = useChatStore();
 
   const currentModel = chatStore.currentSession().mask.modelConfig.model;
@@ -261,7 +262,7 @@ export function SideBar(props: { className?: string }) {
   const SideBarHeaderTextSubtitle: React.ReactNode = useMemo(() => {
     if (lange === "en") {
       return (
-        <span>
+        <>
           Choose Your Own Assistant
           <br />
           <br />
@@ -271,48 +272,31 @@ export function SideBar(props: { className?: string }) {
             '2. For drawing: Generate images with the format "/mj prompt" (you can look up tools or methods for using MidJourney prompts). '
           }
           <br /> 3. If you find it helpful, consider buying the author a coffee.
-        </span>
+        </>
       );
     }
 
     return (
-      <span>
+      <>
         选择一个你自己的助理
         <br />
         <br />
-        <Paragraph
-          ellipsis={{
-            rows: 1,
-            expandable: "collapsible",
-            defaultExpanded: config.defaultSubTitleExpanded,
-            // onExpand: (_, info) => setIsExpanded(!isExpanded),
-            symbol: (expanded: boolean) =>
-              expanded ? (
-                <>
-                  <UpOutlined
-                    style={{ marginLeft: 8, color: "var(--sidebar-sub-title)" }}
-                  />
-                </>
-              ) : (
-                <>
-                  <DownOutlined style={{ color: "var(--sidebar-sub-title)" }} />
-                </>
-              ),
-          }}
-          className={styles["sidebar-subtitle"]}
-        >
-          1. 有时可能会<b>抽风</b>，点击下方<b>新的聊天</b>试一下吧
-          <br />
-          <Text className={styles["sidebar-subtitle"]}>
-            2. 绘图：“/mj
-            提示词”的格式生成图片（可以搜一下midjourney的提示词工具或使用方法）
-          </Text>
-          <br />
-          3. 如果觉得还不错，可以给作者赏杯咖啡
-        </Paragraph>
-      </span>
+        1. 有时可能会<b>抽风</b>，点击下方<b>新的聊天</b>试一下吧
+        <br />
+        <Text className={styles["cus_sidebar-subtitle"]}>
+          2. 绘图：“/mj
+          提示词”的格式生成图片（可以搜一下midjourney的提示词工具或使用方法）
+        </Text>
+        <br />
+        3. 如果觉得还不错，可以给作者赏杯咖啡
+      </>
     );
   }, [lange]);
+
+  // useEffect(() => {
+  //   console.log('33333', isExpanded, config.defaultSubTitleExpanded)
+  //   setExpanded(config.defaultSubTitleExpanded)
+  // }, [config.defaultSubTitleExpanded]);
 
   return (
     <SideBarContainer
@@ -322,7 +306,38 @@ export function SideBar(props: { className?: string }) {
     >
       <SideBarHeader
         title={Locale.SideBarHeader.Title}
-        subTitle={SideBarHeaderTextSubtitle}
+        subTitle={
+          <Paragraph
+            ellipsis={{
+              rows: 1,
+              expandable: "collapsible",
+              expanded: config.defaultSubTitleExpanded,
+              onExpand: (_, info) => {
+                console.log("---正在更新默认值", info.expanded);
+                updateConfig(
+                  (config) => (config.defaultSubTitleExpanded = info.expanded),
+                );
+              },
+              symbol: (expanded: boolean) =>
+                expanded ? (
+                  <>
+                    <UpOutlined
+                      className={styles["cus_sidebar-subtitle-button"]}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <DownOutlined
+                      className={styles["cus_sidebar-subtitle-button"]}
+                    />
+                  </>
+                ),
+            }}
+            className={styles["cus_sidebar-subtitle"]}
+          >
+            {SideBarHeaderTextSubtitle}
+          </Paragraph>
+        }
         logo={<ChatGptIcon />}
         shouldNarrow={shouldNarrow}
       >
