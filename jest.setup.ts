@@ -1,6 +1,7 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 
+// @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
