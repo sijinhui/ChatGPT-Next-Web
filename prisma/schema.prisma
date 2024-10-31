@@ -37,6 +37,7 @@ model User {
   sessions        Session[]
   logs            LogEntry[]
   userSetting     UserSetting[]
+  LoginRecord     LoginRecord[]
 }
 
 model Account {
@@ -167,4 +168,14 @@ model UserSetting {
 
   @@index([userID, settingKey])
   @@map("user_settings")
+}
+
+model UserLoginRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  timestamp DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_login_record")
 }

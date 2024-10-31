@@ -192,6 +192,8 @@ export const authOptions: NextAuthOptions = {
                 user['allowToLogin'] = !!await getSetting("allowNewUser");
                 existingUser = await insertUser(user)
             }
+            // 记录一下用户这次登录时间
+
             // console.log('---', user, 'account', account, 'email', email, 'exist', existingUser)
             // 顺便过滤掉不允许登录的用户
             return existingUser.allowToLogin;
