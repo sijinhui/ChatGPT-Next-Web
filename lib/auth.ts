@@ -299,13 +299,11 @@ export async function insertUser(user: Partial<User> ) {
 }
 
 async function saveLoginRecord(userId: string) {
-    try {
-        await prisma.userLoginRecord.create({
-            data: {
-                userId,
-            }
-        })
-    } catch (e) {}
+    return prisma.userLoginRecord.create({
+        data: {
+            userId,
+        }
+    })
 }
 
 

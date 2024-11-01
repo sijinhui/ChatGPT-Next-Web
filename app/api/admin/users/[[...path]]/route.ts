@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { hashPassword } from "@/lib/utils";
+import UserInclude = Prisma.UserInclude;
 
 async function handle(
   req: NextRequest,
@@ -21,19 +22,21 @@ async function handle(
       const skip = Number(searchParams.get("skip"));
       const take = Number(searchParams.get("take"));
       // console.log("-----", skip, take);
+      const userIncludeLoginRecord: UserInclude = {
+        userLoginRecord: {
+          orderBy: {
+            timestamp: "desc",
+          },
+          take: 1,
+        },
+      };
+
       const result = searchText
         ? await prisma.user.findMany({
             orderBy: {
               createdAt: "desc",
             },
-            include: {
-              userLoginRecord: {
-                orderBy: {
-                  timestamp: "desc",
-                },
-                take: 1,
-              },
-            },
+            include: userIncludeLoginRecord,
             where: {
               OR: [
                 {
@@ -58,14 +61,7 @@ async function handle(
             orderBy: {
               createdAt: "desc",
             },
-            include: {
-              userLoginRecord: {
-                orderBy: {
-                  timestamp: "desc",
-                },
-                take: 1,
-              },
-            },
+            include: userIncludeLoginRecord,
           });
       const count = result.length;
       return NextResponse.json({
