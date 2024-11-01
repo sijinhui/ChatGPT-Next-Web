@@ -26,6 +26,14 @@ async function handle(
             orderBy: {
               createdAt: "desc",
             },
+            include: {
+              userLoginRecord: {
+                orderBy: {
+                  timestamp: "desc",
+                },
+                take: 1,
+              },
+            },
             where: {
               OR: [
                 {
@@ -50,6 +58,14 @@ async function handle(
             orderBy: {
               createdAt: "desc",
             },
+            include: {
+              userLoginRecord: {
+                orderBy: {
+                  timestamp: "desc",
+                },
+                take: 1,
+              },
+            },
           });
       const count = result.length;
       return NextResponse.json({
@@ -66,6 +82,7 @@ async function handle(
             everyLimitToken: item.everyLimitToken,
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
+            lastLoginAt: item.userLoginRecord[0]?.timestamp || null,
             allowToLogin: item.allowToLogin,
             isAdmin: item.isAdmin,
           };

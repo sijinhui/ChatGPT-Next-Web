@@ -267,10 +267,10 @@ function UsersTable({ users, setUsers, loading }: UserInterface) {
       },
     },
     {
-      title: "updatedAt",
-      dataIndex: "updatedAt",
+      title: "lastLoginAt",
+      dataIndex: "lastLoginAt",
       width: 120,
-      render: (value) => getCurrentTime(new Date(value)),
+      render: (value) => (value ? getCurrentTime(new Date(value)) : null),
     },
     {
       title: "管理员",
