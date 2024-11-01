@@ -18,25 +18,26 @@ generator client {
 }
 
 model User {
-  id              String        @id @default(cuid())
+  id              String            @id @default(cuid())
   name            String?
   // if you are using Github OAuth, you can get rid of the username attribute (that is for Twitter OAuth)
-  username        String?       @unique
-  gh_username     String?       @unique
-  email           String?       @unique
+  username        String?           @unique
+  gh_username     String?           @unique
+  email           String?           @unique
   emailVerified   DateTime?
   image           String?
   password        String?
   // 默认每人每天限额20k，但数据库存储0
-  everyLimitToken Int?          @default(0)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  allowToLogin    Boolean       @default(false)
-  isAdmin         Boolean?      @default(false)
+  everyLimitToken Int?              @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  allowToLogin    Boolean           @default(false)
+  isAdmin         Boolean?          @default(false)
   accounts        Account[]
   sessions        Session[]
   logs            LogEntry[]
   userSetting     UserSetting[]
+  userLoginRecord UserLoginRecord[]
 }
 
 model Account {
@@ -167,4 +168,14 @@ model UserSetting {
 
   @@index([userID, settingKey])
   @@map("user_settings")
+}
+
+model UserLoginRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  timestamp DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_login_record")
 }
