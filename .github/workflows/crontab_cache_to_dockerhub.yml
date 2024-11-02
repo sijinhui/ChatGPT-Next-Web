@@ -1,4 +1,4 @@
-name: Monthly Package Cache
+name: crontab_cache_to_dockerhub
 
 on:
   workflow_dispatch:
