@@ -100,6 +100,9 @@ export function auth(
       case ModelProvider.XAI:
         systemApiKey = serverConfig.xaiApiKey;
         break;
+      case ModelProvider.ChatGLM:
+        systemApiKey = serverConfig.chatglmApiKey;
+        break;
       case ModelProvider.GPT:
       default:
         // isAzure
