@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 1 * *'  # 每月1号的凌晨4点
-  push:
-    paths:
-      - 'node.Dockerfile'
-      - 'cache.install.Dockerfile'
-      - 'cache.build.Dockerfile'
+#  push:
+#    paths:
+#      - 'node.Dockerfile'
+#      - 'cache.install.Dockerfile'
+#      - 'cache.build.Dockerfile'
 
 jobs:
   build:
