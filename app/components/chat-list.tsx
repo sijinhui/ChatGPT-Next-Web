@@ -134,31 +134,31 @@ export function ChatList(props: { narrow?: boolean }) {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
         droppableId="chat-list"
-        renderClone={(provided, snapshot, rubic) => (
+        renderClone={(provided, snapshot, rubric) => (
           <ChatItem
-            title={sessions[rubic.source.index].topic}
+            title={sessions[rubric.source.index].topic}
             time={new Date(
-              sessions[rubic.source.index].lastUpdate,
+              sessions[rubric.source.index].lastUpdate,
             ).toLocaleString()}
-            count={sessions[rubic.source.index].messages.length}
-            key={sessions[rubic.source.index].id}
-            id={sessions[rubic.source.index].id}
-            index={rubic.source.index}
-            selected={rubic.source.index === selectedIndex}
+            count={sessions[rubric.source.index].messages.length}
+            key={sessions[rubric.source.index].id}
+            id={sessions[rubric.source.index].id}
+            index={rubric.source.index}
+            selected={rubric.source.index === selectedIndex}
             onClick={() => {
               navigate(Path.Chat);
-              selectSession(rubic.source.index);
+              selectSession(rubric.source.index);
             }}
             onDelete={async () => {
               if (
                 (!props.narrow && !isMobileScreen) ||
                 (await showConfirm(Locale.Home.DeleteChat))
               ) {
-                chatStore.deleteSession(rubic.source.index);
+                chatStore.deleteSession(rubric.source.index);
               }
             }}
             narrow={props.narrow}
-            mask={sessions[rubic.source.index].mask}
+            mask={sessions[rubric.source.index].mask}
             provided={provided}
             isMobileScreen={isMobileScreen}
           />
