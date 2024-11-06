@@ -15,6 +15,7 @@ import { MaskAvatar } from "./mask";
 import { useCommand } from "../command";
 import { showConfirm } from "./ui-lib";
 import { BUILTIN_MASK_STORE } from "../masks";
+import clsx from "clsx";
 
 function MaskItem(props: { mask: Mask; onClick?: () => void }) {
   return (
@@ -23,7 +24,9 @@ function MaskItem(props: { mask: Mask; onClick?: () => void }) {
         avatar={props.mask.avatar}
         model={props.mask.modelConfig.model}
       />
-      <div className={styles["mask-name"] + " one-line"}>{props.mask.name}</div>
+      <div className={clsx(styles["mask-name"], "one-line")}>
+        {props.mask.name}
+      </div>
     </div>
   );
 }

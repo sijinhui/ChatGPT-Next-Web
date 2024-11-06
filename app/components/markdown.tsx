@@ -23,6 +23,7 @@ import { useChatStore } from "../store";
 import { IconButton } from "./button";
 
 import { useAppConfig } from "../store/config";
+import clsx from "clsx";
 
 export function Mermaid(props: { code: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export function Mermaid(props: { code: string }) {
 
   return (
     <div
-      className="no-dark mermaid"
+      className={clsx("no-dark", "mermaid")}
       style={{
         cursor: "pointer",
         overflow: "auto",
@@ -195,7 +196,10 @@ function CustomCode(props: { children: any; className?: string }) {
     if (showToggle && enableCodeFold && collapsed) {
       return (
         <div
-          className={`show-hide-button ${collapsed ? "collapsed" : "expanded"}`}
+          className={clsx("show-hide-button", {
+            collapsed,
+            expanded: !collapsed,
+          })}
         >
           <button onClick={toggleCollapsed}>{Locale.NewChat.More}</button>
         </div>
@@ -206,7 +210,7 @@ function CustomCode(props: { children: any; className?: string }) {
   return (
     <>
       <code
-        className={props?.className}
+        className={clsx(props?.className)}
         ref={ref}
         style={{
           maxHeight: enableCodeFold && collapsed ? "400px" : "none",

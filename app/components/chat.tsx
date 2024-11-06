@@ -127,6 +127,7 @@ import { MsEdgeTTS, OUTPUT_FORMAT } from "../utils/ms_edge_tts";
 
 import { isEmpty } from "lodash-es";
 import { getModelProvider } from "../utils/model";
+import clsx from "clsx";
 
 const localStorage = safeLocalStorage();
 
@@ -217,7 +218,7 @@ function PromptToast(props: {
     <div className={styles["prompt-toast"]} key="prompt-toast">
       {props.showToast && context.length > 0 && (
         <div
-          className={styles["prompt-toast-inner"] + " clickable"}
+          className={clsx(styles["prompt-toast-inner"], "clickable")}
           role="button"
           onClick={() => props.setShowModal(true)}
         >
@@ -338,10 +339,9 @@ export function PromptHints(props: {
       {props.prompts.map((prompt, i) => (
         <div
           ref={i === selectIndex ? selectedRef : null}
-          className={
-            styles["prompt-hint"] +
-            ` ${i === selectIndex ? styles["prompt-hint-selected"] : ""}`
-          }
+          className={clsx(styles["prompt-hint"], {
+            [styles["prompt-hint-selected"]]: i === selectIndex,
+          })}
           key={prompt.title + i.toString()}
           onClick={() => props.onPromptSelect(prompt)}
           onMouseEnter={() => setSelectIndex(i)}
@@ -412,7 +412,11 @@ export function ChatAction(props: {
 
   return (
     <div
-      className={`${styles["chat-input-action"]} ${styles[customModelClassName]} clickable`}
+      className={clsx(
+        styles["chat-input-action"],
+        styles[customModelClassName],
+        "clickable",
+      )}
       onClick={() => {
         props.onClick();
         setTimeout(updateWidth, 1);
@@ -1682,9 +1686,12 @@ function _Chat() {
           </div>
         )}
 
-        <div className={`window-header-title ${styles["chat-body-title"]}`}>
+        <div className={clsx("window-header-title", styles["chat-body-title"])}>
           <div
-            className={`window-header-main-title ${styles["chat-body-main-title"]}`}
+            className={clsx(
+              "window-header-main-title",
+              styles["chat-body-main-title"],
+            )}
             onClickCapture={() => setIsEditingMessage(true)}
           >
             {!session.topic ? DEFAULT_TOPIC : session.topic}
@@ -1935,7 +1942,7 @@ function _Chat() {
                     )}
                     {getMessageImages(message).length > 1 && (
                       <div
-                        className={styles["chat-message-item-images"]}
+                        className={clsx(styles["chat-message-item-images"])}
                         style={
                           {
                             "--image-count": getMessageImages(message).length,
@@ -2152,11 +2159,10 @@ function _Chat() {
           setUserInput={setUserInput}
         />
         <label
-          className={`${styles["chat-input-panel-inner"]} ${
-            attachImages.length != 0
-              ? styles["chat-input-panel-inner-attach"]
-              : ""
-          }`}
+          className={clsx(styles["chat-input-panel-inner"], {
+            [styles["chat-input-panel-inner-attach"]]:
+              attachImages.length !== 0,
+          })}
           htmlFor="chat-input"
         >
           <textarea

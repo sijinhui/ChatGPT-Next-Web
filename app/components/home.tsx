@@ -3,7 +3,6 @@
 require("../polyfill");
 
 import { useState, useEffect } from "react";
-
 import styles from "./home.module.scss";
 
 import BotIcon from "../icons/bot.svg";
@@ -29,10 +28,11 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { type ClientApi, getClientApi } from "../client/api";
 import { useAccessStore } from "../store";
+import clsx from "clsx";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
-    <div className={styles["loading-content"] + " no-dark"}>
+    <div className={clsx("no-dark", styles["loading-content"])}>
       {!props.noLogo && <BotIcon />}
       <LoadingIcon />
     </div>
@@ -183,7 +183,11 @@ function Screen() {
     if (isSdNew) return <Sd />;
     return (
       <>
-        <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+        <SideBar
+          className={clsx({
+            [styles["sidebar-show"]]: isHome,
+          })}
+        />
         <WindowContent>
           <Routes>
             <Route path={Path.Home} element={<Chat />} />
@@ -202,9 +206,9 @@ function Screen() {
 
   return (
     <div
-      className={`${styles.container} ${
-        shouldTightBorder ? styles["tight-container"] : styles.container
-      }`}
+      className={clsx(styles.container, {
+        [styles["tight-container"]]: shouldTightBorder,
+      })}
     >
       {renderContent()}
     </div>
