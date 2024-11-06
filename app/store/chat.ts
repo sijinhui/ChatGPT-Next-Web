@@ -582,7 +582,7 @@ export const useChatStore = createPersistStore(
               message: "当日请求过多。",
             });
           botMessage.streaming = false;
-          get().onNewMessage(botMessage);
+          get().onNewMessage(botMessage, session);
           set(() => ({}));
           extAttr?.setAutoScroll(true);
           return;
@@ -744,7 +744,7 @@ export const useChatStore = createPersistStore(
             }
           };
           await startFn();
-          get().onNewMessage(botMessage);
+          get().onNewMessage(botMessage, session);
           set(() => ({}));
           extAttr?.setAutoScroll(true);
         } else {
