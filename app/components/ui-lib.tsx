@@ -150,14 +150,11 @@ export function Modal(props: ModalProps) {
 
   const [isMax, setMax] = useState(!!props.defaultMax);
 
-  clsx(styles["modal-container"], {
-    [styles["modal-container-max"]]: isMax,
-    [styles["cus-modal-container"]]: props.is_cus,
-  });
   return (
     <div
       className={clsx(styles["modal-container"], {
         [styles["modal-container-max"]]: isMax,
+        [styles["cus-modal-container"]]: props.is_cus,
       })}
     >
       <div className={styles["modal-header"]}>
