@@ -32,6 +32,7 @@
     "@vercel/speed-insights": "^1.0.9",
     "antd": "^5.21.1",
     "axios": "^1.7.5",
+    "clsx": "^2.1.1",
     "bcryptjs": "^2.4.3",
     "bufferutil": "^4.0.8",
     "cron": "^3.1.6",

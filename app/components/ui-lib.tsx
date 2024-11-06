@@ -28,6 +28,7 @@ import React, {
   useRef,
 } from "react";
 import { IconButton } from "./button";
+import clsx from "clsx";
 import { List as AntList, Row, Col, Tag } from "antd";
 import { OpenAIOutlined } from "@ant-design/icons";
 // 自定义图标
@@ -58,7 +59,7 @@ export function Popover(props: {
 
 export function Card(props: { children: JSX.Element[]; className?: string }) {
   return (
-    <div className={styles.card + " " + props.className}>{props.children}</div>
+    <div className={clsx(styles.card, props.className)}>{props.children}</div>
   );
 }
 
@@ -73,11 +74,13 @@ export function ListItem(props: {
 }) {
   return (
     <div
-      className={
-        styles["list-item"] +
-        ` ${props.vertical ? styles["vertical"] : ""} ` +
-        ` ${props.className || ""}`
-      }
+      className={clsx(
+        styles["list-item"],
+        {
+          [styles["vertical"]]: props.vertical,
+        },
+        props.className,
+      )}
       onClick={props.onClick}
     >
       <div className={styles["list-header"]}>
@@ -147,6 +150,10 @@ export function Modal(props: ModalProps) {
 
   const [isMax, setMax] = useState(!!props.defaultMax);
 
+  clsx(styles["modal-container"], {
+    [styles["modal-container-max"]]: isMax,
+    [styles["cus-modal-container"]]: props.is_cus,
+  });
   return (
     <div
       className={
@@ -276,7 +283,7 @@ export function Input(props: InputProps) {
   return (
     <textarea
       {...props}
-      className={`${styles["input"]} ${props.className}`}
+      className={clsx(styles["input"], props.className)}
     ></textarea>
   );
 }
@@ -317,9 +324,13 @@ export function Select(
   const { className, children, align, ...otherProps } = props;
   return (
     <div
-      className={`${styles["select-with-icon"]} ${
-        align === "left" ? styles["left-align-option"] : ""
-      } ${className}`}
+      className={clsx(
+        styles["select-with-icon"],
+        {
+          [styles["left-align-option"]]: align === "left",
+        },
+        className,
+      )}
     >
       <select className={styles["select-with-icon-select"]} {...otherProps}>
         {children}
@@ -525,9 +536,9 @@ export function Selector<T>(props: {
             const selected = selectedValues.includes(item.value);
             return (
               <ListItem
-                className={`${styles["selector-item"]} ${
-                  item.disable && styles["selector-item-disabled"]
-                }`}
+                className={clsx(styles["selector-item"], {
+                  [styles["selector-item-disabled"]]: item.disable,
+                })}
                 key={i}
                 title={item.title}
                 subTitle={item.subTitle}
