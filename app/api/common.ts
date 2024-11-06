@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSideConfig } from "../config/server";
 import { OPENAI_BASE_URL, ServiceProvider } from "../constant";
+import { cloudflareAIGatewayUrl } from "../utils/cloudflare";
+import { getModelProvider, isModelAvailableInServer } from "../utils/model";
 
-// import { makeAzurePath } from "../azure";
 import { getIP } from "@/app/api/auth";
 import { getSessionName } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getTokenLength } from "@/lib/utils";
-
-import { isModelAvailableInServer } from "../utils/model";
-import { cloudflareAIGatewayUrl } from "../utils/cloudflare";
 
 import { type LogEntry } from "@prisma/client";
 
@@ -91,7 +89,7 @@ export async function requestOpenai(
         .filter((v) => !!v && !v.startsWith("-") && v.includes(modelName))
         .forEach((m) => {
           const [fullName, displayName] = m.split("=");
-          const [_, providerName] = fullName.split("@");
+          const [_, providerName] = getModelProvider(fullName);
           if (providerName === "azure" && !displayName) {
             const [_, deployId] = (serverConfig?.azureUrl ?? "").split(
               "deployments/",
