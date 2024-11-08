@@ -103,6 +103,7 @@ function ChatItem(props: {
 }
 
 export function ChatList(props: { narrow?: boolean }) {
+  const queueAdminRef = useRef<HTMLDivElement | null>(null);
   const [sessions, selectedIndex, selectSession, moveSession] = useChatStore(
     (state) => [
       state.sessions,
@@ -179,8 +180,15 @@ export function ChatList(props: { narrow?: boolean }) {
                 { height: 0 },
               ]}
               // TODO：手机端好像还有点问题,先把拖拽关了
+              // 修复了拖拽时还会残留一个框的bug
               onEnd={({ key, type, target }) => {
-                if (type === "enter") target.style.height = "auto";
+                if (type === "enter") {
+                  setTimeout(() => {
+                    requestAnimationFrame(() => {
+                      target.style.height = "auto";
+                    });
+                  }, 100);
+                }
               }}
               interval={50}
             >
