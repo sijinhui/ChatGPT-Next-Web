@@ -2,7 +2,7 @@ FROM sijinhui/node:base AS deps
 
 WORKDIR /app
 
-COPY lib/rt-client-0.4.7.tgz lib/rt-client-0.4.7.tgz
+COPY lib/*.tgz .
 COPY package.json yarn.lock ./
 
 
