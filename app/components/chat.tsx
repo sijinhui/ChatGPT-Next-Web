@@ -2414,11 +2414,6 @@ function _Chat() {
 
 export function Chat() {
   const chatStore = useChatStore();
-  const sessionIndex = chatStore.currentSessionIndex;
-  // 这里计先计算一下当天总token数。
-  // localStorage.setItem(
-  //   "current_day_token",
-  //   String(getCurrentDayToken(chatStore.sessions)),
-  // );
-  return <_Chat key={sessionIndex}></_Chat>;
+  const session = chatStore.currentSession();
+  return <_Chat key={session.id}></_Chat>;
 }
