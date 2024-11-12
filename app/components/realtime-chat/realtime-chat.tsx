@@ -17,6 +17,7 @@ import {
   RTInputAudioItem,
   RTResponse,
   TurnDetection,
+  AccessToken,
 } from "rt-client";
 import { AudioHandler } from "@/app/lib/audio";
 import { uploadImage } from "@/app/utils/chat";
@@ -56,15 +57,22 @@ export function RealtimeChat({
   const azureDeployment = config.realtimeConfig.azure.deployment;
   const voice = config.realtimeConfig.voice;
 
+  const getToken = async () => {
+    const response = await fetch("/api/get_voice_token/realtime");
+    const result: AccessToken = await response.json();
+    return result;
+  };
+
   const handleConnect = async () => {
     if (isConnecting) return;
     if (!isConnected) {
       try {
         setIsConnecting(true);
+        console.log("333333", azureEndpoint);
         clientRef.current = azure
           ? new RTClient(
               new URL(azureEndpoint),
-              { key: apiKey },
+              { getToken },
               { deployment: azureDeployment },
             )
           : new RTClient({ key: apiKey }, { model });

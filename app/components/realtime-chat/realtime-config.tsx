@@ -1,7 +1,7 @@
 import { RealtimeConfig } from "@/app/store";
 
 import Locale from "@/app/locales";
-import { ListItem, Select, PasswordInput } from "@/app/components/ui-lib";
+import { ListItem, Select } from "@/app/components/ui-lib";
 
 import { InputRange } from "@/app/components/input-range";
 import { Voice } from "rt-client";
@@ -9,7 +9,10 @@ import { ServiceProvider } from "@/app/constant";
 
 const providers = [ServiceProvider.OpenAI, ServiceProvider.Azure];
 
-const models = ["gpt-4o-realtime-preview-2024-10-01"];
+const models = [
+  "gpt-4o-realtime-preview",
+  "gpt-4o-realtime-preview-2024-10-01",
+];
 
 const voice = ["alloy", "shimmer", "echo"];
 
@@ -72,63 +75,63 @@ export function RealtimeConfigList(props: {
 
       {props.realtimeConfig.enable && (
         <>
-          <ListItem
-            title={Locale.Settings.Realtime.Provider.Title}
-            subTitle={Locale.Settings.Realtime.Provider.SubTitle}
-          >
-            <Select
-              aria-label={Locale.Settings.Realtime.Provider.Title}
-              value={props.realtimeConfig.provider}
-              onChange={(e) => {
-                props.updateConfig(
-                  (config) =>
-                    (config.provider = e.target.value as ServiceProvider),
-                );
-              }}
-            >
-              {providers.map((v, i) => (
-                <option value={v} key={i}>
-                  {v}
-                </option>
-              ))}
-            </Select>
-          </ListItem>
-          <ListItem
-            title={Locale.Settings.Realtime.Model.Title}
-            subTitle={Locale.Settings.Realtime.Model.SubTitle}
-          >
-            <Select
-              aria-label={Locale.Settings.Realtime.Model.Title}
-              value={props.realtimeConfig.model}
-              onChange={(e) => {
-                props.updateConfig((config) => (config.model = e.target.value));
-              }}
-            >
-              {models.map((v, i) => (
-                <option value={v} key={i}>
-                  {v}
-                </option>
-              ))}
-            </Select>
-          </ListItem>
-          <ListItem
-            title={Locale.Settings.Realtime.ApiKey.Title}
-            subTitle={Locale.Settings.Realtime.ApiKey.SubTitle}
-          >
-            <PasswordInput
-              aria={Locale.Settings.ShowPassword}
-              aria-label={Locale.Settings.Realtime.ApiKey.Title}
-              value={props.realtimeConfig.apiKey}
-              type="text"
-              placeholder={Locale.Settings.Realtime.ApiKey.Placeholder}
-              onChange={(e) => {
-                props.updateConfig(
-                  (config) => (config.apiKey = e.currentTarget.value),
-                );
-              }}
-            />
-          </ListItem>
-          {azureConfigComponent}
+          {/*<ListItem*/}
+          {/*  title={Locale.Settings.Realtime.Provider.Title}*/}
+          {/*  subTitle={Locale.Settings.Realtime.Provider.SubTitle}*/}
+          {/*>*/}
+          {/*  <Select*/}
+          {/*    aria-label={Locale.Settings.Realtime.Provider.Title}*/}
+          {/*    value={props.realtimeConfig.provider}*/}
+          {/*    onChange={(e) => {*/}
+          {/*      props.updateConfig(*/}
+          {/*        (config) =>*/}
+          {/*          (config.provider = e.target.value as ServiceProvider),*/}
+          {/*      );*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    {providers.map((v, i) => (*/}
+          {/*      <option value={v} key={i}>*/}
+          {/*        {v}*/}
+          {/*      </option>*/}
+          {/*    ))}*/}
+          {/*  </Select>*/}
+          {/*</ListItem>*/}
+          {/*<ListItem*/}
+          {/*  title={Locale.Settings.Realtime.Model.Title}*/}
+          {/*  subTitle={Locale.Settings.Realtime.Model.SubTitle}*/}
+          {/*>*/}
+          {/*  <Select*/}
+          {/*    aria-label={Locale.Settings.Realtime.Model.Title}*/}
+          {/*    value={props.realtimeConfig.model}*/}
+          {/*    onChange={(e) => {*/}
+          {/*      props.updateConfig((config) => (config.model = e.target.value));*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    {models.map((v, i) => (*/}
+          {/*      <option value={v} key={i}>*/}
+          {/*        {v}*/}
+          {/*      </option>*/}
+          {/*    ))}*/}
+          {/*  </Select>*/}
+          {/*</ListItem>*/}
+          {/*<ListItem*/}
+          {/*  title={Locale.Settings.Realtime.ApiKey.Title}*/}
+          {/*  subTitle={Locale.Settings.Realtime.ApiKey.SubTitle}*/}
+          {/*>*/}
+          {/*  <PasswordInput*/}
+          {/*    aria={Locale.Settings.ShowPassword}*/}
+          {/*    aria-label={Locale.Settings.Realtime.ApiKey.Title}*/}
+          {/*    value={props.realtimeConfig.apiKey}*/}
+          {/*    type="text"*/}
+          {/*    placeholder={Locale.Settings.Realtime.ApiKey.Placeholder}*/}
+          {/*    onChange={(e) => {*/}
+          {/*      props.updateConfig(*/}
+          {/*        (config) => (config.apiKey = e.currentTarget.value),*/}
+          {/*      );*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*</ListItem>*/}
+          {/*{azureConfigComponent}*/}
           <ListItem
             title={Locale.Settings.TTS.Voice.Title}
             subTitle={Locale.Settings.TTS.Voice.SubTitle}

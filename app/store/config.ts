@@ -97,13 +97,13 @@ export const DEFAULT_CONFIG = {
   },
 
   realtimeConfig: {
-    enable: false,
-    provider: "OpenAI" as ServiceProvider,
+    enable: true,
+    provider: "Azure" as ServiceProvider,
     model: "gpt-4o-realtime-preview-2024-10-01",
     apiKey: "",
     azure: {
-      endpoint: "",
-      deployment: "",
+      endpoint: "wss://ainnovation-es2.openai.azure.com",
+      deployment: "gpt-4o-realtime-preview",
     },
     temperature: 0.9,
     voice: "alloy" as Voice,
@@ -201,7 +201,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.333,
+    version: 4.34,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -264,6 +264,10 @@ export const useAppConfig = createPersistStore(
 
       if (version < 4.333) {
         state.models = DEFAULT_CONFIG.models;
+      }
+
+      if (version < 4.34) {
+        state.realtimeConfig = DEFAULT_CONFIG.realtimeConfig;
       }
 
       return state as any;
