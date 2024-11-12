@@ -8,7 +8,7 @@ import React, {
   Fragment,
   RefObject,
 } from "react";
-
+/* eslint-disable @next/next/no-img-element */
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
 import RenameIcon from "../icons/rename.svg";
