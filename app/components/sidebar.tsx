@@ -7,7 +7,7 @@ import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import CoffeeIcon from "../icons/coffee.svg";
-import VoiceIcon from "../icons/voice.svg";
+import VoiceIcon from "../icons/voice-color.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
 import { DownOutlined, UpOutlined, UserOutlined } from "@ant-design/icons";
