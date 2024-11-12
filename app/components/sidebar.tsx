@@ -7,7 +7,7 @@ import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import CoffeeIcon from "../icons/coffee.svg";
-import VoiceIcon from "../icons/voice-color.svg";
+// import VoiceIcon from "../icons/voice-color.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
 import { DownOutlined, UpOutlined, UserOutlined } from "@ant-design/icons";
@@ -350,13 +350,13 @@ export function SideBar(props: { className?: string }) {
             onClick={() => navigate(Path.Reward)}
             shadow
           />
-          <IconButton
-            icon={<VoiceIcon />}
-            text={shouldNarrow ? undefined : Locale.SideBarHeader.Voice}
-            className={styles["sidebar-bar-button"]}
-            onClick={() => (window.location.href = "/azureVoice")}
-            shadow
-          />
+          {/*<IconButton*/}
+          {/*  icon={<VoiceIcon />}*/}
+          {/*  text={shouldNarrow ? undefined : Locale.SideBarHeader.Voice}*/}
+          {/*  className={styles["sidebar-bar-button"]}*/}
+          {/*  onClick={() => (window.location.href = "/azureVoice")}*/}
+          {/*  shadow*/}
+          {/*/>*/}
           {/*<IconButton*/}
           {/*  icon={<MaskIcon />}*/}
           {/*  text={shouldNarrow ? undefined : Locale.Mask.Name}*/}
@@ -372,7 +372,7 @@ export function SideBar(props: { className?: string }) {
           {/*/>*/}
           <IconButton
             icon={<DiscoveryIcon />}
-            // text={shouldNarrow ? undefined : Locale.Discovery.Name}
+            text={shouldNarrow ? undefined : Locale.Discovery.Name}
             className={styles["sidebar-bar-button"]}
             onClick={() => setShowPluginSelector(true)}
             shadow
