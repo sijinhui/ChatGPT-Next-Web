@@ -16,6 +16,7 @@ import {
   ServiceProvider,
 } from "../constant";
 import { createPersistStore } from "../utils/store";
+import type { Voice } from "rt-client";
 
 export type ModelType = (typeof DEFAULT_MODELS)[number]["name"];
 export type TTSModelType = (typeof DEFAULT_TTS_MODELS)[number];
@@ -95,6 +96,19 @@ export const DEFAULT_CONFIG = {
     speed: 1.1,
   },
 
+  realtimeConfig: {
+    enable: true,
+    provider: "Azure" as ServiceProvider,
+    model: "gpt-4o-realtime-preview-2024-10-01",
+    apiKey: "",
+    azure: {
+      endpoint: "wss://ainnovation-es2.openai.azure.com",
+      deployment: "gpt-4o-realtime-preview",
+    },
+    temperature: 0.9,
+    voice: "alloy" as Voice,
+  },
+
   defaultSubTitleExpanded: true,
 };
 
@@ -102,6 +116,7 @@ export type ChatConfig = typeof DEFAULT_CONFIG;
 
 export type ModelConfig = ChatConfig["modelConfig"];
 export type TTSConfig = ChatConfig["ttsConfig"];
+export type RealtimeConfig = ChatConfig["realtimeConfig"];
 
 export function limitNumber(
   x: number,
@@ -186,7 +201,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.333,
+    version: 4.34,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -249,6 +264,10 @@ export const useAppConfig = createPersistStore(
 
       if (version < 4.333) {
         state.models = DEFAULT_CONFIG.models;
+      }
+
+      if (version < 4.34) {
+        state.realtimeConfig = DEFAULT_CONFIG.realtimeConfig;
       }
 
       return state as any;
