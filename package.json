@@ -124,5 +124,11 @@
     "next-ws": "挺好用的一个适配websocket包，但是要记得用它提供的命令先修复一下nextjs，然后中间件中也不能管理对应的路由",
     "strip-ansi": "为了解决打包时，string-width，这个包中的require错误，挺离谱"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@1.22.19",
+  "nextBundleAnalysis": {
+    "budget": 307200,
+    "budgetPercentIncreaseRed": 20,
+    "minimumChangeThreshold": 0,
+    "showDetails": true
+  }
 }

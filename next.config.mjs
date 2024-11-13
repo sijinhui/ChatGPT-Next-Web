@@ -29,22 +29,8 @@ const nextConfig = {
     if (disableChunk) {
       config.plugins.push(
         new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-      )
+      );
     }
-
-    // 为了修复tiktoken的插件问题
-    // config.plugins.push(
-    //   new CopyWebpackPlugin({
-    //     patterns: [
-    //       {
-    //         from: "node_modules/tiktoken/lite/tiktoken_bg.wasm",
-    //         to: "./tiktoken/lite/tiktoken_bg.wasm",
-    //         toType: "file",
-    //       },
-    //     ],
-    //   })
-    // )
-
 
     config.optimization.minimize = true
     config.optimization.splitChunks = {
@@ -87,16 +73,10 @@ const nextConfig = {
     ]
   },
   experimental: {
+    legacyBrowsers: false,
     forceSwcTransforms: true,
     serverComponentsExternalPackages: ["tiktoken"],
-    // 加速跟踪依赖项
-    // turbotrace: {
-    //   logDetail: true,
-    // },
   },
-  // externals: {
-  //   'sharp': 'commonjs sharp'
-  // },
   swcMinify: true,
 };
 
