@@ -33,6 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          yes | corepack enable
           yarn set version berry
           yarn install
 
