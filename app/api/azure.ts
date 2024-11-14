@@ -7,15 +7,15 @@ import { requestOpenai } from "./common";
 export async function handle(
   req: NextRequest,
   // res: NextApiResponse,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  console.log("");
+  const slug = (await params).slug;
   console.log("[Azure Route] params ", params);
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" });
   }
 
-  const subpath = params.path.join("/");
+  const subpath = slug.join("/");
 
   const authResult = auth(req, ModelProvider.GPT);
   if (authResult.error) {

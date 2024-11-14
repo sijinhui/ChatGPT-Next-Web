@@ -3,8 +3,9 @@ import { getServerSideConfig } from "@/app/config/server";
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  const slug = (await params).slug;
   console.log("[Proxy Route] params ", params);
 
   if (req.method === "OPTIONS") {
@@ -16,7 +17,7 @@ export async function handle(
   req.nextUrl.searchParams.delete("path");
   req.nextUrl.searchParams.delete("provider");
 
-  const subpath = params.path.join("/");
+  const subpath = slug.join("/");
   const fetchUrl = `${req.headers.get(
     "x-base-url",
   )}/${subpath}?${req.nextUrl.searchParams.toString()}`;

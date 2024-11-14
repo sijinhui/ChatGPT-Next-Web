@@ -6,7 +6,7 @@ import { getCurStartEnd } from "@/app/utils/custom";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   // 判断网址和请求方法
   const method = req.method;

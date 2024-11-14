@@ -15,8 +15,9 @@ const serverConfig = getServerSideConfig();
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  const slug = (await params).slug;
   console.log("[Baidu Route] params ", params);
 
   if (req.method === "OPTIONS") {

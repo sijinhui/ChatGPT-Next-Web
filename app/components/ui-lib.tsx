@@ -26,6 +26,7 @@ import React, {
   useState,
   useCallback,
   useRef,
+  type JSX,
 } from "react";
 import { IconButton } from "./button";
 import clsx from "clsx";
@@ -567,7 +568,7 @@ export function Selector<T>(props: {
 }
 export function FullScreen(props: any) {
   const { children, right = 10, top = 10, ...rest } = props;
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(undefined);
   const [fullScreen, setFullScreen] = useState(false);
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {

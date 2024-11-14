@@ -5,8 +5,9 @@ import { auth } from "@/app/api/auth";
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  const slug = (await params).slug;
   console.log("[Stability] params ", params);
 
   if (req.method === "OPTIONS") {

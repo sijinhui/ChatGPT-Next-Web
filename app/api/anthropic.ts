@@ -16,15 +16,16 @@ const ALLOWD_PATH = new Set([Anthropic.ChatPath, Anthropic.ChatPath1]);
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  const slug = (await params).slug;
   console.log("[Anthropic Route] params ", params);
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
 
-  const subpath = params.path.join("/");
+  const subpath = slug.join("/");
 
   if (!ALLOWD_PATH.has(subpath)) {
     console.log("[Anthropic Route] forbidden path ", subpath);

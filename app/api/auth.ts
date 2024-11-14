@@ -2,9 +2,10 @@ import { NextRequest } from "next/server";
 import { getServerSideConfig } from "../config/server";
 import md5 from "spark-md5";
 import { ACCESS_CODE_PREFIX, ModelProvider } from "../constant";
+// import { ipAddress } from '@vercel/functions'
 
 export function getIP(req: NextRequest) {
-  let ip = req.headers.get("x-real-ip") ?? req.ip;
+  let ip = req.headers.get("x-real-ip");
 
   const forwardedFor = req.headers.get("x-forwarded-for");
 

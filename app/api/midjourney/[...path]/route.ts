@@ -11,7 +11,7 @@ const serverConfig = getServerSideConfig();
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   console.log("[Midjourney Route] params ", params);
 

@@ -3,19 +3,20 @@ import prisma from "@/lib/prisma";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
+  const slug = (await params).slug;
   // 判断网址和请求方法
   const method = req.method;
   // const url = req.url;
   const { pathname, searchParams } = new URL(req.url);
-  // console.log('----', pathname, searchParams, params.path)
-  if (method === "GET" && !params.path) {
+  // console.log('----', pathname, searchParams, slug)
+  if (method === "GET" && !slug) {
     const all_setting = await prisma.setting.findMany();
     // console.log("all_setting,", all_setting);
     return NextResponse.json({ result: all_setting });
   }
-  if (method === "POST" && !params.path) {
+  if (method === "POST" && !slug) {
     try {
       const setting_instance = await prisma.setting.create({
         data: await req.json(),
@@ -27,9 +28,9 @@ async function handle(
     }
   }
 
-  if (method === "PUT" && params.path) {
+  if (method === "PUT" && slug) {
     try {
-      const setting_key = params.path[0];
+      const setting_key = slug[0];
       const setting_instance = await prisma.setting.update({
         where: {
           key: setting_key,
@@ -40,9 +41,9 @@ async function handle(
     } catch {}
   }
 
-  if (method === "DELETE" && params.path) {
+  if (method === "DELETE" && slug) {
     try {
-      const setting_key = params.path[0];
+      const setting_key = slug[0];
       const setting_instance = await prisma.setting.delete({
         where: {
           key: setting_key,

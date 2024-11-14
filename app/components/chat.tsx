@@ -7,6 +7,7 @@ import React, {
   useCallback,
   Fragment,
   RefObject,
+  type JSX,
 } from "react";
 /* eslint-disable @next/next/no-img-element */
 import SendWhiteIcon from "../icons/send-white.svg";
@@ -442,7 +443,7 @@ export function ChatAction(props: {
 }
 
 function useScrollToBottom(
-  scrollRef: RefObject<HTMLDivElement>,
+  scrollRef: RefObject<HTMLDivElement | null>,
   detach: boolean = false,
 ) {
   // for auto-scroll

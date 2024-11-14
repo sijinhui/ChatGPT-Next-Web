@@ -8,8 +8,9 @@ const serverConfig = getServerSideConfig();
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { provider: string; path: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  const slug = (await params).slug;
   console.log("[Google Route] params ", params);
 
   if (req.method === "OPTIONS") {

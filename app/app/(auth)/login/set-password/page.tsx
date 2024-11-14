@@ -5,6 +5,7 @@ import { Form, FormProps, Input } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 // import React from "react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 type LoginType = "phone" | "account";
 
@@ -135,9 +136,9 @@ export default function SetPasswordPage() {
           </Form.Item>
 
           <Form.Item>
-            <a href="/" className="mr-2.5 align-bottom">
-              暂时跳过
-            </a>
+            <Link href="/">
+              <a className="mr-2.5 align-bottom">暂时跳过</a>
+            </Link>
             <button
               type="submit"
               className="short-width-button w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

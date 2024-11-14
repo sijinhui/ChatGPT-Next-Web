@@ -9,7 +9,7 @@ const serverConfig = getServerSideConfig();
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   console.log("[Tencent Route] params ", params);
 

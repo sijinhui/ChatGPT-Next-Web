@@ -321,7 +321,7 @@ export function Markdown(
     loading?: boolean;
     fontSize?: number;
     fontFamily?: string;
-    parentRef?: RefObject<HTMLDivElement>;
+    parentRef?: RefObject<HTMLDivElement | null>;
     defaultShow?: boolean;
   } & React.DOMAttributes<HTMLDivElement>,
 ) {

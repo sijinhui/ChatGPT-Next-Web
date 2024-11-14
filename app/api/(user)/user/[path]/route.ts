@@ -1,12 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hashPassword, comparePassword } from "@/lib/utils";
 import { getSession } from "@/lib/auth";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
+  const slug = (await params).slug;
+
   // 判断网址和请求方法
   const method = req.method;
   // const url = req.url;
@@ -15,7 +17,7 @@ async function handle(
 
   // 校验仅当前用户支持访问
   const session = await getSession();
-  if (params.path !== session?.user?.id) {
+  if (slug !== session?.user?.id) {
     // return NextResponse.json({ error: "无权限" }, { status: 402 });
   }
 
@@ -25,7 +27,7 @@ async function handle(
   if (session?.user?.hasPassword) {
     const user = await prisma.user.findUnique({
       where: {
-        id: params.path,
+        id: slug,
       },
     });
     if (
@@ -52,7 +54,7 @@ async function handle(
 
   await prisma.user.update({
     where: {
-      id: params.path,
+      id: slug,
     },
     data: {
       password: hashPassword(new_password_d["user[password]"]),
