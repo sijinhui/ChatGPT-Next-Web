@@ -123,9 +123,10 @@
     "bufferutil": "微软 rt-client 包的依赖",
     "utf-8-validate": "微软 rt-client 包的依赖",
     "next-ws": "挺好用的一个适配websocket包，但是要记得用它提供的命令先修复一下nextjs，然后中间件中也不能管理对应的路由",
-    "strip-ansi": "为了解决打包时，string-width，这个包中的require错误，挺离谱"
+    "strip-ansi": "为了解决打包时，string-width，这个包中的require错误，挺离谱",
+    "packageManager": "yarn@4.5.1"
   },
-  "packageManager": "yarn@4.5.1",
+  "packageManager": "yarn@1.22.19",
   "nextBundleAnalysis": {
     "budget": 307200,
     "budgetPercentIncreaseRed": 20,
