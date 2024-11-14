@@ -207,17 +207,18 @@ export const authOptions: NextAuthOptions = {
     },
 };
 
-export function getSession() {
+export async function getSession() {
     // console.log('in........',)
-    return getServerSession(authOptions) as Promise<{
-        user: {
-            id: string;
-            name: string;
-            username: string;
-            email: string;
-            image: string;
-        };
-    } | null>;
+    return await getServerSession(authOptions)
+    // as Promise<{
+    //     user: {
+    //         id: string;
+    //         name: string;
+    //         username: string;
+    //         email: string;
+    //         image: string;
+    //     };
+    // } | null>;
 }
 
 export async function getSessionName() {

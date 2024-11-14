@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { hashPassword, comparePassword } from "@/lib/utils";
 import { getSession } from "@/lib/auth";
 
+// @ts-ignore
 async function handle(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
@@ -23,7 +24,6 @@ async function handle(
 
   const new_password_d = await req.json();
   // 旧密码校验
-  // @ts-expect-error
   if (session?.user?.hasPassword) {
     const user = await prisma.user.findUnique({
       where: {

@@ -72,8 +72,19 @@ const nextConfig = {
       { hostname: "illustrations.popsy.co" },
     ]
   },
+  sassOptions: {
+    silenceDeprecations: ["legacy-js-api"],
+  },
   experimental: {
-    forceSwcTransforms: true,
+    turbo: {
+      // rules: {
+      //   "*.scss": {
+      //     loaders: ["sass-loader"],
+      //     as: "*.css",
+      //   },
+      // }
+    }
+    // forceSwcTransforms: true,
   },
   serverExternalPackages: ["tiktoken"],
 };
