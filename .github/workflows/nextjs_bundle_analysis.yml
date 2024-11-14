@@ -32,7 +32,9 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn set version berry
+          yarn install
 
       # If pnpm is used, you need to switch the previous step with the following one. pnpm does not create a package-lock.json
       # so the step above will fail to pull dependencies
