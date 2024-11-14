@@ -519,7 +519,7 @@ export const DEFAULT_MODELS = [
     },
   },
   {
-    name: "claude-3-5-sonnet-20241022",
+    name: "claude-3-5-sonnet-20240620",
     describe: "claude第三代模型最强版",
     available: true,
     sorted: seq++,
