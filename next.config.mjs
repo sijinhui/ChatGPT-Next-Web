@@ -32,10 +32,10 @@ const nextConfig = {
       );
     }
 
-    config.optimization.minimize = true
-    config.optimization.splitChunks = {
-      minSize: 1024 * 300
-    }
+    // config.optimization.minimize = true
+    // config.optimization.splitChunks = {
+    //   minSize: 1024 * 300
+    // }
     // console.log('=======', config.optimization)
 
     config.resolve.fallback = {
@@ -73,11 +73,8 @@ const nextConfig = {
     ]
   },
   experimental: {
-    legacyBrowsers: false,
-    forceSwcTransforms: true,
     serverComponentsExternalPackages: ["tiktoken"],
   },
-  swcMinify: true,
 };
 
 const CorsHeaders = [
