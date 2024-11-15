@@ -46,10 +46,10 @@ const nextConfig = {
     // )
 
 
-    config.optimization.minimize = true
-    config.optimization.splitChunks = {
-      minSize: 1024 * 300
-    }
+    // config.optimization.minimize = true
+    // config.optimization.splitChunks = {
+    //   minSize: 1024 * 300
+    // }
     // console.log('=======', config.optimization)
 
     config.resolve.fallback = {
@@ -87,7 +87,7 @@ const nextConfig = {
     ]
   },
   experimental: {
-    forceSwcTransforms: true,
+    // forceSwcTransforms: true,
     serverComponentsExternalPackages: ["tiktoken"],
     // 加速跟踪依赖项
     // turbotrace: {

@@ -30,6 +30,7 @@ jobs:
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             registry.si.icu/sijinhui/chatgpt-next-web:latest
             registry.si.icu/sijinhui/chatgpt-next-web:${{ env.DATE_TAG }}
