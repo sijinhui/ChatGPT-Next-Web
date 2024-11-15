@@ -6,7 +6,7 @@ ENV TZ=Asia/Chongqing
 # 更新并安装时区工具
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN yarn config set registry 'https://registry.npmmirror.com' ; \
-    yarn config set sharp_binary_host "https://cdn.npmmirror.com/binaries/sharp" ; \
-    yarn config set sharp_libvips_binary_host "https://cdn.npmmirror.com/binaries/sharp-libvips"
-ENV PRISMA_ENGINES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
+#RUN yarn config set registry 'https://registry.npmmirror.com' ; \
+#    yarn config set sharp_binary_host "https://cdn.npmmirror.com/binaries/sharp" ; \
+#    yarn config set sharp_libvips_binary_host "https://cdn.npmmirror.com/binaries/sharp-libvips"
+#ENV PRISMA_ENGINES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
