@@ -324,18 +324,10 @@ const googleModels = [
 ];
 
 const anthropicModels = [
-  "claude-instant-1.2",
-  "claude-2.0",
-  "claude-2.1",
-  "claude-3-sonnet-20240229",
   "claude-3-opus-20240229",
-  "claude-3-opus-latest",
-  "claude-3-haiku-20240307",
   "claude-3-5-haiku-20241022",
-  "claude-3-5-haiku-latest",
   "claude-3-5-sonnet-20240620",
   "claude-3-5-sonnet-20241022",
-  "claude-3-5-sonnet-latest",
 ];
 
 const baiduModels = [
@@ -518,9 +510,9 @@ export const DEFAULT_MODELS = [
       sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
-  {
-    name: "claude-3-5-sonnet-20240620",
-    describe: "claude第三代模型最强版",
+  ...anthropicModels.map((name) => ({
+    name,
+    describe: "claude 模型",
     available: true,
     sorted: seq++,
     provider: {
@@ -529,7 +521,7 @@ export const DEFAULT_MODELS = [
       providerType: "openai",
       sorted: 2, // 这里是固定的，确保顺序与之前内置的版本一致
     },
-  },
+  })),
   {
     name: "gemini-1.5-pro-latest",
     available: true,
