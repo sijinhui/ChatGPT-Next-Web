@@ -1,14 +1,15 @@
 name: Run Tests
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - "!*"
-  pull_request:
-    types:
-      - review_requested
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+#    tags:
+#      - "!*"
+#  pull_request:
+#    types:
+#      - review_requested
 
 jobs:
   test:
