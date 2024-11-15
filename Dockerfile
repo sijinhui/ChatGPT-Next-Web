@@ -30,8 +30,7 @@ WORKDIR /app
 COPY . .
 COPY --from=base /app/.next ./next
 COPY --from=base /app/node_modules ./node_modules
-RUN npm install -g cnpm --registry=https://registry.npmmirror.com
-RUN yarn config set registry 'https://registry.npmmirror.com/'
+
 RUN yarn install && yarn build
 
 FROM sijinhui/node:base AS runner
