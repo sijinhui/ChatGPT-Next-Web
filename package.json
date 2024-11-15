@@ -61,7 +61,7 @@
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.0",
     "remark-math": "^6.0.0",
-    "rt-client": "file:./lib/rt-client-0.5.0.tgz",
+    "rt-client": "https://github.com/Azure-Samples/aoai-realtime-audio-sdk/releases/download/js/v0.5.0/rt-client-0.5.0.tgz",
     "spark-md5": "^3.0.2",
     "tailwind-merge": "^2.2.1",
     "tiktoken": "^1.0.16",
