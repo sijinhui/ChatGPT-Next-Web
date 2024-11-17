@@ -465,13 +465,13 @@ function useScrollToBottom(
 
   // auto scroll
   useEffect(() => {
-    // if (autoScroll && !detach) {
-    //   scrollDomToBottom();
-    // }
-    // 自动滚动一直有bug，直接强制修改了
-    if (autoScroll) {
+    if (autoScroll && !detach) {
       scrollDomToBottom();
     }
+    // 自动滚动一直有bug，直接强制修改了
+    // if (autoScroll) {
+    //   scrollDomToBottom();
+    // }
   });
 
   return {
