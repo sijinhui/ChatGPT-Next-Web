@@ -255,8 +255,11 @@ const calLogMoney = (logData: Partial<CusLogEntry>): number => {
       return logToken * 0.0000375;
     case "moonshot-v1-8k":
       return logToken * 0.00002;
+    case "claude-3-opus-20240229":
+    case "claude-3-5-haiku-20241022":
+    case "claude-3-5-sonnet-20240620":
     case "claude-3-5-sonnet-20241022":
-      return logToken * 0.000009;
+      return logToken * 0.000004;
     // 谷歌的本身就免费
     case "gemini-1.5-pro-latest":
     default:
