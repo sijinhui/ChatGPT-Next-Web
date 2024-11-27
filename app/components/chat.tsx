@@ -1591,6 +1591,8 @@ function _Chat() {
   // 加载状态结束，获取token
   const [loadingChange, setLoadingChange] = useState(false);
   const currentModel = chatStore.currentSession().mask.modelConfig.model;
+  const currentProviderName =
+    chatStore.currentSession().mask.modelConfig.providerName;
   useEffect(() => {
     if (!isLoading && loadingChange) {
       try {
@@ -1613,10 +1615,11 @@ function _Chat() {
       } catch {}
     }
     // 插入判断，展示非流式响应的提示
+    // 目前仅azure openai 01 非流式响应。
 
     if (
+      currentProviderName === "Azure" &&
       currentModel.startsWith("o1") &&
-      !currentModel.endsWith("-all") &&
       isLoading
     ) {
       showToast(Locale.StreamTIp, undefined, 5000);

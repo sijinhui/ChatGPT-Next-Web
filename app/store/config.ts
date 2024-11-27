@@ -201,7 +201,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.351,
+    version: 4.352,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -262,7 +262,7 @@ export const useAppConfig = createPersistStore(
           DEFAULT_CONFIG.modelConfig.compressProviderName;
       }
 
-      if (version < 4.351) {
+      if (version < 4.352) {
         state.models = DEFAULT_CONFIG.models;
       }
 

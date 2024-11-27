@@ -481,7 +481,7 @@ export const DEFAULT_MODELS = [
   },
   {
     name: "o1-preview-2024-09-12",
-    describe: "o1备用接口,目前较贵,按量计费",
+    describe: "o1备用接口,流式响应,按量计费",
     available: true,
     sorted: seq++,
     provider: {
