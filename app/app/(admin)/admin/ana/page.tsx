@@ -1,14 +1,15 @@
 import UsageByModel from "./usage-by-model-chart";
 // import UserByMap from "./user-by-map";
 
-import { Flex } from "antd";
+import { Flex, Card } from "antd";
 
 export default async function AdminPage() {
   return (
     <>
       <Flex gap="middle" vertical>
-        <UsageByModel />
-        {/*<UserByMap />*/}
+        <Card>
+          <UsageByModel />
+        </Card>
       </Flex>
     </>
   );

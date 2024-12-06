@@ -2,12 +2,19 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Button, theme, ConfigProvider } from "antd";
+import { Layout, Button, theme, ConfigProvider, Space } from "antd";
 import SideBar from "../components/sidebar";
+import useTheme from "../hooks/useTheme";
+import { IconDark } from "./icon/IconDark";
+import { IconLight } from "./icon/IconLight";
 
 const { Header, Sider, Content } = Layout;
 
+const isDark = true;
+
 function MainLayout({ children }: { children: ReactNode }) {
+  const [currentTheme, toggleCurrentTheme] = useTheme();
+
   const [collapsed, setCollapsed] = useState(
     typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -34,39 +41,80 @@ function MainLayout({ children }: { children: ReactNode }) {
   //   }
   //   // 状态变化时，重新判断
   // }, [name, status]);
+
   return (
     <ConfigProvider
       theme={{
         // 1. 单独使用暗色算法
-        algorithm: theme.defaultAlgorithm,
-        // token: {
-        //     colorPrimary: "#00b96b",
-        // }
+        algorithm:
+          currentTheme === "light"
+            ? theme.defaultAlgorithm
+            : theme.darkAlgorithm,
+        token: {
+          // colorBgContainer: currentTheme === 'light' ? '#fff' : '#141414',
+          // colorPrimary: "#00b96b",
+        },
       }}
     >
       <Layout style={{ height: "100%" }}>
         <Sider
+          theme="light"
           breakpoint={"md"}
           collapsedWidth="0"
           collapsed={collapsed}
           trigger={null}
+          style={{
+            // borderRight:
+            //     '1px solid #343A46',
+            boxShadow:
+              "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+          }}
         >
-          <div className="demo-logo-vertical" />*
+          {/*<div className="demo-logo-vertical" />*/}
           <SideBar />
         </Sider>
 
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Header
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "0 24px 0 16px",
+              background: currentTheme === "light" ? "#fff" : "#141414",
+              justifyContent: "space-between",
+            }}
+          >
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setCollapsed(!collapsed)}
               style={{
                 fontSize: "16px",
-                width: 64,
-                height: 64,
+                width: 32,
+                height: 32,
               }}
             />
+
+            <Space size="middle">
+              <Button
+                type="text"
+                icon={
+                  currentTheme === "dark" ? (
+                    <IconDark style={{ height: 20, width: 20 }} />
+                  ) : (
+                    <IconLight style={{ height: 24, width: 24 }} />
+                  )
+                }
+                style={{
+                  width: 36,
+                  height: 36,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={() => toggleCurrentTheme && toggleCurrentTheme()}
+              />
+            </Space>
           </Header>
           <Content
             id="admin-page-content"
@@ -74,7 +122,7 @@ function MainLayout({ children }: { children: ReactNode }) {
               // margin: "24px 16px",
               padding: 24,
               minHeight: 280,
-              background: colorBgLayout,
+              background: currentTheme === "light" ? "#f5f5f5" : "#000",
               borderRadius: borderRadiusLG,
             }}
           >
