@@ -10,7 +10,7 @@ import {
   // SettingOutlined,
   // DashboardTwoTone,
 } from "@ant-design/icons";
-import type { MenuProps, MenuTheme } from "antd";
+import type { MenuProps } from "antd";
 import { Menu } from "antd";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -50,39 +50,31 @@ const items: MenuItem[] = [
 ];
 
 const SideBar: React.FC = () => {
-  const [theme, setTheme] = useState<MenuTheme>("dark");
-  const [current, setCurrent] = useState("");
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const pathname = usePathname();
-  // const changeTheme = (value: boolean) => {
-  //     setTheme(value ? 'dark' : 'light');
-  // };
+  const [current, setCurrent] = useState(pathname);
+  const router = useRouter();
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
     router.push(e.key);
   };
-  // useEffect(() => {
-  //   // 如果按钮和路径不相等，那其实应该跳转到按钮的网址
-  //   if (current != pathname) {
-  //     router.push(current);
-  //   }
-  // }, [current, pathname, router]);
 
+  const openKeys = items.map((item) => item?.key as string);
   return (
     <>
       <br />
       <br />
       <Menu
-        theme={theme}
         onClick={onClick}
-        // style={{ width: 256 }}
-        // defaultOpenKeys={["dashboard"]}
         selectedKeys={[current]}
+        defaultOpenKeys={openKeys}
         mode="inline"
         items={items}
+        style={{
+          border: "none",
+          padding: "5px 0",
+        }}
       />
     </>
   );

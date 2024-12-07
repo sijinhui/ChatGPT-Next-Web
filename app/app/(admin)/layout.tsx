@@ -22,20 +22,7 @@ export default async function AdminLayout({
 
   return (
     <>
-      <AntdRegistry>
-        {children}
-
-        {/*<div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8 w-full">*/}
-        {/*  <div className="w-full">*/}
-        {/*    <h1 className="mt-6 text-center font-cal text-3xl dark:text-white">*/}
-        {/*      Admin Page*/}
-        {/*    </h1>*/}
-        {/*    <div className="mx-auto mt-4 w-11/12 max-w-screen-lg sm:w-full">*/}
-        {/*      {children}*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-      </AntdRegistry>
+      <AntdRegistry>{children}</AntdRegistry>
     </>
   );
 }

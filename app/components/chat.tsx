@@ -1637,7 +1637,7 @@ function _Chat() {
     return () => {
       setLoadingChange(isLoading);
     };
-  }, [currentModel, isLoading, loadingChange]);
+  }, [currentModel, currentProviderName, isLoading, loadingChange]);
 
   // 快捷键 shortcut keys
   const [showShortcutKeyModal, setShowShortcutKeyModal] = useState(false);
