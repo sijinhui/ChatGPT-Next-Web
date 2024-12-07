@@ -1,4 +1,5 @@
 "use client";
+import "./layout.module.scss";
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
@@ -7,12 +8,14 @@ import SideBar from "../components/sidebar";
 import useTheme from "../hooks/useTheme";
 import { IconDark } from "./icon/IconDark";
 import { IconLight } from "./icon/IconLight";
+import { Loading } from "@/app/components/home";
 
 const { Header, Sider, Content } = Layout;
 
-const isDark = true;
-
 function MainLayout({ children }: { children: ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDark, setIsDark] = useState<Boolean>(false);
+
   const [currentTheme, toggleCurrentTheme] = useTheme();
 
   const [collapsed, setCollapsed] = useState(
@@ -42,6 +45,26 @@ function MainLayout({ children }: { children: ReactNode }) {
   //   // 状态变化时，重新判断
   // }, [name, status]);
 
+  useEffect(() => {
+    // 检查页面是否已经完全加载
+    if (document.readyState === "complete") {
+      setIsLoading(false);
+    } else {
+      // 定义加载完成的处理函数
+      const handleLoad = () => setIsLoading(false);
+
+      // 添加事件监听器
+      window.addEventListener("load", handleLoad);
+
+      // 清理事件监听器
+      return () => window.removeEventListener("load", handleLoad);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <ConfigProvider
       theme={{
@@ -56,7 +79,7 @@ function MainLayout({ children }: { children: ReactNode }) {
         },
       }}
     >
-      <Layout style={{ height: "100%" }}>
+      <Layout style={{ height: "100%" }} id="admin-layout">
         <Sider
           theme="light"
           breakpoint={"md"}
@@ -112,7 +135,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                onClick={() => toggleCurrentTheme && toggleCurrentTheme()}
+                onClick={(e) => toggleCurrentTheme && toggleCurrentTheme(e)}
               />
             </Space>
           </Header>
