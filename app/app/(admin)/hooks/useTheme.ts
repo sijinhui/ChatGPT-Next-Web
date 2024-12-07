@@ -9,6 +9,9 @@ const useTheme = (): [
   useEffect(() => {
     const storeTheme = window.localStorage.getItem("theme");
     if (storeTheme) setTheme(storeTheme);
+    const root = document.documentElement;
+    root.classList.toggle("dark", storeTheme === "dark");
+    root.classList.toggle("light", storeTheme === "light");
   }, []);
 
   const toggleTheme = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,6 +29,7 @@ const useTheme = (): [
       setTheme((prevTheme) => {
         const value = prevTheme === "light" ? "dark" : "light";
         root.classList.toggle("dark", value === "dark");
+        root.classList.toggle("light", value === "light");
         window.localStorage.setItem("theme", value);
         return value;
       });

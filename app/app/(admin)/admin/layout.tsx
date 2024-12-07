@@ -2,7 +2,7 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Button, theme, ConfigProvider, Space } from "antd";
+import { Layout, Button, theme, ConfigProvider, Space, Card } from "antd";
 import SideBar from "../components/sidebar";
 import useTheme from "../hooks/useTheme";
 import { IconDark } from "./icon/IconDark";
@@ -73,8 +73,34 @@ function MainLayout({ children }: { children: ReactNode }) {
             ? theme.defaultAlgorithm
             : theme.darkAlgorithm,
         token: {
-          // colorBgContainer: currentTheme === 'light' ? '#fff' : '#141414',
+          colorBgContainer:
+            currentTheme === "light" ? "#fff" : "hsl(var(--sidebar))",
           // colorPrimary: "#00b96b",
+        },
+        components: {
+          Layout: {
+            // siderBg: "red",
+            lightSiderBg: "hsl(var(--sidebar))",
+            headerBg: "hsl(var(--header))",
+          },
+          Table: {
+            // headerBg: "#5c5d61",
+          },
+
+          Menu: {
+            itemBg: "hsl(var(--sidebar))",
+            subMenuItemBg: "hsl(var(--sidebar))",
+            itemActiveBg:
+              currentTheme === "light"
+                ? "hsl(var(--primary) / 15%)"
+                : "hsl(var(--accent))",
+            itemSelectedBg:
+              currentTheme === "light"
+                ? "hsl(var(--primary) / 15%)"
+                : "hsl(var(--accent))",
+            itemSelectedColor:
+              currentTheme === "light" ? "hsl(var(--primary))" : "white",
+          },
         },
       }}
     >
@@ -85,9 +111,10 @@ function MainLayout({ children }: { children: ReactNode }) {
           collapsedWidth="0"
           collapsed={collapsed}
           trigger={null}
+          className="transition-all duration-150"
+          width={224}
           style={{
-            // borderRight:
-            //     '1px solid #343A46',
+            borderRight: currentTheme === "dark" ? "1px solid #343A46" : "none",
             boxShadow:
               "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
           }}
@@ -102,7 +129,7 @@ function MainLayout({ children }: { children: ReactNode }) {
               display: "flex",
               alignItems: "center",
               padding: "0 24px 0 16px",
-              background: currentTheme === "light" ? "#fff" : "#141414",
+              // background: currentTheme === "light" ? "#fff" : "#141414",
               justifyContent: "space-between",
             }}
           >
@@ -144,11 +171,10 @@ function MainLayout({ children }: { children: ReactNode }) {
               // margin: "24px 16px",
               padding: 24,
               minHeight: 280,
-              background: currentTheme === "light" ? "#f5f5f5" : "#000",
               borderRadius: borderRadiusLG,
             }}
           >
-            {children}
+            <Card>{children}</Card>
           </Content>
         </Layout>
       </Layout>

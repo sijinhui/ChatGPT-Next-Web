@@ -20,6 +20,37 @@
   ::view-transition-new(root) {
     z-index: 1;
   }
+
+}
+
+@mixin light {
+  //--background: #f60909;
+  --primary: 212 100% 45%;
+  --background-deep: 216 20.11% 95.47%;
+
+  --accent: 240 5% 96%;
+}
+
+@mixin dark {
+  --background: 222.34deg 10.43% 12.27%;
+  --background-deep: 220deg 13.06% 9%;
+  --sidebar: 222.34deg 10.43% 12.27%;
+  --header: 222.34deg 10.43% 12.27%;
+  --border: 240 3.7% 22%;
+
+  --accent: 216 5% 19%;
+
+}
+
+html.light {
+  @include light;
+}
+html.dark {
+  @include dark;
+}
+
+.ant-layout-content {
+  background-color: hsl(var(--background-deep));
 }
 
 
