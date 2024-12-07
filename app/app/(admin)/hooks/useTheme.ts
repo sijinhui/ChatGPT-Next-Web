@@ -10,12 +10,6 @@ const useTheme = (): [
     const storeTheme = window.localStorage.getItem("theme");
     if (storeTheme) setTheme(storeTheme);
   }, []);
-  useEffect(() => {
-    const adminLayout = document.getElementById("admin-layout");
-    if (adminLayout) {
-      adminLayout.classList.toggle("dark", theme === "dark");
-    }
-  }, [theme]); // 当 value 变化时重新执行该 effect
 
   const toggleTheme = (event: React.MouseEvent<HTMLElement>) => {
     const x = event.clientX;
@@ -27,15 +21,11 @@ const useTheme = (): [
 
     // @ts-ignore
     const transition = document.startViewTransition(() => {
-      // const root = document.documentElement;
+      const root = document.documentElement;
 
       setTheme((prevTheme) => {
         const value = prevTheme === "light" ? "dark" : "light";
-        // root.classList.toggle('dark', value === 'dark')
-        // const adminLayout = document.getElementById("admin-layout");
-        // adminLayout?.classList.toggle('dark', value === 'dark')
-        // adminLayout?.classList.remove(prevTheme)
-        // adminLayout?.classList.add(value)
+        root.classList.toggle("dark", value === "dark");
         window.localStorage.setItem("theme", value);
         return value;
       });

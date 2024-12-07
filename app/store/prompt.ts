@@ -163,7 +163,7 @@ export const usePromptStore = createPersistStore(
         return;
       }
 
-      const PROMPT_URL = "./prompts.json";
+      const PROMPT_URL = "/prompts.json";
       // const PROMPT_URL = "https://cos.xiaosi.cc/next/public/prompts.json";
       // const PROMPT_URL = "https://qn.xiaosi.cc/json/chat/prompts.json";
       const GPT_PROMPT_URL =

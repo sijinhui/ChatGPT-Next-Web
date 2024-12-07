@@ -1,5 +1,4 @@
 "use client";
-import "./layout.module.scss";
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
@@ -135,7 +134,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                onClick={(e) => toggleCurrentTheme && toggleCurrentTheme(e)}
+                onClick={(e) => toggleCurrentTheme(e)}
               />
             </Space>
           </Header>

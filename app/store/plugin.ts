@@ -236,7 +236,7 @@ export const usePluginStore = createPersistStore(
         return;
       }
 
-      fetch("./plugins.json")
+      fetch("/plugins.json")
         .then((res) => res.json())
         .then((res) => {
           Promise.all(
