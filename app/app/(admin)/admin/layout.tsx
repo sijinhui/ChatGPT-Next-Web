@@ -73,18 +73,22 @@ function MainLayout({ children }: { children: ReactNode }) {
             ? theme.defaultAlgorithm
             : theme.darkAlgorithm,
         token: {
-          colorBgContainer:
-            currentTheme === "light" ? "#fff" : "hsl(var(--sidebar))",
+          colorBgContainer: "hsl(var(--white))",
+          // colorBgBase:  "hsl(var(--white))",
           // colorPrimary: "#00b96b",
         },
         components: {
           Layout: {
             // siderBg: "red",
-            lightSiderBg: "hsl(var(--sidebar))",
-            headerBg: "hsl(var(--header))",
+            lightSiderBg: "hsl(var(--white))",
+            headerBg: "hsl(var(--white))",
           },
           Table: {
-            // headerBg: "#5c5d61",
+            headerBg: "hsl(var(--accent))",
+            rowHoverBg: "hsl(var(--accent-hover))",
+            bodySortBg: "hsl(var(--accent-hover))",
+            headerSortActiveBg: "hsl(var(--accent-hover))",
+            headerSortHoverBg: "hsl(var(--accent-hover))",
           },
 
           Menu: {
@@ -114,9 +118,7 @@ function MainLayout({ children }: { children: ReactNode }) {
           className="transition-all duration-150"
           width={224}
           style={{
-            borderRight: currentTheme === "dark" ? "1px solid #343A46" : "none",
-            boxShadow:
-              "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+            borderRight: "1px solid hsl(var(--border))",
           }}
         >
           {/*<div className="demo-logo-vertical" />*/}
@@ -126,9 +128,11 @@ function MainLayout({ children }: { children: ReactNode }) {
         <Layout>
           <Header
             style={{
+              height: "50px",
               display: "flex",
               alignItems: "center",
               padding: "0 24px 0 16px",
+              borderBottom: "1px solid hsl(var(--border))",
               // background: currentTheme === "light" ? "#fff" : "#141414",
               justifyContent: "space-between",
             }}

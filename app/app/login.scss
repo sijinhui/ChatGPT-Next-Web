@@ -27,8 +27,11 @@
   //--background: #f60909;
   --primary: 212 100% 45%;
   --background-deep: 216 20.11% 95.47%;
-
+  --border: 240 5.9% 90%;
   --accent: 240 5% 96%;
+  --accent-hover: 200deg 10% 90%;
+  --white: 0 0% 100%;
+  --gray: 0 0% 100%;
 }
 
 @mixin dark {
@@ -39,7 +42,10 @@
   --border: 240 3.7% 22%;
 
   --accent: 216 5% 19%;
+  --accent-hover: 216 5% 24%;
 
+  --white: 222.34deg 10.43% 12.27%;
+  --gray: 0 0% 100%;
 }
 
 html.light {
