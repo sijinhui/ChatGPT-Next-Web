@@ -251,6 +251,10 @@ const calLogMoney = (logData: Partial<CusLogEntry>): number => {
       return 0.2;
     case "o1-preview-all":
       return 0.06;
+    case "o1-all":
+      return 0.1;
+    case "o1-pro-all":
+      return 0.2;
     case "o1-preview-2024-09-12":
       return logToken * 0.0000375;
     case "moonshot-v1-8k":

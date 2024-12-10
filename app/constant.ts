@@ -480,8 +480,8 @@ export const DEFAULT_MODELS = [
     },
   },
   {
-    name: "o1-preview-2024-09-12",
-    describe: "o1备用接口,流式响应,按量计费",
+    name: "o1-all",
+    describe: "o1正式版接口,较贵,$0.1/次",
     available: true,
     sorted: seq++,
     provider: {
@@ -492,8 +492,8 @@ export const DEFAULT_MODELS = [
     },
   },
   {
-    name: "o1-preview-all",
-    describe: "o1官网版,较贵,$0.06 / 次",
+    name: "o1-pro-all",
+    describe: "o1 pro正式版,较贵,$0.2/次",
     available: true,
     sorted: seq++,
     provider: {
