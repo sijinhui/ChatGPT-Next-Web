@@ -7,6 +7,7 @@ import React, {
   useCallback,
   Fragment,
   RefObject,
+  JSX,
 } from "react";
 /* eslint-disable @next/next/no-img-element */
 import SendWhiteIcon from "../icons/send-white.svg";

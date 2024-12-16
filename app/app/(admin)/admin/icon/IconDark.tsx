@@ -1,4 +1,5 @@
-import { memo } from "react";
+import { JSX, memo } from "react";
+// import React from 'react';
 
 export const IconDark = memo<JSX.IntrinsicElements["svg"]>(
   function IconDark(props) {
