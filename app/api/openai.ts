@@ -19,8 +19,11 @@ function getModels(remoteModelRes: OpenAIListModelResponse) {
   if (config.disableGPT4) {
     remoteModelRes.data = remoteModelRes.data.filter(
       (m) =>
-        !(m.id.startsWith("gpt-4") || m.id.startsWith("chatgpt-4o") || m.id.startsWith("o1")) ||
-        m.id.startsWith("gpt-4o-mini"),
+        !(
+          m.id.startsWith("gpt-4") ||
+          m.id.startsWith("chatgpt-4o") ||
+          m.id.startsWith("o1")
+        ) || m.id.startsWith("gpt-4o-mini"),
     );
   }
 
@@ -37,15 +40,17 @@ function getModels(remoteModelRes: OpenAIListModelResponse) {
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
+  const p_params = await params;
+
   // console.log("[OpenAI Route] params ", params);
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 } as any);
   }
 
-  const subpath = params.path.join("/");
+  const subpath = p_params.path.join("/");
 
   if (!ALLOWED_PATH.has(subpath)) {
     console.log("[OpenAI Route] forbidden path ", subpath);

@@ -3,7 +3,6 @@ import { getServerSideConfig } from "@/app/config/server";
 const serverConfig = getServerSideConfig();
 
 async function getRealtimeAccessToken() {
-
   let uri = `https://login.microsoftonline.com/${serverConfig.azureTenantId}/oauth2/token`;
   const body = {
     grant_type: "client_credentials",
@@ -24,7 +23,7 @@ async function getRealtimeAccessToken() {
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
   const access_token_response = await getRealtimeAccessToken();
   const access_token = await access_token_response.json();

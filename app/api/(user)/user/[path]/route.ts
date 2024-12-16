@@ -5,8 +5,9 @@ import { getSession } from "@/lib/auth";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string } },
+  { params }: { params: Promise<{ path: string }> },
 ) {
+  const path = (await params).path;
   // 判断网址和请求方法
   const method = req.method;
   // const url = req.url;
@@ -15,7 +16,7 @@ async function handle(
 
   // 校验仅当前用户支持访问
   const session = await getSession();
-  if (params.path !== session?.user?.id) {
+  if (path !== session?.user?.id) {
     // return NextResponse.json({ error: "无权限" }, { status: 402 });
   }
 
@@ -25,7 +26,7 @@ async function handle(
   if (session?.user?.hasPassword) {
     const user = await prisma.user.findUnique({
       where: {
-        id: params.path,
+        id: path,
       },
     });
     if (
@@ -52,7 +53,7 @@ async function handle(
 
   await prisma.user.update({
     where: {
-      id: params.path,
+      id: path,
     },
     data: {
       password: hashPassword(new_password_d["user[password]"]),

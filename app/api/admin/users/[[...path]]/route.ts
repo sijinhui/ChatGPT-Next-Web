@@ -6,8 +6,9 @@ import UserInclude = Prisma.UserInclude;
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
+  const p_params = await params;
   // 判断网址和请求方法
   const method = req.method;
   // const url = req.url;
@@ -89,11 +90,11 @@ async function handle(
   }
 
   if (method === "DELETE") {
-    if (!params.path) {
+    if (!p_params.path) {
       return NextResponse.json({ error: "未输入用户ID" }, { status: 400 });
     }
     try {
-      const userId = params.path[0];
+      const userId = p_params.path[0];
       const user = await prisma.user.delete({
         where: {
           id: userId,
@@ -109,7 +110,7 @@ async function handle(
 
   if (method === "PUT") {
     try {
-      const userId = params.path[0];
+      const userId = p_params.path[0];
       let new_user_info: Partial<User> = Object.entries(
         await req.json(),
       ).reduce((acc, [key, value]) => {

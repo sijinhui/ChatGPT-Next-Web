@@ -16,10 +16,11 @@ import { handle as proxyHandler } from "../../proxy";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { provider: string; path: string[] } },
+  { params }: { params: Promise<{ provider: string; path: string[] }> },
 ) {
-  const apiPath = `/api/${params.provider}`;
-  console.log(`[${params.provider} Route] params `, params);
+  const provider = (await params).provider;
+  const apiPath = `/api/${provider}`;
+  console.log(`[${provider} Route] params `, params);
   switch (apiPath) {
     case ApiPath.Azure:
       return azureHandler(req, { params });

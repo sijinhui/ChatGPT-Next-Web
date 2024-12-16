@@ -17,7 +17,7 @@ async function getAccessToken() {
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
   // 认证
 

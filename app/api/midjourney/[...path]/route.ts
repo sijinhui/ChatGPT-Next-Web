@@ -11,9 +11,10 @@ const serverConfig = getServerSideConfig();
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  console.log("[Midjourney Route] params ", params);
+  const p_params = await params;
+  console.log("[Midjourney Route] params ", p_params);
 
   const customMjProxyUrl = req.headers.get("midjourney-proxy-url");
   let mjProxyUrl = serverConfig.baseUrl;

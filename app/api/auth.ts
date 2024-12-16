@@ -4,7 +4,7 @@ import md5 from "spark-md5";
 import { ACCESS_CODE_PREFIX, ModelProvider } from "../constant";
 
 export function getIP(req: NextRequest) {
-  let ip = req.headers.get("x-real-ip") ?? req.ip;
+  let ip = req.headers.get("x-real-ip"); // ?? req.ip;
 
   const forwardedFor = req.headers.get("x-forwarded-for");
 

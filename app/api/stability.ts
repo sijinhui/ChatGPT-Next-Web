@@ -5,9 +5,10 @@ import { auth } from "@/app/api/auth";
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  console.log("[Stability] params ", params);
+  const p_params = await params;
+  console.log("[Stability] params ", p_params);
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 } as any);

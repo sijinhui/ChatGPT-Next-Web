@@ -3,9 +3,10 @@ import { getServerSideConfig } from "@/app/config/server";
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  console.log("[Proxy Route] params ", params);
+  const p_params = await params;
+  console.log("[Proxy Route] params ", p_params);
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
@@ -16,7 +17,7 @@ export async function handle(
   req.nextUrl.searchParams.delete("path");
   req.nextUrl.searchParams.delete("provider");
 
-  const subpath = params.path.join("/");
+  const subpath = p_params.path.join("/");
   const fetchUrl = `${req.headers.get(
     "x-base-url",
   )}/${subpath}?${req.nextUrl.searchParams.toString()}`;

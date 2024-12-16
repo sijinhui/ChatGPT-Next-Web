@@ -5,7 +5,7 @@ import { getCurStartEnd } from "@/app/utils/custom";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string } },
+  { params }: { params: Promise<{ path: string }> },
 ) {
   const session = await getSession();
   const user_id = session?.user.id;

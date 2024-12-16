@@ -14,9 +14,10 @@ const serverConfig = getServerSideConfig();
 
 export async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  console.log("[Alibaba Route] params ", params);
+  const p_params = await params;
+  console.log("[Alibaba Route] params ", p_params);
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });

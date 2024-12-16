@@ -2,21 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { action: string; key: string[] } },
+  { params }: { params: Promise<{ action: string; key: string[] }> },
 ) {
+  const p_params = await params;
   const requestUrl = new URL(req.url);
   const endpoint = requestUrl.searchParams.get("endpoint");
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
-  const [...key] = params.key;
+  const [...key] = p_params.key;
   // only allow to request to *.upstash.io
   if (!endpoint || !new URL(endpoint).hostname.endsWith(".upstash.io")) {
     return NextResponse.json(
       {
         error: true,
-        msg: "you are not allowed to request " + params.key.join("/"),
+        msg: "you are not allowed to request " + p_params.key.join("/"),
       },
       {
         status: 403,
@@ -25,12 +26,12 @@ async function handle(
   }
 
   // only allow upstash get and set method
-  if (params.action !== "get" && params.action !== "set") {
-    console.log("[Upstash Route] forbidden action ", params.action);
+  if (p_params.action !== "get" && p_params.action !== "set") {
+    console.log("[Upstash Route] forbidden action ", p_params.action);
     return NextResponse.json(
       {
         error: true,
-        msg: "you are not allowed to request " + params.action,
+        msg: "you are not allowed to request " + p_params.action,
       },
       {
         status: 403,
@@ -38,7 +39,7 @@ async function handle(
     );
   }
 
-  const targetUrl = `${endpoint}/${params.action}/${params.key.join("/")}`;
+  const targetUrl = `${endpoint}/${p_params.action}/${p_params.key.join("/")}`;
 
   const method = req.method;
   const shouldNotHaveBody = ["get", "head"].includes(
