@@ -7,7 +7,7 @@ import { getModelProvider, isModelAvailableInServer } from "../utils/model";
 import { getIP } from "@/app/api/auth";
 import { getSessionName } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { getTokenLength } from "@/lib/utils";
+import { getTokenLength } from "@/lib/tiktoken_util";
 
 import { type LogEntry } from "@prisma/client";
 

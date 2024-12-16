@@ -2,16 +2,17 @@
 // import {getServerSession, type NextAuthOptions, Theme} from "next-auth";
 // import auth from "next-auth";
 import NextAuth from "next-auth";
-import Github from "next-auth/providers/github";
-import Email from "next-auth/providers/email";
+import GitHub from "@auth/core/providers/github"
+// import Email from "@auth/core/providers/nodemailer"
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google"
+
+import Google from "@auth/core/providers/google"
 // import {PrismaAdapter} from "@next-auth/prisma-adapter";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { isEmail, isName } from "@/lib/auth_list";
-import {createTransport} from "nodemailer";
+import { createTransport } from "nodemailer";
 import { comparePassword } from "@/lib/utils";
 // import { randomBytes } from "crypto";
 import { type Session } from "next-auth";
@@ -28,7 +29,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     useSecureCookies: SECURE_COOKIES,
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
-        Github({
+        GitHub({
             clientId: process.env.AUTH_GITHUB_ID ?? "",
             clientSecret: process.env.AUTH_GITHUB_SECRET ?? "",
             profile(profile) {
@@ -45,50 +46,50 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             // },
             allowDangerousEmailAccountLinking: true,
         }),
-        Email({
-          server: {
-            host: process.env.EMAIL_SERVER_HOST,
-            port: parseInt(process.env.EMAIL_SERVER_PORT ?? "0"),
-            auth: {
-              user: process.env.EMAIL_SERVER_USER,
-              pass: process.env.EMAIL_SERVER_PASSWORD,
-            },
-          },
-          from: process.env.EMAIL_FROM,
-          maxAge: 5 * 60,
-          // async generateVerificationToken() {
-          //     return randomBytes(4).toString("hex").substring(0, 4);
-          // },
-          async sendVerificationRequest({
-                                    identifier: email,
-                                    url,
-                                    token,
-                                    provider: { server, from, name },
-                                    theme,
-                                  }) {
-
-              // const token = randomInt(1000, 10000);
-
-              verificationTokens.set(email, token);
-              /* your function */
-              const { host  } = new URL(url)
-              // console.log('send mail,-----', email, host, token )
-
-              const transport = createTransport(server)
-              const result = await transport.sendMail({
-                  to: email,
-                  from: from,
-                  subject: `Your sign-in code for ${host}`,
-                  text: email_text({url, token, host}),
-                  html: email_html({ url, token, host }),
-              })
-            const failed = result.rejected.concat(result.pending).filter(Boolean)
-            console.log('[result],', result)
-            if (failed.length) {
-              throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
-            }
-          },
-        }),
+        // Email({
+        //   server: {
+        //     host: process.env.EMAIL_SERVER_HOST,
+        //     port: parseInt(process.env.EMAIL_SERVER_PORT ?? "0"),
+        //     auth: {
+        //       user: process.env.EMAIL_SERVER_USER,
+        //       pass: process.env.EMAIL_SERVER_PASSWORD,
+        //     },
+        //   },
+        //   from: process.env.EMAIL_FROM,
+        //   maxAge: 5 * 60,
+        //   // async generateVerificationToken() {
+        //   //     return randomBytes(4).toString("hex").substring(0, 4);
+        //   // },
+        //   async sendVerificationRequest({
+        //                             identifier: email,
+        //                             url,
+        //                             token,
+        //                             provider: { server, from, name },
+        //                             theme,
+        //                           }) {
+        //
+        //       // const token = randomInt(1000, 10000);
+        //
+        //       verificationTokens.set(email, token);
+        //       /* your function */
+        //       const { host  } = new URL(url)
+        //       // console.log('send mail,-----', email, host, token )
+        //
+        //       const transport = createTransport(server)
+        //       const result = await transport.sendMail({
+        //           to: email,
+        //           from: from,
+        //           subject: `Your sign-in code for ${host}`,
+        //           text: email_text({url, token, host}),
+        //           html: email_html({ url, token, host }),
+        //       })
+        //     const failed = result.rejected.concat(result.pending).filter(Boolean)
+        //     console.log('[result],', result)
+        //     if (failed.length) {
+        //       throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
+        //     }
+        //   },
+        // }),
         Credentials({
             // The name to display on the sign in form (e.g. "Sign in with...")
             name: "Credentials",

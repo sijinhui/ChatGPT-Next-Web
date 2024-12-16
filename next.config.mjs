@@ -86,9 +86,10 @@ const nextConfig = {
       { hostname: "illustrations.popsy.co" },
     ]
   },
+  serverExternalPackages: ["tiktoken"],
   experimental: {
     // forceSwcTransforms: true,
-    serverComponentsExternalPackages: ["tiktoken"],
+    // serverComponentsExternalPackages: ["tiktoken"],
     turbo: {
       rules: {
         '*.svg': {

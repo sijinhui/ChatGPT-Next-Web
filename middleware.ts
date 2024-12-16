@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+// import { getToken } from "next-auth/jwt";
 import { VerifiedUser, VerifiedAdminUser } from "@/lib/auth_client";
 // export { auth as middleware } from "@/lib/auth"
+import { auth } from "@/lib/auth"
 
-export default async function middleware(req: NextRequest) {
+export default auth((req) => {
     const url = req.nextUrl;
     const searchParams = req.nextUrl.searchParams.toString();
     const path = `${url.pathname}${
@@ -15,48 +16,46 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL(path.replace('/app', ''), req.url), 301);
     }
 
-    const session = await getToken({ req });
-    const isUser = await VerifiedUser(session);
-    const isAdminUser = await VerifiedAdminUser(session);
-    // console.log('----session', session, '---isUser', isUser, '---isAdmin', isAdminUser)
-    // 管理员页面的api接口还是要认证的
-    if (path.startsWith('/api/admin/')) {
-        // 需要确认是管理员
-        if (!isAdminUser) return NextResponse.json({error: '无管理员授权'}, { status: 401 });
-    }
-    // 不是用户且页面不是登录页
-    if (!isUser && !path.startsWith("/login") ) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
-    // 如果登录了且页面是登录页面
-    if (isUser && path.startsWith("/login")) {
-        return NextResponse.redirect(new URL("/", req.url))
-    }
+    // const session = await getToken({ req });
 
-    if (path.startsWith('/login')) {
-        return NextResponse.rewrite(
-            new URL(`/app${path}`, req.url),
-        );
-    }
-    if (path.startsWith("/admin")) {
-        return NextResponse.rewrite(
-            new URL(`/app${path}`, req.url),
-        );
-    }
-    // 测试用，回头删了
-    if (path.startsWith("/azureVoice")) {
-      return NextResponse.rewrite(
-        new URL(`/app${path}`, req.url),
-      );
-    }
-
-    // if (VerifiedNeedSetPassword(path, session)) {
-    //   console.log('-0-0-- 需要修改密码', )
-    //   // return NextResponse.redirect(new URL("/login/set-password", req.url))
+    console.log('-----------------------', req.auth)
+    return NextResponse.next();
+    // const isUser = await VerifiedUser(session);
+    // const isAdminUser = await VerifiedAdminUser(session);
+    // // console.log('----session', session, '---isUser', isUser, '---isAdmin', isAdminUser)
+    // // 管理员页面的api接口还是要认证的
+    // if (path.startsWith('/api/admin/')) {
+    //     // 需要确认是管理员
+    //     if (!isAdminUser) return NextResponse.json({error: '无管理员授权'}, { status: 401 });
+    // }
+    // // 不是用户且页面不是登录页
+    // if (!isUser && !path.startsWith("/login") ) {
+    //   return NextResponse.redirect(new URL("/login", req.url));
+    // }
+    // // 如果登录了且页面是登录页面
+    // if (isUser && path.startsWith("/login")) {
+    //     return NextResponse.redirect(new URL("/", req.url))
+    // }
+    //
+    // if (path.startsWith('/login')) {
+    //     return NextResponse.rewrite(
+    //         new URL(`/app${path}`, req.url),
+    //     );
+    // }
+    // if (path.startsWith("/admin")) {
+    //     return NextResponse.rewrite(
+    //         new URL(`/app${path}`, req.url),
+    //     );
+    // }
+    // // 测试用，回头删了
+    // if (path.startsWith("/azureVoice")) {
+    //   return NextResponse.rewrite(
+    //     new URL(`/app${path}`, req.url),
+    //   );
     // }
 
     return NextResponse.next()
-}
+})
 
 
 export const config = {

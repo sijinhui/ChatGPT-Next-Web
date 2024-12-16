@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getTokenLength } from "@/lib/utils";
+import { getTokenLength } from "@/lib/tiktoken_util";
 import { getSession } from "@/lib/auth";
 import { getCurStartEnd } from "@/app/utils/custom";
 
