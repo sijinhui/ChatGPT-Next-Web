@@ -29,7 +29,7 @@ export default function VoiceInput({
   const [voiceInputText, setVoiceInputText] = useState("");
   const [voiceInputLoading, setVoiceInputLoading] = useState(false);
   // const recognition = useRef(null);
-  const recognizer = useRef<ms_audio_sdk.SpeechRecognizer | undefined>();
+  const recognizer = useRef<ms_audio_sdk.SpeechRecognizer | undefined>(null);
   const [tempUserInput, setTempUserInput] = useState("");
   const [accessToken, setAccessToken] = useState("unknown");
 
