@@ -22,7 +22,7 @@ console.log("[Next] build with chunk: ", !disableChunk);
 const nextConfig = {
   webpack(config) {
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg$/i,
       use: ["@svgr/webpack"],
     });
 
@@ -56,7 +56,7 @@ const nextConfig = {
       child_process: false,
     };
 
-    // tiktoken
+    //
     config.experiments = {
       asyncWebAssembly: true,
       layers: true,
@@ -89,6 +89,14 @@ const nextConfig = {
   experimental: {
     // forceSwcTransforms: true,
     serverComponentsExternalPackages: ["tiktoken"],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js'
+        }
+      },
+    }
     // 加速跟踪依赖项
     // turbotrace: {
     //   logDetail: true,

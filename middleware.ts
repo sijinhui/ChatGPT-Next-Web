@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { VerifiedUser, VerifiedAdminUser } from "@/lib/auth_client";
+// export { auth as middleware } from "@/lib/auth"
 
 export default async function middleware(req: NextRequest) {
     const url = req.nextUrl;

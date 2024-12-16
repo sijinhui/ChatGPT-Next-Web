@@ -1,15 +1,19 @@
-import {getServerSession, type NextAuthOptions, Theme} from "next-auth";
+
+// import {getServerSession, type NextAuthOptions, Theme} from "next-auth";
+// import auth from "next-auth";
+import NextAuth from "next-auth";
 import Github from "next-auth/providers/github";
 import Email from "next-auth/providers/email";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google"
-import {PrismaAdapter} from "@next-auth/prisma-adapter";
+// import {PrismaAdapter} from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { isEmail, isName } from "@/lib/auth_list";
 import {createTransport} from "nodemailer";
 import { comparePassword } from "@/lib/utils";
-import { randomBytes } from "crypto";
+// import { randomBytes } from "crypto";
 import { type Session } from "next-auth";
 import { type JWT } from "next-auth/jwt";
 
@@ -17,8 +21,8 @@ const SECURE_COOKIES:boolean = !!process.env.SECURE_COOKIES;
 
 let verificationTokens = new Map();
 
-
-export const authOptions: NextAuthOptions = {
+export const { auth, handlers, signIn, signOut } = NextAuth({
+// export const authOptions: NextAuthOptions = {
     // debug: true,
     debug: !SECURE_COOKIES,
     useSecureCookies: SECURE_COOKIES,
@@ -36,9 +40,9 @@ export const authOptions: NextAuthOptions = {
                     image: profile.avatar_url,
                 };
             },
-            httpOptions: {
-                timeout: 50000,
-            },
+            // httpOptions: {
+            //     timeout: 50000,
+            // },
             allowDangerousEmailAccountLinking: true,
         }),
         Email({
@@ -52,9 +56,9 @@ export const authOptions: NextAuthOptions = {
           },
           from: process.env.EMAIL_FROM,
           maxAge: 5 * 60,
-          async generateVerificationToken() {
-              return randomBytes(4).toString("hex").substring(0, 4);
-          },
+          // async generateVerificationToken() {
+          //     return randomBytes(4).toString("hex").substring(0, 4);
+          // },
           async sendVerificationRequest({
                                     identifier: email,
                                     url,
@@ -76,7 +80,7 @@ export const authOptions: NextAuthOptions = {
                   from: from,
                   subject: `Your sign-in code for ${host}`,
                   text: email_text({url, token, host}),
-                  html: email_html({ url, token, host, theme }),
+                  html: email_html({ url, token, host }),
               })
             const failed = result.rejected.concat(result.pending).filter(Boolean)
             console.log('[result],', result)
@@ -205,19 +209,30 @@ export const authOptions: NextAuthOptions = {
             return baseUrl;
         }
     },
-};
+});
+
+
 
 export function getSession() {
     // console.log('in........',)
-    return getServerSession(authOptions) as Promise<{
-        user: {
-            id: string;
-            name: string;
-            username: string;
-            email: string;
-            image: string;
-        };
+    return auth() as Promise<{
+            user: {
+                id: string;
+                name: string;
+                username: string;
+                email: string;
+                image: string;
+            };
     } | null>;
+    // return getServerSession(authOptions) as Promise<{
+    //     user: {
+    //         id: string;
+    //         name: string;
+    //         username: string;
+    //         email: string;
+    //         image: string;
+    //     };
+    // } | null>;
 }
 
 export async function getSessionName() {
@@ -347,8 +362,8 @@ function email_text(params: { url: string, token: number|string, host: string}) 
 }
 
 
-function email_html(params: { url: string, token: number|string, host: string, theme: Theme }) {
-  const { url, token, host, theme } = params
+function email_html(params: { url: string, token: number|string, host: string, }) {
+  const { url, token, host, } = params
 
   const escapedHost = host.replace(/\./g, "&#8203;.")
   const escapedUrl = url.replace(/\./g, "&#8203;.")
