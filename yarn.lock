@@ -3680,6 +3680,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sijinhui/rc-queue-anim@github:sijinhui/queue-anim#v2.0.2":
+  version: 2.0.2
+  resolution: "@sijinhui/rc-queue-anim@https://github.com/sijinhui/queue-anim.git#commit=7903aec0c29adba1ffb20a4dec58f6b27be1626d"
+  dependencies:
+    "@babel/runtime": "npm:^7.11.1"
+    tween-one: "npm:^1.0.52"
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: 10c0/493bbc7321c1d3eb30810a991ad6041278b68ccc7faf66343368bf1d198dc80ab8d640ccc5b53456f734c5de262c962123b37eb2b45c2aaba7f75ab18dac7d63
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.27.8":
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
@@ -11937,6 +11950,7 @@ __metadata:
     "@hello-pangea/dnd": "npm:^16.5.0"
     "@next/third-parties": "npm:15.1.1-canary.6"
     "@prisma/client": "npm:^6.0.0"
+    "@sijinhui/rc-queue-anim": "github:sijinhui/queue-anim#v2.0.2"
     "@svgr/webpack": "npm:^8.1.0"
     "@tauri-apps/api": "npm:^1.6.0"
     "@tauri-apps/cli": "npm:1.6.0"
@@ -11996,7 +12010,7 @@ __metadata:
     prettier: "npm:^3.2.4"
     prettier-plugin-tailwindcss: "npm:0.6.5"
     prisma: "npm:^6.0.0"
-    rc-queue-anim: "npm:^2.0.0"
+    rc-tween-one: "npm:^3.0.6"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
     react-highlight-words: "npm:^0.20.0"
@@ -13290,19 +13304,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-queue-anim@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "rc-queue-anim@npm:2.0.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.11.1"
-    tween-one: "npm:^1.0.52"
-  peerDependencies:
-    react: ">=16.9.0"
-    react-dom: ">=16.9.0"
-  checksum: 10c0/bcb72a4420e517d3b5352b23805b9a3fd92a4faf7bac7dbc83c71e9470d406f161f9753920bdc6c5088457c4921256e7e81bb9a156aed020687e57ade6a51d72
-  languageName: node
-  linkType: hard
-
 "rc-rate@npm:~2.13.0":
   version: 2.13.0
   resolution: "rc-rate@npm:2.13.0"
@@ -13516,6 +13517,20 @@ __metadata:
     react: "*"
     react-dom: "*"
   checksum: 10c0/07cb1126910739060170be6348835bb39cfdf0ddf6fffbbfda2eca49cadee9233fd2031a0cabce07e4874df29ccdc1168b47695dec5e03ecfe502c0fa49712a9
+  languageName: node
+  linkType: hard
+
+"rc-tween-one@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "rc-tween-one@npm:3.0.6"
+  dependencies:
+    "@babel/runtime": "npm:^7.11.1"
+    style-utils: "npm:^0.3.4"
+    tween-one: "npm:^1.0.50"
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: 10c0/728f5c0df5a77c113abede9f24d4f481d729113a0b16e46f50d6bb983f00dcfc91456504e95d7057eda94795abe5661261545376938bb75ed939ce2f7e63ab48
   languageName: node
   linkType: hard
 
@@ -14987,7 +15002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-utils@npm:^0.3.6":
+"style-utils@npm:^0.3.4, style-utils@npm:^0.3.6":
   version: 0.3.8
   resolution: "style-utils@npm:0.3.8"
   checksum: 10c0/82bbfb3c2aacb81bf0fa13787d4b152569740a11daa735c0b5007991e215c9991c4d88e0b8c25cb39df28118b100888003e6e70d878d2c34ca237ae7fae521a8
@@ -15552,7 +15567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tween-one@npm:^1.0.52":
+"tween-one@npm:^1.0.50, tween-one@npm:^1.0.52":
   version: 1.2.7
   resolution: "tween-one@npm:1.2.7"
   dependencies:
