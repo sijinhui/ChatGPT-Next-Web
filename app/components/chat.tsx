@@ -131,6 +131,9 @@ import { getModelProvider } from "../utils/model";
 import { RealtimeChat } from "@/app/components/realtime-chat";
 import clsx from "clsx";
 
+// anime
+import anime from "animejs";
+
 const localStorage = safeLocalStorage();
 
 const ttsPlayer = createTTSPlayer();
@@ -449,6 +452,17 @@ function useScrollToBottom(
   // for auto-scroll
 
   const [autoScroll, setAutoScroll] = useState(true);
+  function scrollToBottomWithAnime() {
+    const dom = scrollRef.current;
+    if (dom) {
+      anime({
+        targets: dom,
+        scrollTop: dom.scrollHeight - dom.clientHeight,
+        // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
+        easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
+      });
+    }
+  }
   function scrollDomToBottom() {
     const dom = scrollRef.current;
     if (dom) {
@@ -467,7 +481,8 @@ function useScrollToBottom(
   // auto scroll
   useEffect(() => {
     if (autoScroll && !detach) {
-      scrollDomToBottom();
+      // scrollDomToBottom();
+      scrollToBottomWithAnime();
     }
     // 自动滚动一直有bug，直接强制修改了
     // if (autoScroll) {

@@ -21,7 +21,7 @@ import { useMobileScreen } from "../utils";
 import clsx from "clsx";
 
 // motion
-import QueueAnim from "rc-queue-anim";
+import QueueAnim from "@sijinhui/rc-queue-anim";
 
 function ChatItem(props: {
   onClick?: () => void;
