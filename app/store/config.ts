@@ -68,7 +68,7 @@ export const DEFAULT_CONFIG = {
   dontUseModel: DISABLE_MODELS,
 
   modelConfig: {
-    model: "gpt-4o-mini" as ModelType,
+    model: "gpt-4o" as ModelType,
     providerName: "Azure" as ServiceProvider,
     temperature: 0.8,
     top_p: 1,
@@ -201,7 +201,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.353,
+    version: 4.354,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -262,8 +262,9 @@ export const useAppConfig = createPersistStore(
           DEFAULT_CONFIG.modelConfig.compressProviderName;
       }
 
-      if (version < 4.353) {
+      if (version < 4.354) {
         state.models = DEFAULT_CONFIG.models;
+        state.modelConfig.model = DEFAULT_CONFIG.modelConfig.model;
       }
 
       if (version < 4.34) {
