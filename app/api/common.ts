@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSideConfig } from "../config/server";
-import { OPENAI_BASE_URL, ServiceProvider } from "../constant";
+import { ModelProvider, OPENAI_BASE_URL, ServiceProvider } from "../constant";
 import { cloudflareAIGatewayUrl } from "../utils/cloudflare";
 import { getModelProvider, isModelAvailableInServer } from "../utils/model";
 
@@ -13,6 +13,7 @@ import { type LogEntry } from "@prisma/client";
 
 interface CusLogEntry extends LogEntry {
   logEntry?: string;
+  logResponseEntry?: string;
 }
 
 const serverConfig = getServerSideConfig();
@@ -108,7 +109,7 @@ export async function requestOpenai(
 
   const fetchUrl = cloudflareAIGatewayUrl(`${baseUrl}/${path}`);
   console.log("fetchUrl", fetchUrl);
-  const jsonBody = await req.json();
+  // const jsonBody = await req.json();
   const fetchOptions: RequestInit = {
     headers: {
       "Content-Type": "application/json",
@@ -119,7 +120,7 @@ export async function requestOpenai(
       }),
     },
     method: req.method,
-    body: JSON.stringify(jsonBody),
+    body: req.body,
     // to fix #2485: https://stackoverflow.com/questions/55920957/cloudflare-worker-typeerror-one-time-use-body
     redirect: "manual",
     // @ts-ignore
@@ -128,7 +129,7 @@ export async function requestOpenai(
   };
 
   // console.log('4444444444444444', fetchUrl, req.body)
-  requestLog(req, jsonBody, path);
+  // requestLog(req, jsonBody, path);
   // #1815 try to refuse gpt4 request
   if (serverConfig.customModels && req.body) {
     try {
@@ -211,6 +212,8 @@ export async function requestLog(
   req: NextRequest,
   jsonBody: any,
   url_path: string,
+  responseStatus: boolean,
+  modelProvider: ModelProvider,
 ) {
   // LOG
   try {
@@ -226,7 +229,9 @@ export async function requestLog(
       ip: ip,
       path: url_path,
       logEntry: JSON.stringify(jsonBody),
-      model: url_path.startsWith("mj/") ? "midjourney" : jsonBody?.model, // 后面尝试请求是添加到参数
+      // logResponseEntry: JSON.stringify(jsonResponseBody),
+      responseStatus: responseStatus,
+      model: `${url_path.startsWith("mj/") ? "midjourney" : jsonBody?.model}@${modelProvider}`, // 后面尝试请求是添加到参数
       userName: name,
       userID: session?.user?.id,
     };
@@ -282,7 +287,7 @@ export async function saveLogs(logData: Partial<CusLogEntry>) {
           getTokenLength(matchAllMessage.join(" ")) +
           matchAllMessage.length * 3;
       }
-      console.log("[debug log]----", logData);
+      // console.log("[debug log]----", logData);
       delete logData?.logEntry;
     }
     if (logData?.model == "midjourney") {
@@ -292,8 +297,28 @@ export async function saveLogs(logData: Partial<CusLogEntry>) {
     console.log("[LOG]", "logToken", e);
     logData.logToken = 0;
   }
+  try {
+    if (logData?.logResponseEntry) {
+      const regex_message = /(?<="content":")(.*?)(?="}[,\]])/g;
+      const matchAllMessage = logData.logResponseEntry.match(regex_message);
+      // console.log(matchAllMessage, "=====");
+      if (matchAllMessage && matchAllMessage.length > 0) {
+        logData.logResponseToken =
+          getTokenLength(matchAllMessage.join(" ")) + matchAllMessage.length;
+      }
+      // console.log("[debug log]----", logData);
+      delete logData?.logResponseEntry;
+    }
+  } catch (e) {
+    // console.log("[LOG]", "logToken", e);
+    logData.logResponseToken = 0;
+  }
 
   logData.logMoney = calLogMoney(logData);
+  // 如果请求失败，这些都归零
+  if (logData.responseStatus === false) {
+    logData.logToken = logData.logResponseToken = logData.logMoney = 0;
+  }
   console.log("-----------------", logData);
   try {
     const result = await prisma.logEntry.create({
