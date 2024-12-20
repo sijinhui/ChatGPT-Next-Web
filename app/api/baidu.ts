@@ -1,7 +1,7 @@
 import { getServerSideConfig } from "@/app/config/server";
 import {
-  BAIDU_BASE_URL,
   ApiPath,
+  BAIDU_BASE_URL,
   ModelProvider,
   ServiceProvider,
 } from "@/app/constant";
@@ -43,11 +43,10 @@ export async function handle(
   }
 
   try {
-    const response = await request(req);
-    return response;
+    return await request(req);
   } catch (e) {
     console.error("[Baidu] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }
 

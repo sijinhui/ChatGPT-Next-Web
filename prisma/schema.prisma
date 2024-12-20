@@ -74,18 +74,20 @@ model Session {
 }
 
 model LogEntry {
-  id        Int      @id @default(autoincrement())
-  ip        String?  @db.VarChar(50) // IPV6 long 39
-  path      String?  @db.Text
-  model     String?  @db.VarChar(50)
-  userName  String?  @db.VarChar(50)
-  userID    String?
-  createdAt DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  ip               String?  @db.VarChar(50) // IPV6 long 39
+  path             String?  @db.Text
+  model            String?  @db.VarChar(50)
+  userName         String?  @db.VarChar(50)
+  userID           String?
+  createdAt        DateTime @default(now())
   // logEntry  String?  @db.Text
-  logToken  Int?     @default(0)
+  logToken         Int?     @default(0)
+  logResponseToken Int?     @default(0)
+  responseStatus   Boolean? @default(true)
   // 对应费用
-  logMoney  Float?   @default(0.0) @db.Float
-  user      User?    @relation(fields: [userID], references: [id], onDelete: SetNull)
+  logMoney         Float?   @default(0.0) @db.Float
+  user             User?    @relation(fields: [userID], references: [id], onDelete: SetNull)
 }
 
 model VerificationToken {

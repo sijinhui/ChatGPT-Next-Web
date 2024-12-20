@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/api/auth";
 import { ModelProvider } from "@/app/constant";
-import { requestLog } from "@/app/api/common";
 import { getServerSideConfig } from "@/app/config/server";
 
 // const BASE_URL = process.env.MIDJOURNEY_PROXY_URL ?? null;
@@ -36,14 +35,14 @@ async function handle(
       },
     );
   }
-  let cloneBody, jsonBody;
-
-  try {
-    cloneBody = (await req.text()) as any;
-    jsonBody = JSON.parse(cloneBody) as { model?: string };
-  } catch (e) {
-    jsonBody = {};
-  }
+  // let cloneBody, jsonBody;
+  //
+  // try {
+  //   cloneBody = (await req.text()) as any;
+  //   jsonBody = JSON.parse(cloneBody) as { model?: string };
+  // } catch (e) {
+  //   jsonBody = {};
+  // }
 
   const authResult = auth(req, ModelProvider.Qwen);
   if (authResult.error) {
@@ -57,9 +56,9 @@ async function handle(
     "",
   );
 
-  if (reqPath.startsWith("mj/submit/")) {
-    await requestLog(req, jsonBody, reqPath);
-  }
+  // if (reqPath.startsWith("mj/submit/")) {
+  //   await requestLog(req, jsonBody, reqPath);
+  // }
 
   let fetchUrl = `${mjProxyUrl}/${reqPath}`;
 
@@ -78,7 +77,7 @@ async function handle(
     },
     cache: "no-store",
     method: req.method,
-    body: cloneBody == "" ? null : cloneBody,
+    body: req.body,
     signal: controller.signal,
     //@ts-ignore
     // duplex: "half",

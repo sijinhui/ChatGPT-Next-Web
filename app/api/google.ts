@@ -41,16 +41,15 @@ export async function handle(
     );
   }
   try {
-    const response = await request(req, apiKey);
-    return response;
+    return await request(req, apiKey);
   } catch (e) {
     console.error("[Google] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }
 
-export const GET = handle;
-export const POST = handle;
+// export const GET = handle;
+// export const POST = handle;
 
 export const runtime = "edge";
 export const preferredRegion = [

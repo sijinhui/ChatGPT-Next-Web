@@ -452,37 +452,37 @@ function useScrollToBottom(
   // for auto-scroll
 
   const [autoScroll, setAutoScroll] = useState(true);
-  function scrollToBottomWithAnime() {
+  function scrollDomToBottom() {
     const dom = scrollRef.current;
     if (dom) {
       anime({
         targets: dom,
-        scrollTop: dom.scrollHeight - dom.clientHeight,
+        scrollTop: dom.scrollHeight,
         // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
         easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
+        delay: 300,
       });
     }
   }
-  function scrollDomToBottom() {
-    const dom = scrollRef.current;
-    if (dom) {
-      requestAnimationFrame(() => {
-        setAutoScroll(true);
-        // dom.scrollTo(0, dom.scrollHeight);
-        // 丝滑一点
-        dom.scrollTo({
-          top: dom.scrollHeight,
-          behavior: "smooth",
-        });
-      });
-    }
-  }
+  // function scrollDomToBottom() {
+  //   const dom = scrollRef.current;
+  //   if (dom) {
+  //     requestAnimationFrame(() => {
+  //       setAutoScroll(true);
+  //       // dom.scrollTo(0, dom.scrollHeight);
+  //       // 丝滑一点
+  //       dom.scrollTo({
+  //         top: dom.scrollHeight,
+  //         behavior: "smooth",
+  //       });
+  //     });
+  //   }
+  // }
 
   // auto scroll
   useEffect(() => {
     if (autoScroll && !detach) {
-      // scrollDomToBottom();
-      scrollToBottomWithAnime();
+      scrollDomToBottom();
     }
     // 自动滚动一直有bug，直接强制修改了
     // if (autoScroll) {
@@ -1019,6 +1019,7 @@ function _Chat() {
       scrollRef.current.getBoundingClientRect().top;
     // leave some space for user question
     return topDistance < 100;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollRef?.current?.scrollHeight]);
 
   const isTyping = userInput !== "";
@@ -1028,6 +1029,7 @@ function _Chat() {
   const { setAutoScroll, scrollDomToBottom } = useScrollToBottom(
     scrollRef,
     (isScrolledToBottom || isAttachWithTop) && !isTyping,
+    // (isScrolledToBottom) && !isTyping,
   );
   const [hitBottom, setHitBottom] = useState(true);
   const isMobileScreen = useMobileScreen();

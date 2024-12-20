@@ -1,5 +1,5 @@
-import { ApiPath } from "@/app/constant";
-import { NextRequest } from "next/server";
+import { ApiPath, ModelProvider } from "@/app/constant";
+import { NextRequest, NextResponse } from "next/server";
 import { handle as openaiHandler } from "../../openai";
 import { handle as azureHandler } from "../../azure";
 import { handle as googleHandler } from "../../google";
@@ -13,6 +13,7 @@ import { handle as iflytekHandler } from "../../iflytek";
 import { handle as xaiHandler } from "../../xai";
 import { handle as chatglmHandler } from "../../glm";
 import { handle as proxyHandler } from "../../proxy";
+import { requestLog } from "@/app/api/common";
 
 async function handle(
   req: NextRequest,
@@ -20,35 +21,72 @@ async function handle(
 ) {
   const apiPath = `/api/${params.provider}`;
   console.log(`[${params.provider} Route] params `, params);
+  const reqClone = req.clone();
+  // 从克隆的请求中读取请求体数据
+  let reqData = {};
+  try {
+    reqData = await reqClone.json(); // 假设请求体是 JSON 格式
+  } catch (error) {}
+
+  let r: Promise<
+    NextResponse<{ body: string }> | NextResponse<{ error: string }> | Response
+  >;
   switch (apiPath) {
     case ApiPath.Azure:
-      return azureHandler(req, { params });
+      r = azureHandler(req, { params });
+      break;
     case ApiPath.Google:
-      return googleHandler(req, { params });
+      r = googleHandler(req, { params });
+      break;
     case ApiPath.Anthropic:
-      return anthropicHandler(req, { params });
+      r = anthropicHandler(req, { params });
+      break;
     case ApiPath.Baidu:
-      return baiduHandler(req, { params });
+      r = baiduHandler(req, { params });
+      break;
     case ApiPath.ByteDance:
-      return bytedanceHandler(req, { params });
+      r = bytedanceHandler(req, { params });
+      break;
     case ApiPath.Alibaba:
-      return alibabaHandler(req, { params });
+      r = alibabaHandler(req, { params });
+      break;
     // case ApiPath.Tencent: using "/api/tencent"
     case ApiPath.Moonshot:
-      return moonshotHandler(req, { params });
+      r = moonshotHandler(req, { params });
+      break;
     case ApiPath.Stability:
-      return stabilityHandler(req, { params });
+      r = stabilityHandler(req, { params });
+      break;
     case ApiPath.Iflytek:
-      return iflytekHandler(req, { params });
+      r = iflytekHandler(req, { params });
+      break;
     case ApiPath.XAI:
-      return xaiHandler(req, { params });
+      r = xaiHandler(req, { params });
+      break;
     case ApiPath.ChatGLM:
-      return chatglmHandler(req, { params });
+      r = chatglmHandler(req, { params });
+      break;
     case ApiPath.OpenAI:
-      return openaiHandler(req, { params });
+      r = openaiHandler(req, { params });
+      break;
     default:
-      return proxyHandler(req, { params });
+      r = proxyHandler(req, { params });
   }
+
+  // 当 r 解决后执行回调
+  r.then((response) => {
+    // 处理请求数据
+    const url = req.nextUrl;
+    requestLog(
+      req,
+      reqData,
+      url.pathname,
+      response.ok,
+      params.provider as ModelProvider,
+    );
+  });
+
+  return r;
 }
 
 export const GET = handle;

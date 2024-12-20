@@ -29,7 +29,7 @@ import React, {
 } from "react";
 import { IconButton } from "./button";
 import clsx from "clsx";
-import { List as AntList, Row, Col, Tag } from "antd";
+import { List as AntList, Row, Col, Tag, Progress } from "antd";
 import { OpenAIOutlined } from "@ant-design/icons";
 // 自定义图标
 import Icon from "@ant-design/icons";
@@ -612,8 +612,6 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
   onClose?: () => void;
   multiple?: boolean;
 }) {
-  // console.log("-----", props);
-
   const getCheckCardAvatar = (value: string): React.ReactNode => {
     if (value.startsWith("gemini")) {
       return <Icon component={GoogleIcon} />;
@@ -637,7 +635,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     return <></>;
   };
   const ifHot = (value: string): React.ReactNode => {
-    console.log("-------", value);
+    // console.log("-------", value);
     const hotModels = ["gpt-4o@Azure", "o1-preview@Azure"];
     if (hotModels.includes(value)) {
       return <Tag color="red">Hot</Tag>;
@@ -652,6 +650,60 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
       props.onClose?.();
     }
   };
+
+  const getProgressColor = (percent: number | undefined): string => {
+    if (percent === undefined) {
+      return "gray";
+    }
+    if (percent < 34) {
+      return "red";
+    }
+    if (percent < 67) {
+      return "goldenrod";
+    }
+    return "green";
+  };
+  const getProgressText = (modelName: string | undefined): string => {
+    const percent = getProgressValue(modelName);
+    if (percent !== undefined) return `${percent}%`;
+    return "load";
+  };
+  const getProgressValue = (
+    modelName: string | undefined,
+  ): number | undefined => {
+    if (modelName && modelName in modelAvailable) {
+      return modelAvailable[modelName].availability * 100;
+    }
+    return undefined;
+  };
+
+  const [modelAvailable, setModelAvailable] = React.useState<
+    Record<string, { availability: number }>
+  >({});
+
+  useEffect(() => {
+    // 展开时获取模型的可用率，但是不要阻塞
+    const fetchData = async () => {
+      try {
+        fetch("/api/logs/modelAvailable", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            models: props.items.map((item) => item.value),
+          }),
+        })
+          .then((response) => response.json())
+          .then((results) => {
+            setModelAvailable(results.results);
+            // console.log("4444444444", results);
+          });
+      } catch (err) {}
+    };
+    fetchData();
+  }, [props.items]);
 
   return (
     <div
@@ -695,6 +747,19 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
                       avatar={getCheckCardAvatar(item.value?.toString() ?? "")}
                       style={{ marginBottom: "8px", width: "250px" }}
                     />
+                    <div className={styles["model-select-tip-div"]}>
+                      <Progress
+                        steps={3}
+                        percent={100}
+                        size="small"
+                        format={() => getProgressText(item.value as string)}
+                        strokeColor={getProgressColor(
+                          getProgressValue(item.value as string),
+                        )}
+                        percentPosition={{ align: "start", type: "outer" }}
+                      />
+                      {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}
+                    </div>
                   </Col>
                 );
               })}
