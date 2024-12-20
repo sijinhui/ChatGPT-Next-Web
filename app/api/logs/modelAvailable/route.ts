@@ -14,7 +14,7 @@ async function handle(req: NextRequest) {
   return NextResponse.json({ results: results });
 }
 
-export async function fetchRecentRecords(models: string[]) {
+async function fetchRecentRecords(models: string[]) {
   const now = new Date();
   const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
@@ -81,5 +81,5 @@ export async function fetchRecentRecords(models: string[]) {
   return results;
 }
 
-export const GET = handle;
+// export const GET = handle;
 export const POST = handle;
