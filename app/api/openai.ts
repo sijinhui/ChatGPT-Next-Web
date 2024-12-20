@@ -19,8 +19,11 @@ function getModels(remoteModelRes: OpenAIListModelResponse) {
   if (config.disableGPT4) {
     remoteModelRes.data = remoteModelRes.data.filter(
       (m) =>
-        !(m.id.startsWith("gpt-4") || m.id.startsWith("chatgpt-4o") || m.id.startsWith("o1")) ||
-        m.id.startsWith("gpt-4o-mini"),
+        !(
+          m.id.startsWith("gpt-4") ||
+          m.id.startsWith("chatgpt-4o") ||
+          m.id.startsWith("o1")
+        ) || m.id.startsWith("gpt-4o-mini"),
     );
   }
 
@@ -94,6 +97,6 @@ export async function handle(
     return response;
   } catch (e) {
     console.error("[OpenAI] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }

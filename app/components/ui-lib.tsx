@@ -651,13 +651,35 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     }
   };
 
-  const getProgressColor = (modelName: string | undefined): string => {
-    console.log("---------", modelName);
+  const getProgressColor = (percent: number | undefined): string => {
+    if (percent === undefined) {
+      return "gray";
+    }
+    if (percent < 34) {
+      return "red";
+    }
+    if (percent < 67) {
+      return "goldenrod";
+    }
     return "green";
   };
-  const getProgressText = (percent: number | undefined): string => {
-    return `24h ${percent}%`;
+  const getProgressText = (modelName: string | undefined): string => {
+    const percent = getProgressValue(modelName);
+    if (percent !== undefined) return `${percent}%`;
+    return "load";
   };
+  const getProgressValue = (
+    modelName: string | undefined,
+  ): number | undefined => {
+    if (modelName && modelName in modelAvailable) {
+      return modelAvailable[modelName].availability * 100;
+    }
+    return undefined;
+  };
+
+  const [modelAvailable, setModelAvailable] = React.useState<
+    Record<string, { availability: number }>
+  >({});
 
   useEffect(() => {
     // 展开时获取模型的可用率，但是不要阻塞
@@ -675,12 +697,13 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
         })
           .then((response) => response.json())
           .then((results) => {
-            console.log("4444444444", results);
+            setModelAvailable(results.results);
+            // console.log("4444444444", results);
           });
       } catch (err) {}
     };
     fetchData();
-  }, []);
+  }, [props.items]);
 
   return (
     <div
@@ -727,10 +750,12 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
                     <div className={styles["model-select-tip-div"]}>
                       <Progress
                         steps={3}
-                        percent={80}
+                        percent={100}
                         size="small"
-                        format={(percent) => getProgressText(percent)}
-                        strokeColor={getProgressColor(item.value as string)}
+                        format={() => getProgressText(item.value as string)}
+                        strokeColor={getProgressColor(
+                          getProgressValue(item.value as string),
+                        )}
                         percentPosition={{ align: "start", type: "outer" }}
                       />
                       {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}

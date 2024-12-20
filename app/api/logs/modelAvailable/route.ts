@@ -25,7 +25,12 @@ async function fetchRecentRecords(models: string[]) {
   ) => {
     const total = list.length;
     const trueCount = list.filter((item) => item["responseStatus"]).length;
-    return trueCount / total;
+    return parseFloat(
+      (trueCount / total).toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1,
+      }),
+    );
   };
 
   await Promise.all(

@@ -1,7 +1,7 @@
 import { getServerSideConfig } from "@/app/config/server";
 import {
-  IFLYTEK_BASE_URL,
   ApiPath,
+  IFLYTEK_BASE_URL,
   ModelProvider,
   ServiceProvider,
 } from "@/app/constant";
@@ -31,11 +31,10 @@ export async function handle(
   }
 
   try {
-    const response = await request(req);
-    return response;
+    return await request(req);
   } catch (e) {
     console.error("[Iflytek] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }
 

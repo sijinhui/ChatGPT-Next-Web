@@ -72,19 +72,9 @@ async function handle(
     default:
       r = proxyHandler(req, { params });
   }
-  // (async () => {
-  //   const timestamp2 = Date.now();
-  //   console.log('2', timestamp2)
-  //   const response = await r;
-  //   console.log('22222222', response.status, response.ok);
-  //   const timestamp3 = Date.now();
-  //   console.log('3', timestamp3)
-  // })();
 
   // 当 r 解决后执行回调
   r.then((response) => {
-    const timestamp2 = Date.now();
-    console.log("2", timestamp2);
     // 处理请求数据
     const url = req.nextUrl;
     requestLog(
@@ -94,12 +84,8 @@ async function handle(
       response.ok,
       params.provider as ModelProvider,
     );
-    // 存入数
-    // console.log('22222222', responseData);
   });
 
-  const timestamp = Date.now();
-  console.log("1", timestamp);
   return r;
 }
 

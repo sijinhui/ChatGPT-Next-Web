@@ -1,8 +1,8 @@
 import { getServerSideConfig } from "@/app/config/server";
 import {
-  MOONSHOT_BASE_URL,
   ApiPath,
   ModelProvider,
+  MOONSHOT_BASE_URL,
   ServiceProvider,
 } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
@@ -30,11 +30,10 @@ export async function handle(
   }
 
   try {
-    const response = await request(req);
-    return response;
+    return await request(req);
   } catch (e) {
     console.error("[Moonshot] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }
 

@@ -26,6 +26,6 @@ export async function handle(
     return await requestOpenai(req);
   } catch (e) {
     console.error("[Azure] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }

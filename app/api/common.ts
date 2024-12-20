@@ -222,7 +222,21 @@ export async function requestLog(
     }
     const baseUrl = "http://localhost:3000";
     const ip = getIP(req);
-
+    const getModel = (): string => {
+      if (url_path.startsWith("mj/")) {
+        return `midjourney@${modelProvider}`;
+      }
+      if (modelProvider.toLowerCase() === "google") {
+        // 使用正则表达式提取模型名称
+        const regex = /(gemini-[\d.]+-pro-latest)/;
+        const match = url_path.match(regex);
+        if (match) {
+          return `${match[1]}@${modelProvider}`;
+        }
+        return `undefined@${modelProvider}`;
+      }
+      return `${jsonBody?.model}@${modelProvider}`;
+    };
     let { session, name } = await getSessionName();
     // console.log("[中文]", name, session, baseUrl);
     const logData: Partial<CusLogEntry> = {
@@ -231,7 +245,7 @@ export async function requestLog(
       logEntry: JSON.stringify(jsonBody),
       // logResponseEntry: JSON.stringify(jsonResponseBody),
       responseStatus: responseStatus,
-      model: `${url_path.startsWith("mj/") ? "midjourney" : jsonBody?.model}@${modelProvider}`, // 后面尝试请求是添加到参数
+      model: getModel(), // 后面尝试请求是添加到参数
       userName: name,
       userID: session?.user?.id,
     };
@@ -287,7 +301,7 @@ export async function saveLogs(logData: Partial<CusLogEntry>) {
           getTokenLength(matchAllMessage.join(" ")) +
           matchAllMessage.length * 3;
       }
-      // console.log("[debug log]----", logData);
+      console.log("[debug log]----", logData);
       delete logData?.logEntry;
     }
     if (logData?.model == "midjourney") {
@@ -319,7 +333,7 @@ export async function saveLogs(logData: Partial<CusLogEntry>) {
   if (logData.responseStatus === false) {
     logData.logToken = logData.logResponseToken = logData.logMoney = 0;
   }
-  console.log("-----------------", logData);
+  // console.log("-----------------", logData);
   try {
     const result = await prisma.logEntry.create({
       data: logData,

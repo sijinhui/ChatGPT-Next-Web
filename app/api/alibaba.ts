@@ -30,11 +30,10 @@ export async function handle(
   }
 
   try {
-    const response = await request(req);
-    return response;
+    return await request(req);
   } catch (e) {
     console.error("[Alibaba] ", e);
-    return NextResponse.json(prettyObject(e));
+    return NextResponse.json(prettyObject(e), { status: 500 });
   }
 }
 
