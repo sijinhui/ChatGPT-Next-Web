@@ -604,5 +604,5 @@ export const SAAS_CHAT_URL = "https://nextchat.dev/chat";
 export const SAAS_CHAT_UTM_URL = "https://nextchat.dev/chat?utm=github";
 
 export const DISABLE_MODELS = DEFAULT_MODELS.filter(
-  (item) => !item.available,
-).map((item2) => item2.name);
+  (item: { available: boolean; name: string }) => !item.available,
+).map((item) => item.name);
