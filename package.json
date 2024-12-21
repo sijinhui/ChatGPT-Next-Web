@@ -76,7 +76,7 @@
     "@tauri-apps/cli": "1.6.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.0.1",
+    "@testing-library/react": "^16.1.0",
     "@types/animejs": "^3.1.12",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
