@@ -80,7 +80,7 @@ async function handle(
     body: req.body,
     signal: controller.signal,
     //@ts-ignore
-    // duplex: "half",
+    duplex: "half",
   };
   try {
     const res = await fetch(fetchUrl, fetchOptions);
