@@ -1,6 +1,5 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import React, { useState, useEffect, useMemo } from "react";
 import { isName } from "@/lib/auth_list";
 import {
@@ -12,9 +11,9 @@ import {
 } from "antd";
 import { UserOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { FormProps } from "antd";
-import { SignInOptions } from "next-auth/react";
-import { getSession } from "next-auth/react";
+import { SignInOptions, getSession, signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import Script from "next/script";
 
 export default function UserLoginCore() {
   const [loading, setLoading] = useState(false);
@@ -229,6 +228,12 @@ export default function UserLoginCore() {
     },
   ];
 
+  useEffect(() => {
+    // 验证码相关
+    // GT4Init();
+    // initGeetest4();
+  }, []);
+
   return (
     <>
       {notificationContextHolder}
@@ -395,7 +400,11 @@ export default function UserLoginCore() {
               </>
             )}
           </div>
-
+          <Form.Item>
+            <div id="captcha">
+              <div id="btn" className="btn"></div>
+            </div>
+          </Form.Item>
           <Form.Item>
             <button
               disabled={loading}
@@ -415,6 +424,20 @@ export default function UserLoginCore() {
           </Form.Item>
         </Form>
       </div>
+      <Script
+        src="https://static.geetest.com/v4/gt4.js"
+        strategy="afterInteractive"
+        onLoad={() =>
+          window.initGeetest4(
+            {
+              captchaId: process.env.GEETEST_CAPTCHA_ID,
+            },
+            function (captcha: { appendTo: (arg0: string) => void }) {
+              captcha.appendTo("#captcha");
+            },
+          )
+        }
+      />
       {/*</div>*/}
     </>
   );
