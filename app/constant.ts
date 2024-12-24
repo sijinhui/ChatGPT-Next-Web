@@ -568,7 +568,7 @@ export const DEFAULT_MODELS = [
     name: "gemini-2.0-flash-exp",
     available: true,
     sorted: seq++,
-    describe: "谷歌的,不要钱,质量还不错",
+    describe: "谷歌,新出的,免费,很好用",
     provider: {
       id: "google",
       providerName: "Google",
