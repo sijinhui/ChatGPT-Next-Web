@@ -223,6 +223,13 @@ export async function requestLog(
     const baseUrl = "http://localhost:3000";
     const ip = getIP(req);
     const getModel = (): string => {
+      if (modelProvider.toLowerCase() === "google") {
+        const regex = /\/models\/([^:]+)/;
+        const match = url_path.match(regex);
+        if (match) {
+          return `${match[1]}@${modelProvider}`;
+        }
+      }
       if (url_path.startsWith("mj/")) {
         return `midjourney@${modelProvider}`;
       }
@@ -249,6 +256,7 @@ export async function requestLog(
       userName: name,
       userID: session?.user?.id,
     };
+    console.log("33333333333333333", logData);
     saveLogs(logData);
   } catch (e) {
     console.log("[LOG]", e, "==========");
