@@ -187,6 +187,17 @@ input {
 //  margin-bottom: auto !important;
 //}
 
+.ant-form-item {
+  margin-bottom: 22px !important;
+}
+
+.other-login-method {
+  position: relative;
+  top: -25px;
+  font-size: .9rem;
+  color: #4E4E4EFF !important;
+}
+
 #set-password-form .ant-form-item .ant-col label {
   font-weight: 600;
 }
@@ -221,4 +232,18 @@ input {
 }
 .tail-wind-opacity:hover {
   --tw-bg-opacity: 0.8 !important;
+}
+
+.submit-button {
+  margin-top: 1rem !important;
+}
+
+//.cap-button {
+//  margin-top: 0.5rem !important;
+//}
+
+.ant-input-group-addon .send-cap-button[disabled] {
+  background-color: #f5f5f5; /* 设置按钮禁用时的背景色 */
+  cursor: not-allowed; /* 设置鼠标指针样式 */
+  color: #a0a0a0; /* 设置按钮禁用时的文字颜色 */
 }

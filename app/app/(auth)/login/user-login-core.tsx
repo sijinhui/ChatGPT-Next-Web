@@ -1,6 +1,5 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import React, { useState, useEffect, useMemo } from "react";
 import { isName } from "@/lib/auth_list";
 import {
@@ -12,13 +11,14 @@ import {
 } from "antd";
 import { UserOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { FormProps } from "antd";
-import { SignInOptions } from "next-auth/react";
-import { getSession } from "next-auth/react";
+import { SignInOptions, getSession, signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-
+import { GeeTestInput } from "../components/geetest";
 export default function UserLoginCore() {
   const [loading, setLoading] = useState(false);
   const [capLoading, setCapLoading] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [sendCapDisabled, setSendCapDisabled] = useState(true);
   const [timeLeft, setTimeLeft] = useState(0);
   const [loginForm] = Form.useForm();
   const [loginMethod, setLoginMethod] = useState<"common" | "cap">("common");
@@ -107,6 +107,7 @@ export default function UserLoginCore() {
     password?: string;
     email?: string;
     cap?: string;
+    geetest?: string;
   };
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     setLoading(true);
@@ -121,6 +122,7 @@ export default function UserLoginCore() {
         ...signInOptions,
         email: values.email,
         cap: values.cap,
+        geetest: values.geetest ?? "",
       };
       fetch(
         `/api/auth/callback/email?token=${values.cap}&email=${values.email}`,
@@ -137,6 +139,7 @@ export default function UserLoginCore() {
         ...signInOptions,
         username: values.username,
         password: values.password ?? "",
+        geetest: values.geetest ?? "",
       };
     }
     signIn(loginProvider, signInOptions).then((result) => {
@@ -229,6 +232,28 @@ export default function UserLoginCore() {
     },
   ];
 
+  useEffect(() => {
+    if (capLoading || timeLeft > 0) {
+      setSendCapDisabled(true);
+    }
+  }, [capLoading, timeLeft, sendCapDisabled]);
+
+  const [capResult, setCapResult] = React.useState();
+
+  useEffect(() => {
+    console.log("validateCap", capResult);
+    if (capResult) {
+      setSubmitDisabled(loading);
+      setSendCapDisabled(false);
+      loginForm.setFieldValue("geetest", JSON.stringify(capResult));
+    }
+    // console.log('value', loginForm.getFieldsValue())
+    // 验证码相关
+    // GT4Init();
+    // initGeetest4();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [capResult, loading]);
+
   return (
     <>
       {notificationContextHolder}
@@ -240,7 +265,7 @@ export default function UserLoginCore() {
           onChange={(key) => onTabsChange(key as "common" | "cap")}
         ></Tabs>
         <Form
-          className="space-y-6"
+          className="space-y-1.5"
           // action="#"
           // method="POST"
           autoComplete="off"
@@ -347,8 +372,8 @@ export default function UserLoginCore() {
                     addonAfter={
                       <button
                         onClick={sendCap}
-                        disabled={capLoading || timeLeft > 0}
-                        className="align-bottom"
+                        disabled={sendCapDisabled}
+                        className="align-bottom send-cap-button"
                       >
                         {capLoading ? (
                           <span style={{ width: "70px" }}>
@@ -395,18 +420,21 @@ export default function UserLoginCore() {
               </>
             )}
           </div>
-
-          <Form.Item>
+          <Form.Item name="geetest">
+            <GeeTestInput capResult={capResult} setCapResult={setCapResult} />
+          </Form.Item>
+          <Form.Item className="submit-button">
             <button
-              disabled={loading}
+              disabled={submitDisabled}
               // onClick={() => loginForm.submit()}
               type="submit"
               className={
                 `${
-                  loading
-                    ? "cursor-not-allowed bg-stone-50 dark:bg-stone-800"
-                    : "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                } ` + "tail-wind-opacity"
+                  submitDisabled
+                    ? "cursor-not-allowed bg-indigo-300 hover:bg-indigo-300"
+                    : "bg-indigo-600 hover:bg-indigo-500"
+                } ` +
+                "flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 tail-wind-opacity"
               }
             >
               {/*hover:bg-indigo-500  bg-indigo-600*/}
