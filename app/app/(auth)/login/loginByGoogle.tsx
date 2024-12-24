@@ -9,7 +9,7 @@ export default function LoginByGoogle() {
 
   return (
     <div
-      className={`group my-2 flex h-10 w-1/12 items-center justify-center space-x-2 rounded-md border border-stone-200 transition-colors duration-75 focus:outline-none dark:border-stone-700 `} //
+      className={`group my-2 flex h-10 w-1/12 items-center justify-center space-x-2 rounded-md transition-colors duration-75 focus:outline-none`} //
     >
       <button
         disabled={loading}

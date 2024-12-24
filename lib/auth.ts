@@ -13,6 +13,8 @@ import { randomBytes } from "crypto";
 import { type Session } from "next-auth";
 import { type JWT } from "next-auth/jwt";
 
+import { geeTestValidate } from "@/lib/geetest";
+
 const SECURE_COOKIES:boolean = !!process.env.SECURE_COOKIES;
 
 let verificationTokens = new Map();
@@ -100,6 +102,24 @@ export const authOptions: NextAuthOptions = {
             async authorize(credential, req) {
                 const username = cleanUpString(`${credential?.username}`);
                 const password = cleanPassword(`${credential?.password}`);
+                try {
+                    // @ts-ignore
+                    const geetest = JSON.parse(credential?.geetest)
+                    if (geetest) {
+                        const validateCap = await geeTestValidate(geetest)
+                        // console.log('极验校验：', validateCap)
+                        if (!validateCap) {
+                            throw new Error("geetest 二次校验不通过")
+                        }
+                    }
+                } catch (e) {
+                    // @ts-ignore
+                    if (e.message === "geetest 二次校验不通过") {
+                        throw e; // 重新抛出特定错误
+                    }
+                }
+
+
                 // 验证用户名
                 // console.log(credential, 'p', password, '==============3')
                 // 判断姓名格式是否符合要求，不符合则拒绝
@@ -195,7 +215,7 @@ export const authOptions: NextAuthOptions = {
             // 记录一下用户这次登录时间
             saveLoginRecord(existingUser.id)
             // user['userLogin']
-            // console.log('---', user, 'account', account, 'email', email, 'exist', existingUser)
+            console.log('---', user, 'account', account, 'email', email, 'exist', existingUser)
             // 顺便过滤掉不允许登录的用户
             return existingUser.allowToLogin;
         },

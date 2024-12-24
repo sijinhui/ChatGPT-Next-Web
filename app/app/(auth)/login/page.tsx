@@ -12,7 +12,7 @@ export default function LoginPage() {
           <UserLoginCore />
         </Suspense>
       </div>
-      <div className="mx-auto mt-4 w-11/12 max-w-xs sm:w-full inline-flex items-center justify-center">
+      <div className="mx-auto w-11/12 max-w-xs sm:w-full inline-flex items-center justify-center other-login-method">
         <span className="inline-block align-middle text-left w-5/12">
           {" "}
           其它登录方式{" "}
