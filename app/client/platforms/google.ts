@@ -76,7 +76,12 @@ export class GeminiProApi implements LLMApi {
     let multimodal = false;
 
     // try get base64image from local cache image_url
-    const _messages: ChatOptions["messages"] = [];
+    const _messages: ChatOptions["messages"] = [
+      {
+        role: "system",
+        content: "today's date is " + new Date().toLocaleDateString(),
+      },
+    ];
     for (const v of options.messages) {
       const content = await preProcessImageContent(v.content);
       _messages.push({ role: v.role, content });
@@ -135,6 +140,7 @@ export class GeminiProApi implements LLMApi {
     };
     const requestPayload = {
       contents: messages,
+      tools: [{ googleSearch: {} }],
       generationConfig: {
         // stopSequences: [
         //   "Title"
@@ -143,25 +149,26 @@ export class GeminiProApi implements LLMApi {
         maxOutputTokens: modelConfig.max_tokens,
         topP: modelConfig.top_p,
         // "topK": modelConfig.top_k,
+        responseModalities: ["TEXT"],
       },
-      safetySettings: [
-        {
-          category: "HARM_CATEGORY_HARASSMENT",
-          threshold: accessStore.googleSafetySettings,
-        },
-        {
-          category: "HARM_CATEGORY_HATE_SPEECH",
-          threshold: accessStore.googleSafetySettings,
-        },
-        {
-          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-          threshold: accessStore.googleSafetySettings,
-        },
-        {
-          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-          threshold: accessStore.googleSafetySettings,
-        },
-      ],
+      // safetySettings: [
+      //   {
+      //     category: "HARM_CATEGORY_HARASSMENT",
+      //     threshold: accessStore.googleSafetySettings,
+      //   },
+      //   {
+      //     category: "HARM_CATEGORY_HATE_SPEECH",
+      //     threshold: accessStore.googleSafetySettings,
+      //   },
+      //   {
+      //     category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      //     threshold: accessStore.googleSafetySettings,
+      //   },
+      //   {
+      //     category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+      //     threshold: accessStore.googleSafetySettings,
+      //   },
+      // ],
     };
 
     let shouldStream = !!options.config.stream;

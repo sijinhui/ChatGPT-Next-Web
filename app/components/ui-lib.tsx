@@ -636,7 +636,11 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
   };
   const ifHot = (value: string): React.ReactNode => {
     // console.log("-------", value);
-    const hotModels = ["gpt-4o@Azure", "o1-preview@Azure"];
+    const hotModels = [
+      "gpt-4o@Azure",
+      "o1-preview@Azure",
+      "gemini-2.0-flash-exp@Google",
+    ];
     if (hotModels.includes(value)) {
       return <Tag color="red">Hot</Tag>;
     }

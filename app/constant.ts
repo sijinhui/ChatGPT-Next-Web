@@ -564,6 +564,18 @@ export const DEFAULT_MODELS = [
       sorted: 3,
     },
   },
+  {
+    name: "gemini-2.0-flash-exp",
+    available: true,
+    sorted: seq++,
+    describe: "谷歌的,不要钱,质量还不错",
+    provider: {
+      id: "google",
+      providerName: "Google",
+      providerType: "google",
+      sorted: 3,
+    },
+  },
   ...moonshotModes.map((name) => ({
     name,
     available: true,
