@@ -457,6 +457,7 @@ function useScrollToBottom(
   const scrollDelay = 1500; // 等待多少毫秒后滚动 (如果行数不够)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function scrollDomToBottom() {
     const dom = scrollRef.current;
     if (dom) {
@@ -506,7 +507,7 @@ function useScrollToBottom(
     // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoScroll, detach, isScrolling]);
 
   return {
     scrollRef,
