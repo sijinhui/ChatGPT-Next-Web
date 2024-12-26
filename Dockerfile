@@ -60,7 +60,7 @@ EXPOSE 23000
 
 # ENV NEXT_SHARP_PATH /app/node_modules/sharp
 
-CMD wget -qO- myip.ipip.net ; if [ -n "$PROXY_URL" ]; then \
+CMD wget -qO- api.si.icu/me ; if [ -n "$PROXY_URL" ]; then \
     export HOSTNAME="0.0.0.0"; \
     protocol=$(echo $PROXY_URL | cut -d: -f1); \
     host=$(echo $PROXY_URL | cut -d/ -f3 | cut -d: -f1); \
