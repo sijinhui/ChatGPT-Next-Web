@@ -452,6 +452,11 @@ function useScrollToBottom(
   // for auto-scroll
 
   const [autoScroll, setAutoScroll] = useState(true);
+
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollDelay = 1500; // 等待多少毫秒后滚动 (如果行数不够)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+
   function scrollDomToBottom() {
     const dom = scrollRef.current;
     if (dom) {
@@ -480,15 +485,28 @@ function useScrollToBottom(
   // }
 
   // auto scroll
+
   useEffect(() => {
+    console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
     if (autoScroll && !detach) {
-      scrollDomToBottom();
+      // 增加延迟滚动，避免抖动
+
+      if (!isScrolling) {
+        clearTimeout(scrollTimeoutRef.current);
+        setIsScrolling(true);
+        scrollTimeoutRef.current = setTimeout(() => {
+          scrollDomToBottom();
+          setIsScrolling(false);
+        }, scrollDelay);
+      }
     }
     // 自动滚动一直有bug，直接强制修改了
     // if (autoScroll) {
     //   scrollDomToBottom();
     // }
-  });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     scrollRef,
