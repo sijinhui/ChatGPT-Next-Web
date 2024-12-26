@@ -488,7 +488,7 @@ function useScrollToBottom(
   // auto scroll
 
   useEffect(() => {
-    console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
+    // console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
     if (autoScroll && !detach) {
       // 增加延迟滚动，避免抖动
 
