@@ -614,17 +614,17 @@ export const DEFAULT_MODELS = [
       sorted: 9,
     },
   })),
-  ...deepseekModels.map((name) => ({
-    name,
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "deepseek",
-      providerName: "DeepSeek",
-      providerType: "deepseek",
-      sorted: 13,
-    },
-  })),
+  // ...deepseekModels.map((name) => ({
+  //   name,
+  //   available: true,
+  //   sorted: seq++,
+  //   provider: {
+  //     id: "deepseek",
+  //     providerName: "DeepSeek",
+  //     providerType: "deepseek",
+  //     sorted: 13,
+  //   },
+  // })),
   {
     name: "midjourney",
     describe: "绘图用,不用选",
@@ -668,12 +668,6 @@ export const internalAllowedWebDavEndpoints = [
 ];
 
 export const DEFAULT_GA_ID = "G-89WN60ZK2E";
-
-export const PLUGINS = [
-  { name: "插件", path: Path.Plugins },
-  { name: "Stable Diffusion", path: Path.Sd },
-  { name: "搜索聊天", path: Path.SearchChat },
-];
 
 export const SAAS_CHAT_URL = "https://nextchat.dev/chat";
 export const SAAS_CHAT_UTM_URL = "https://nextchat.dev/chat?utm=github";
