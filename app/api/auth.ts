@@ -97,6 +97,9 @@ export function auth(
         systemApiKey =
           serverConfig.iflytekApiKey + ":" + serverConfig.iflytekApiSecret;
         break;
+      case ModelProvider.DeepSeek:
+        systemApiKey = serverConfig.deepseekApiKey;
+        break;
       case ModelProvider.XAI:
         systemApiKey = serverConfig.xaiApiKey;
         break;

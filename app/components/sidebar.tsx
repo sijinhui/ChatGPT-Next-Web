@@ -23,7 +23,6 @@ import {
   MIN_SIDEBAR_WIDTH,
   NARROW_SIDEBAR_WIDTH,
   Path,
-  PLUGINS,
   ServiceProvider,
 } from "../constant";
 
@@ -34,6 +33,12 @@ import { isIOS, useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, Selector } from "./ui-lib";
 import clsx from "clsx";
+
+const DISCOVERY = [
+  { name: Locale.Plugin.Name, path: Path.Plugins },
+  { name: "Stable Diffusion", path: Path.Sd },
+  { name: Locale.SearchChat.Page.Title, path: Path.SearchChat },
+];
 
 import { Typography } from "antd";
 const { Paragraph, Text } = Typography;
@@ -248,7 +253,7 @@ export function SideBarTail(props: {
 export function SideBar(props: { className?: string }) {
   useHotKey();
   const { onDragStart, shouldNarrow } = useDragSideBar();
-  const [showPluginSelector, setShowPluginSelector] = useState(false);
+  const [showDiscoverySelector, setshowDiscoverySelector] = useState(false);
   const navigate = useNavigate();
   const config = useAppConfig();
   const updateConfig = config.update;
@@ -374,21 +379,21 @@ export function SideBar(props: { className?: string }) {
             icon={<DiscoveryIcon />}
             text={shouldNarrow ? undefined : Locale.Discovery.Name}
             className={styles["sidebar-bar-button"]}
-            onClick={() => setShowPluginSelector(true)}
+            onClick={() => setshowDiscoverySelector(true)}
             shadow
           />
         </div>
-        {showPluginSelector && (
+        {showDiscoverySelector && (
           <Selector
             items={[
-              ...PLUGINS.map((item) => {
+              ...DISCOVERY.map((item) => {
                 return {
                   title: item.name,
                   value: item.path,
                 };
               }),
             ]}
-            onClose={() => setShowPluginSelector(false)}
+            onClose={() => setshowDiscoverySelector(false)}
             onSelection={(s) => {
               navigate(s[0] as any, { state: { fromHome: true } });
             }}
