@@ -255,7 +255,7 @@ export async function requestLog(
       userName: name,
       userID: session?.user?.id,
     };
-    console.log("33333333333333333", logData);
+    // console.log("33333333333333333", logData);
     saveLogs(logData);
   } catch (e) {
     console.log("[LOG]", e, "==========");
@@ -272,29 +272,40 @@ const calLogMoney = (logData: Partial<CusLogEntry>): number => {
 
   // 其它模型按照官方的提示补全的平均数计算
   const logToken = logData?.logToken || 0;
-  switch (logData?.model) {
-    case "midjourney":
-      return 0.2;
-    case "o1-preview-all":
-      return 0.06;
-    case "o1-all":
-      return 0.1;
-    case "o1-pro-all":
-      return 0.2;
-    case "o1-preview-2024-09-12":
-      return logToken * 0.0000375;
-    case "moonshot-v1-8k":
-      return logToken * 0.00002;
-    case "claude-3-opus-20240229":
-    case "claude-3-5-haiku-20241022":
-    case "claude-3-5-sonnet-20240620":
-    case "claude-3-5-sonnet-20241022":
-      return logToken * 0.000004;
-    // 谷歌的本身就免费
-    case "gemini-1.5-pro-latest":
-    default:
+  if (logData?.model) {
+    try {
+      const [model, provider] = logData?.model.split("@");
+      switch (model) {
+        case "midjourney":
+          return 0.2;
+        case "o1-preview-all":
+          return 0.06;
+        case "o1-all":
+          return 0.1;
+        case "o1-pro-all":
+          return 0.2;
+        case "o1-preview-2024-09-12":
+          return logToken * 0.0000375;
+        case "moonshot-v1-8k":
+          return logToken * 0.00002;
+        case "claude-3-opus-20240229":
+        case "claude-3-5-haiku-20241022":
+        case "claude-3-5-sonnet-20240620":
+        case "claude-3-5-sonnet-20241022":
+          return logToken * 0.000004;
+        case "deepseek-chat":
+        case "deepseek-coder":
+          return (logToken * 0.14) / 1000000;
+        // 谷歌的本身就免费
+        case "gemini-1.5-pro-latest":
+        default:
+          return 0.0;
+      }
+    } catch (error) {
       return 0.0;
+    }
   }
+  return 0.0;
 };
 
 export async function saveLogs(logData: Partial<CusLogEntry>) {

@@ -614,17 +614,18 @@ export const DEFAULT_MODELS = [
       sorted: 9,
     },
   })),
-  // ...deepseekModels.map((name) => ({
-  //   name,
-  //   available: true,
-  //   sorted: seq++,
-  //   provider: {
-  //     id: "deepseek",
-  //     providerName: "DeepSeek",
-  //     providerType: "deepseek",
-  //     sorted: 13,
-  //   },
-  // })),
+  ...deepseekModels.map((name) => ({
+    name,
+    available: true,
+    describe: "新兴模型,说是很强",
+    sorted: seq++,
+    provider: {
+      id: "deepseek",
+      providerName: "DeepSeek",
+      providerType: "deepseek",
+      sorted: 13,
+    },
+  })),
   {
     name: "midjourney",
     describe: "绘图用,不用选",

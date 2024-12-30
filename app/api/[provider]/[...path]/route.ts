@@ -62,6 +62,7 @@ async function handle(
       r = iflytekHandler(req, { params });
     case ApiPath.DeepSeek:
       r = deepseekHandler(req, { params });
+      break;
     case ApiPath.XAI:
       r = xaiHandler(req, { params });
       break;

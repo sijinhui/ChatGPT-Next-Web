@@ -14,6 +14,7 @@ import ClaudeInstantIcon from "../icons/Claude-Instant.svg";
 import AzureIcon from "../icons/azure.svg";
 import GoogleIcon from "../icons/google.svg";
 import MoonShot from "../icons/Moonshot.svg";
+import DeepSeekIcon from "../icons/deepseek.svg";
 
 import Locale from "../locales";
 
@@ -630,6 +631,10 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     }
     if (providerName === "OpenAI") {
       return <OpenAIOutlined />;
+    }
+    if (providerName === "DeepSeek") {
+      // return <DeepSeekIcon />;
+      return <Icon component={DeepSeekIcon} />;
     }
 
     return <></>;
