@@ -134,6 +134,7 @@ const DEFAULT_ACCESS_STATE = {
   disableFastLink: false,
   customModels: "",
   defaultModel: "",
+  visionModels: "",
 
   // tts config
   edgeTTSVoiceName: "zh-CN-YunxiNeural",
@@ -148,7 +149,10 @@ export const useAccessStore = createPersistStore(
 
       return get().needCode;
     },
-
+    getVisionModels() {
+      this.fetch();
+      return get().visionModels;
+    },
     edgeVoiceName() {
       this.fetch();
 
