@@ -460,12 +460,12 @@ function useScrollToBottom(
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function scrollDomToBottom() {
+  function scrollDomToBottom(height?: number) {
     const dom = scrollRef.current;
     if (dom) {
       anime({
         targets: dom,
-        scrollTop: dom.scrollHeight,
+        scrollTop: height ?? dom.scrollHeight,
         // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
         easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
         delay: 300,
@@ -493,12 +493,13 @@ function useScrollToBottom(
     // console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
     if (autoScroll && !detach) {
       // 增加延迟滚动，避免抖动
-
+      // 存储并滚动到当前高度
+      const currentHeight = scrollRef.current?.scrollHeight;
       if (!isScrolling) {
         clearTimeout(scrollTimeoutRef.current);
         setIsScrolling(true);
         scrollTimeoutRef.current = setTimeout(() => {
-          scrollDomToBottom();
+          scrollDomToBottom(currentHeight);
           setIsScrolling(false);
         }, scrollDelay);
       }
@@ -1754,6 +1755,8 @@ function _Chat() {
             session.memoryPrompt = ""; // will clear memory
           }
         });
+        // 补充滚动
+        scrollToBottom();
       }
     };
 
