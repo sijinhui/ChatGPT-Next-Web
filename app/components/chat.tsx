@@ -968,6 +968,12 @@ export function ShortcutKeyModal(props: { onClose: () => void }) {
       title: Locale.Chat.ShortcutKey.showShortcutKey,
       keys: isMac ? ["⌘", "/"] : ["Ctrl", "/"],
     },
+    {
+      title: Locale.Chat.ShortcutKey.clearContext,
+      keys: isMac
+        ? ["⌘", "Shift", "backspace"]
+        : ["Ctrl", "Shift", "backspace"],
+    },
   ];
   return (
     <div className="modal-mask">
@@ -1682,7 +1688,7 @@ function _Chat() {
   const [showShortcutKeyModal, setShowShortcutKeyModal] = useState(false);
 
   useEffect(() => {
-    const handleKeyDown = (event: any) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       // 打开新聊天 command + shift + o
       if (
         (event.metaKey || event.ctrlKey) &&
@@ -1731,16 +1737,32 @@ function _Chat() {
       // 展示快捷键 command + /
       else if ((event.metaKey || event.ctrlKey) && event.key === "/") {
         event.preventDefault();
-        setShowShortcutKeyModal(!showShortcutKeyModal);
+        setShowShortcutKeyModal(true);
+      }
+      // 清除上下文 command + shift + backspace
+      else if (
+        (event.metaKey || event.ctrlKey) &&
+        event.shiftKey &&
+        event.key.toLowerCase() === "backspace"
+      ) {
+        event.preventDefault();
+        chatStore.updateTargetSession(session, (session) => {
+          if (session.clearContextIndex === session.messages.length) {
+            session.clearContextIndex = undefined;
+          } else {
+            session.clearContextIndex = session.messages.length;
+            session.memoryPrompt = ""; // will clear memory
+          }
+        });
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [messages, chatStore, navigate, showShortcutKeyModal]);
+  }, [messages, chatStore, navigate, session]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
 
