@@ -79,15 +79,51 @@ const Reward = dynamic(async () => (await import("./reward")).RewardPage, {
 });
 
 export function useSwitchTheme() {
+  // TODO: 切换主题
   const config = useAppConfig();
 
-  useEffect(() => {
+  const toggleTheme = (pos: { x: number; y: number }) => {
+    // const x = event.clientX;
+    // const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(pos.x, innerWidth - pos.x),
+      Math.max(pos.y, innerHeight - pos.y),
+    );
+
+    // @ts-ignore
+    const transition = document.startViewTransition(() => {
+      setTheme(config.theme);
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${pos.x}px ${pos.y}px)`,
+        `circle(${endRadius}px at ${pos.x}px ${pos.y}px)`,
+      ];
+      document.documentElement.animate(
+        {
+          clipPath:
+            config.theme === "dark" ? [...clipPath].reverse() : clipPath,
+        },
+        {
+          duration: 500,
+          easing: "ease-in",
+          pseudoElement:
+            config.theme === "dark"
+              ? "::view-transition-old(root)"
+              : "::view-transition-new(root)",
+        },
+      );
+    });
+  };
+
+  const setTheme = (prevTheme: string) => {
     document.body.classList.remove("light");
     document.body.classList.remove("dark");
 
-    if (config.theme === "dark") {
+    if (prevTheme === "dark") {
       document.body.classList.add("dark");
-    } else if (config.theme === "light") {
+    } else if (prevTheme === "light") {
       document.body.classList.add("light");
     }
 
@@ -98,7 +134,7 @@ export function useSwitchTheme() {
       'meta[name="theme-color"][media*="light"]',
     );
 
-    if (config.theme === "auto") {
+    if (prevTheme === "auto") {
       metaDescriptionDark?.setAttribute("content", "#151515");
       metaDescriptionLight?.setAttribute("content", "#fafafa");
     } else {
@@ -106,7 +142,15 @@ export function useSwitchTheme() {
       metaDescriptionDark?.setAttribute("content", themeColor);
       metaDescriptionLight?.setAttribute("content", themeColor);
     }
+  };
+
+  useEffect(() => {
+    // setTheme(config.theme);
+    toggleTheme(config.themePos);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.theme]);
+
+  return [toggleTheme];
 }
 
 function useHtmlLang() {
@@ -231,7 +275,7 @@ export function useLoadData() {
 
 export function Home() {
   // const { status } = useSession({ required: true })
-  useSwitchTheme();
+  // useSwitchTheme();
   useLoadData();
   useHtmlLang();
 

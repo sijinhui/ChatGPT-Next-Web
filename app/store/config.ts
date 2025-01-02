@@ -48,6 +48,10 @@ export const DEFAULT_CONFIG = {
   fontSize: 14,
   fontFamily: "",
   theme: Theme.Auto as Theme,
+  themePos: {
+    x: 0,
+    y: 0,
+  },
   tightBorder: !!config?.isApp,
   sendPreviewBubble: false,
   enableAutoGenerateTitle: true,
