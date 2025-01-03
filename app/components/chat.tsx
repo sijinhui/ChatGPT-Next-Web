@@ -386,7 +386,7 @@ function ClearContextDivider() {
 export function ChatAction(props: {
   text: string;
   icon: JSX.Element;
-  onClick: () => void;
+  onClick: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }) {
   const iconRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -424,8 +424,8 @@ export function ChatAction(props: {
         styles[customModelClassName],
         "clickable",
       )}
-      onClick={() => {
-        props.onClick();
+      onClick={(e) => {
+        props.onClick(e);
         setTimeout(updateWidth, 1);
       }}
       onMouseEnter={updateWidth}
@@ -540,12 +540,20 @@ export function ChatActions(props: {
   const session = chatStore.currentSession();
 
   // switch themes
+  // const [toggleCurrentTheme] = useSwitchTheme();
   const theme = config.theme;
-  function nextTheme() {
+  function nextTheme(e?: React.MouseEvent<HTMLDivElement> | undefined) {
     const themes = [Theme.Auto, Theme.Light, Theme.Dark];
     const themeIndex = themes.indexOf(theme);
     const nextIndex = (themeIndex + 1) % themes.length;
     const nextTheme = themes[nextIndex];
+    config.update(
+      (config) =>
+        (config.themePos = {
+          x: e?.clientX ?? 0,
+          y: e?.clientY ?? 0,
+        }),
+    );
     config.update((config) => (config.theme = nextTheme));
   }
 
@@ -659,7 +667,7 @@ export function ChatActions(props: {
           />
         )}
         <ChatAction
-          onClick={nextTheme}
+          onClick={(e) => nextTheme(e)}
           text={Locale.Chat.InputActions.Theme[theme]}
           icon={
             <>
@@ -1765,6 +1773,7 @@ function _Chat() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, chatStore, navigate, session]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
