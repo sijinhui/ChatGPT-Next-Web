@@ -1519,6 +1519,15 @@ export function Settings() {
             <Select
               aria-label={Locale.Settings.Theme}
               value={config.theme}
+              onClick={(e) => {
+                config.update(
+                  (config) =>
+                    (config.themePos = {
+                      x: e?.clientX ?? 0,
+                      y: e?.clientY ?? 0,
+                    }),
+                );
+              }}
               onChange={(e) => {
                 updateConfig(
                   (config) => (config.theme = e.target.value as any as Theme),
