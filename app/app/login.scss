@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-// TODO: 切换主题
+
 @layer base {
   ::view-transition-old(root),
   ::view-transition-new(root) {

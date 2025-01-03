@@ -13,7 +13,7 @@ const useTheme = (): [
     root.classList.toggle("dark", storeTheme === "dark");
     root.classList.toggle("light", storeTheme === "light");
   }, []);
-  // TODO: 切换主题
+
   const toggleTheme = (event: React.MouseEvent<HTMLElement>) => {
     const x = event.clientX;
     const y = event.clientY;

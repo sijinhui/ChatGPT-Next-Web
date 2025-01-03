@@ -2,7 +2,7 @@
 
 require("../polyfill");
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./home.module.scss";
 
 import BotIcon from "../icons/bot.svg";
@@ -79,12 +79,11 @@ const Reward = dynamic(async () => (await import("./reward")).RewardPage, {
 });
 
 export function useSwitchTheme() {
-  // TODO: 切换主题
   const config = useAppConfig();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const isDark = useRef<boolean | undefined>(undefined);
 
-  const toggleTheme = (pos: { x: number; y: number }) => {
-    // const x = event.clientX;
-    // const y = event.clientY;
+  const toggleTheme = (pos: { x: number; y: number }, theme: any) => {
     const endRadius = Math.hypot(
       Math.max(pos.x, innerWidth - pos.x),
       Math.max(pos.y, innerHeight - pos.y),
@@ -92,7 +91,11 @@ export function useSwitchTheme() {
 
     // @ts-ignore
     const transition = document.startViewTransition(() => {
-      setTheme(config.theme);
+      setTheme(theme);
+      // 兼容动画的模块
+      const root = document.documentElement;
+      root.classList.remove(isDark.current ? "dark" : "light");
+      root.classList.add(isDark.current ? "light" : "dark");
     });
 
     transition.ready.then(() => {
@@ -102,14 +105,13 @@ export function useSwitchTheme() {
       ];
       document.documentElement.animate(
         {
-          clipPath:
-            config.theme === "dark" ? [...clipPath].reverse() : clipPath,
+          clipPath: theme === "dark" ? [...clipPath].reverse() : clipPath,
         },
         {
-          duration: 500,
+          duration: 450,
           easing: "ease-in",
           pseudoElement:
-            config.theme === "dark"
+            theme === "dark"
               ? "::view-transition-old(root)"
               : "::view-transition-new(root)",
         },
@@ -142,15 +144,23 @@ export function useSwitchTheme() {
       metaDescriptionDark?.setAttribute("content", themeColor);
       metaDescriptionLight?.setAttribute("content", themeColor);
     }
+    // 兼容动画模块
+    isDark.current = document.body.classList.contains("dark");
   };
 
   useEffect(() => {
     // setTheme(config.theme);
-    toggleTheme(config.themePos);
+
+    // 当主题为自动时不应该有动画
+    if (isFirstRender || config.theme === "auto") {
+      setTheme(config.theme);
+      setIsFirstRender(config.theme === "auto");
+    } else {
+      toggleTheme(config.themePos, config.theme);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.theme]);
-
-  return [toggleTheme];
 }
 
 function useHtmlLang() {
@@ -275,7 +285,7 @@ export function useLoadData() {
 
 export function Home() {
   // const { status } = useSession({ required: true })
-  // useSwitchTheme();
+  useSwitchTheme();
   useLoadData();
   useHtmlLang();
 

@@ -547,7 +547,6 @@ export function ChatActions(props: {
     const themeIndex = themes.indexOf(theme);
     const nextIndex = (themeIndex + 1) % themes.length;
     const nextTheme = themes[nextIndex];
-    config.update((config) => (config.theme = nextTheme));
     config.update(
       (config) =>
         (config.themePos = {
@@ -555,6 +554,7 @@ export function ChatActions(props: {
           y: e?.clientY ?? 0,
         }),
     );
+    config.update((config) => (config.theme = nextTheme));
   }
 
   // stop all responses
@@ -1773,6 +1773,7 @@ function _Chat() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, chatStore, navigate, session]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
