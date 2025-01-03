@@ -456,20 +456,22 @@ function useScrollToBottom(
   const [autoScroll, setAutoScroll] = useState(true);
 
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollDelay = 1500; // 等待多少毫秒后滚动 (如果行数不够)
+  const scrollDelay = 150; // 等待多少毫秒后滚动 (如果行数不够)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+  let scrollAnimation: null | anime.AnimeInstance = null;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function scrollDomToBottom(height?: number) {
     const dom = scrollRef.current;
     if (dom) {
-      anime({
+      scrollAnimation = anime({
         targets: dom,
         scrollTop: height ?? dom.scrollHeight,
         // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
         easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
         delay: 300,
       });
+      scrollAnimation.play();
     }
   }
   // function scrollDomToBottom() {
@@ -490,11 +492,13 @@ function useScrollToBottom(
   // auto scroll
 
   useEffect(() => {
-    // console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
+    console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
     if (autoScroll && !detach) {
       // 增加延迟滚动，避免抖动
       // 存储并滚动到当前高度
-      const currentHeight = scrollRef.current?.scrollHeight;
+      const currentHeight = scrollRef.current?.scrollHeight ?? 0;
+      // const lastScrollTop = scrollRef.current?.scrollTop ?? 0;
+      // console.log('444444', currentHeight, lastScrollTop);
       if (!isScrolling) {
         clearTimeout(scrollTimeoutRef.current);
         setIsScrolling(true);
@@ -504,13 +508,17 @@ function useScrollToBottom(
         }, scrollDelay);
       }
     }
+    if (isScrolling) {
+      // 打断
+      scrollAnimation?.pause();
+    }
     // 自动滚动一直有bug，直接强制修改了
     // if (autoScroll) {
     //   scrollDomToBottom();
     // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoScroll, detach, isScrolling]);
+  }, [autoScroll, detach]);
 
   return {
     scrollRef,
@@ -1443,8 +1451,15 @@ function _Chat() {
     return renderMessages.slice(msgRenderIndex, endRenderIndex);
   }, [msgRenderIndex, renderMessages]);
 
+  // const changSize = useRef(0);
+  // const preBottomHeight = useRef(0);
+
   const onChatBodyScroll = (e: HTMLElement) => {
     const bottomHeight = e.scrollTop + e.clientHeight;
+    // changSize.current = bottomHeight - preBottomHeight.current;
+    // preBottomHeight.current = bottomHeight;
+    // console.log('55555555', changSize, preBottomHeight.current);
+
     const edgeThreshold = e.clientHeight;
 
     const isTouchTopEdge = e.scrollTop <= edgeThreshold;
