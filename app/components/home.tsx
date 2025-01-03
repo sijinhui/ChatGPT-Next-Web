@@ -154,7 +154,7 @@ export function useSwitchTheme() {
     // 当主题为自动时不应该有动画
     if (isFirstRender || config.theme === "auto") {
       setTheme(config.theme);
-      setIsFirstRender(config.theme === "auto");
+      if (config.theme !== "auto") setIsFirstRender(false);
     } else {
       toggleTheme(config.themePos, config.theme);
     }

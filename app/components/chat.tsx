@@ -543,7 +543,7 @@ export function ChatActions(props: {
   // const [toggleCurrentTheme] = useSwitchTheme();
   const theme = config.theme;
   function nextTheme(e?: React.MouseEvent<HTMLDivElement> | undefined) {
-    const themes = [Theme.Auto, Theme.Light, Theme.Dark];
+    const themes = [Theme.Light, Theme.Dark]; // Theme.Auto,
     const themeIndex = themes.indexOf(theme);
     const nextIndex = (themeIndex + 1) % themes.length;
     const nextTheme = themes[nextIndex];
@@ -1773,8 +1773,7 @@ function _Chat() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages, chatStore, navigate, session]);
+  }, [messages, chatStore, navigate, session, scrollToBottom]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
 
