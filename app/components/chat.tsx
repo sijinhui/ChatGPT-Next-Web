@@ -456,20 +456,22 @@ function useScrollToBottom(
   const [autoScroll, setAutoScroll] = useState(true);
 
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollDelay = 1500; // 等待多少毫秒后滚动 (如果行数不够)
+  const scrollDelay = 500; // 等待多少毫秒后滚动 (如果行数不够)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+  let scrollAnimation: null | anime.AnimeInstance = null;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function scrollDomToBottom(height?: number) {
     const dom = scrollRef.current;
     if (dom) {
-      anime({
+      scrollAnimation = anime({
         targets: dom,
         scrollTop: height ?? dom.scrollHeight,
         // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
         easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
-        delay: 300,
+        // delay: 500,
       });
+      scrollAnimation.play();
     }
   }
   // function scrollDomToBottom() {
@@ -494,7 +496,9 @@ function useScrollToBottom(
     if (autoScroll && !detach) {
       // 增加延迟滚动，避免抖动
       // 存储并滚动到当前高度
-      const currentHeight = scrollRef.current?.scrollHeight;
+      const currentHeight = scrollRef.current?.scrollHeight ?? 0;
+      // const lastScrollTop = scrollRef.current?.scrollTop ?? 0;
+      // console.log('444444', currentHeight, lastScrollTop);
       if (!isScrolling) {
         clearTimeout(scrollTimeoutRef.current);
         setIsScrolling(true);
@@ -502,15 +506,22 @@ function useScrollToBottom(
           scrollDomToBottom(currentHeight);
           setIsScrolling(false);
         }, scrollDelay);
+      } else {
+        // 打断
+        scrollAnimation?.pause();
       }
     }
+    if (detach) {
+      scrollAnimation?.pause();
+    }
     // 自动滚动一直有bug，直接强制修改了
-    // if (autoScroll) {
+    // if (autoScroll && !detach) {
     //   scrollDomToBottom();
     // }
+  });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoScroll, detach, isScrolling]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [autoScroll, detach]);
 
   return {
     scrollRef,
@@ -1055,7 +1066,8 @@ function _Chat() {
       lastMessage!.getBoundingClientRect().top -
       scrollRef.current.getBoundingClientRect().top;
     // leave some space for user question
-    return topDistance < 100;
+    console.log("5555555555", topDistance);
+    return 0 < topDistance && topDistance < 100;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollRef?.current?.scrollHeight]);
 
@@ -1450,7 +1462,7 @@ function _Chat() {
     const isTouchTopEdge = e.scrollTop <= edgeThreshold;
     const isTouchBottomEdge = bottomHeight >= e.scrollHeight - edgeThreshold;
     const isHitBottom =
-      bottomHeight >= e.scrollHeight - (isMobileScreen ? 4 : 10);
+      bottomHeight >= e.scrollHeight - (isMobileScreen ? 4 : 20);
 
     const prevPageMsgIndex = msgRenderIndex - CHAT_PAGE_SIZE;
     const nextPageMsgIndex = msgRenderIndex + CHAT_PAGE_SIZE;
@@ -1460,6 +1472,7 @@ function _Chat() {
     } else if (isTouchBottomEdge) {
       setMsgRenderIndex(nextPageMsgIndex);
     }
+    // console.log('33333333333', bottomHeight, e.scrollHeight)
 
     setHitBottom(isHitBottom);
     setAutoScroll(isHitBottom);
