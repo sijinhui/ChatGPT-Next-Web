@@ -519,10 +519,8 @@ function useScrollToBottom(
     // if (autoScroll && !detach) {
     //   scrollDomToBottom();
     // }
-  });
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [autoScroll, detach]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoScroll, detach]);
 
   return {
     scrollRef,
@@ -1779,7 +1777,7 @@ function _Chat() {
           }
         });
         // 补充滚动
-        scrollToBottom();
+        scrollDomToBottom();
       }
     };
 
@@ -1788,7 +1786,7 @@ function _Chat() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [messages, chatStore, navigate, session, scrollToBottom]);
+  }, [messages, chatStore, navigate, session, scrollDomToBottom]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
 
@@ -2486,39 +2484,7 @@ function _Chat() {
   );
 }
 
-// function getCurrentDayToken(sessions: ChatSession[]): number {
-//   try {
-//     const currentTime = new Date();
-//     const startOfTheDayInTimeZone = new Date(
-//       currentTime.getFullYear(),
-//       currentTime.getMonth(),
-//       currentTime.getDate(),
-//       0,
-//       0,
-//       0,
-//     );
-//     const current_day_message = sessions
-//       .reduce((acc, item) => {
-//         // @ts-ignore
-//         return acc.concat(item.messages);
-//       }, [])
-//       .filter((item1) => {
-//         // @ts-ignore
-//         const dateToCheck = new Date(item1.date);
-//         return startOfTheDayInTimeZone < dateToCheck;
-//       });
-//     const all_current_day_content = current_day_message
-//       // @ts-ignore
-//       .map((item) => item.content)
-//       .join(" ");
-//     // 获取会话之后，再整合content，
-//     return getTokenLength(all_current_day_content);
-//   } catch (e) {
-//     return 0;
-//   }
-// }
-
-export function Chat() {
+export function ChatCom() {
   const chatStore = useChatStore();
   const session = chatStore.currentSession();
   return <_Chat key={session.id}></_Chat>;
