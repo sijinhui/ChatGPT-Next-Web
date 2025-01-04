@@ -401,6 +401,7 @@ export function ChatAction(props: {
   }
 
   function updateWidth() {
+    if (!props.text) return;
     if (!iconRef.current || !textRef.current) return;
     const getWidth = (dom: HTMLDivElement) => dom.getBoundingClientRect().width;
     const textWidth = getWidth(textRef.current);
@@ -679,7 +680,8 @@ export function ChatActions(props: {
         )}
         <ChatAction
           onClick={(e) => nextTheme(e)}
-          text={Locale.Chat.InputActions.Theme[theme]}
+          text=""
+          // text={Locale.Chat.InputActions.Theme[theme]}
           icon={
             <>
               {theme === Theme.Auto ? (
