@@ -7,8 +7,8 @@ const useTheme = (): [
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const storeTheme = window.localStorage.getItem("theme");
-    if (storeTheme) setTheme(storeTheme);
+    const storeTheme = window.localStorage.getItem("theme") ?? "light";
+    setTheme(storeTheme);
     const root = document.documentElement;
     root.classList.toggle("dark", storeTheme === "dark");
     root.classList.toggle("light", storeTheme === "light");
