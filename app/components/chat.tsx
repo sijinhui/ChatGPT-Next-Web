@@ -719,6 +719,7 @@ export function ChatActions(props: {
                 session.memoryPrompt = ""; // will clear memory
               }
             });
+            props.scrollToBottom();
           }}
         />
 
