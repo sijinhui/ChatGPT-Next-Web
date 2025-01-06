@@ -268,7 +268,7 @@ export default function UserLoginCore() {
           className="space-y-1.5"
           // action="#"
           // method="POST"
-          autoComplete="off"
+          // autoComplete="off"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           size="large"
@@ -310,13 +310,12 @@ export default function UserLoginCore() {
                   ]}
                 >
                   <Input
-                    autoComplete="off"
                     prefix={
                       <UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />
                     }
                     placeholder="输入姓名、拼音或邮箱"
                     className={
-                      "text-sm font-medium text-stone-600 dark:text-stone-400"
+                      "text-sm font-normal text-stone-600 dark:text-stone-400"
                     }
                   />
                 </Form.Item>
@@ -341,11 +340,11 @@ export default function UserLoginCore() {
                   ]}
                 >
                   <Input.Password
-                    autoComplete="off"
+                    // autoComplete="new-password"
                     //   // required
                     placeholder="密码验证，测试阶段"
                     className={
-                      "text-sm font-medium text-stone-600 dark:text-stone-400"
+                      "text-sm font-normal text-stone-600 dark:text-stone-400"
                     }
                   />
                 </Form.Item>
@@ -396,7 +395,7 @@ export default function UserLoginCore() {
                     size="middle"
                     placeholder="邮箱验证，测试阶段"
                     className={
-                      "text-sm font-medium text-stone-600 dark:text-stone-400"
+                      "text-sm font-normal text-stone-600 dark:text-stone-400"
                     }
                   />
                 </Form.Item>
@@ -413,7 +412,7 @@ export default function UserLoginCore() {
                     size="middle"
                     placeholder="验证码"
                     className={
-                      "text-sm font-medium text-stone-600 dark:text-stone-400"
+                      "text-sm font-normal text-stone-600 dark:text-stone-400"
                     }
                   />
                 </Form.Item>
