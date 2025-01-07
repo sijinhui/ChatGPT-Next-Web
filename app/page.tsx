@@ -8,6 +8,13 @@ import { headers } from "next/headers";
 
 // import { VerifiedUser } from "@/lib/auth";
 // import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const CustomNotification = dynamic(
+  async () =>
+    (await import("./components/customNotification")).CustomNotification,
+  { ssr: false },
+);
 
 const serverConfig = getServerSideConfig();
 export function getCurrentDomain() {
@@ -24,12 +31,13 @@ export default async function App() {
   // if (!isUser) {
   //   redirect("/login");
   // }
-  const host = await getCurrentDomain();
+  const host = getCurrentDomain();
   console.log("-----", host);
 
   return (
     <>
       <Home />
+
       {serverConfig?.isVercel && (
         <>
           <Analytics />
