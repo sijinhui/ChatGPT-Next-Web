@@ -16,6 +16,25 @@ export const CustomNotice = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
+  // 直接强制重定向, 后续把功能做到nginx中
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // 当前时间
+      const now = new Date();
+      // 对比目标时间（2025年2月1日）
+      const target = new Date("2025-02-01");
+      const host = window.location.hostname;
+      // 如果当前时间大于目标时间，就直接重定向
+      if (
+        now > target &&
+        host &&
+        (host === "localhost" || host === "chat.xiaosi.cc")
+      ) {
+        router.push("https://si.icu");
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // 检查 localStorage 中存储的已关闭版本
     if (typeof window !== "undefined") {
