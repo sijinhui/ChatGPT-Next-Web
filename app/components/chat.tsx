@@ -416,7 +416,8 @@ export function ChatAction(props: {
     if (customModelClassName !== "") {
       updateWidth();
     }
-  }, [props.text, customModelClassName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customModelClassName]);
 
   return (
     <div
@@ -1067,7 +1068,7 @@ function _Chat() {
       lastMessage!.getBoundingClientRect().top -
       scrollRef.current.getBoundingClientRect().top;
     // leave some space for user question
-    console.log("5555555555", topDistance);
+    // console.log("5555555555", topDistance);
     return 0 < topDistance && topDistance < 100;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollRef?.current?.scrollHeight]);
