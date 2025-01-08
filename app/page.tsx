@@ -4,20 +4,20 @@ import { Home } from "./components/home";
 
 import { getServerSideConfig } from "./config/server";
 
-// import { VerifiedUser } from "@/lib/auth";
-// import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const CustomNotice = dynamic(
+  async () => (await import("./components/customNotice")).CustomNotice,
+  { ssr: false },
+);
 
 const serverConfig = getServerSideConfig();
 
 export default async function App() {
-  // const isUser = await VerifiedUser();
-  // if (!isUser) {
-  //   redirect("/login");
-  // }
-
   return (
     <>
       <Home />
+      <CustomNotice />
       {serverConfig?.isVercel && (
         <>
           <Analytics />
