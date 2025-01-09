@@ -579,18 +579,18 @@ export const DEFAULT_MODELS = [
       sorted: 2, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   })),
-  {
-    name: "gemini-1.5-pro-latest",
-    available: true,
-    sorted: seq++,
-    describe: "谷歌的,不要钱,质量还不错",
-    provider: {
-      id: "google",
-      providerName: "Google",
-      providerType: "google",
-      sorted: 3,
-    },
-  },
+  // {
+  //   name: "gemini-1.5-pro-latest",
+  //   available: true,
+  //   sorted: seq++,
+  //   describe: "谷歌的,不要钱,质量还不错",
+  //   provider: {
+  //     id: "google",
+  //     providerName: "Google",
+  //     providerType: "google",
+  //     sorted: 3,
+  //   },
+  // },
   {
     name: "gemini-2.0-flash-exp",
     available: true,

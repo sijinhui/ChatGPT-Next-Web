@@ -88,7 +88,7 @@ export class GeminiProApi implements LLMApi {
     const _messages: ChatOptions["messages"] = [
       {
         role: "system",
-        content: "today's date is " + new Date().toLocaleDateString(),
+        content: "当前系统时间是 " + new Date().toLocaleDateString(),
       },
     ];
     for (const v of options.messages) {

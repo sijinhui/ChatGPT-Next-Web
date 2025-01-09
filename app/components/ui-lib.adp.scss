@@ -8,6 +8,10 @@
 .ant-pro-checkcard {
   color: var(--black);
   background-color: var(--white);
+
+  .ant-pro-checkcard-content {
+    padding-block: 10px;
+  }
 }
 
 .ant-pro-checkcard-checked {

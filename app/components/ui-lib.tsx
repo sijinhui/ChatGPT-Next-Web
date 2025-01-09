@@ -30,7 +30,7 @@ import React, {
 } from "react";
 import { IconButton } from "./button";
 import clsx from "clsx";
-import { List as AntList, Row, Col, Tag, Progress } from "antd";
+import { List as AntList, Row, Col, Progress, Divider } from "antd";
 import { OpenAIOutlined } from "@ant-design/icons";
 // 自定义图标
 import Icon from "@ant-design/icons";
@@ -647,8 +647,17 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
       "o1-preview@Azure",
       "gemini-2.0-flash-exp@Google",
     ];
+    const recommendModel = ["gemini-2.0-flash-thinking-exp@Google"];
+    const expensiveModel = ["o1-all@OpenAI", "o1-pro-all@OpenAI"];
+
     if (hotModels.includes(value)) {
-      return <Tag color="red">Hot</Tag>;
+      return <>🔥</>;
+    }
+    if (recommendModel.includes(value)) {
+      return <>💡</>;
+    }
+    if (expensiveModel.includes(value)) {
+      return <>💰</>;
     }
     return <></>;
   };
@@ -698,7 +707,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     provider?: string;
   };
   const groupedItems = props.items.reduce((map, current) => {
-    console.log("------", current.provider);
+    // console.log("------", current.provider);
     if (!current.provider) return map;
     if (!map.has(current.provider)) {
       map.set(current.provider, []);
@@ -743,6 +752,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
         onClose={() => props.onClose?.()}
         footer={null}
         is_cus={true}
+        defaultMax={true}
       >
         <AntList grid={{ gutter: 16 }}>
           <CheckCard.Group
@@ -750,52 +760,72 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
             defaultValue={props.defaultSelectedValue}
           >
             {Array.from(groupedItems).map(([provider, items]) => (
-              <Row
-                gutter={[16, 8]}
-                key={provider}
-                style={{
-                  marginLeft: "-8px",
-                  marginRight: "-8px",
-                  display: "flex",
-                  justifyContent: "left",
-                  rowGap: 0,
-                }}
-              >
-                {items.map((item, i) => {
-                  const selected = props.defaultSelectedValue === item.value;
-                  return (
-                    <Col key={i} sm={{ flex: "50%" }} md={{ flex: "20%" }}>
-                      <CheckCard
-                        title={item.title}
-                        description={item.subTitle}
-                        value={item.value}
-                        extra={ifHot(item.value?.toString() ?? "")}
-                        onClick={() => {
-                          props.onSelection?.([item.value]);
-                          props.onClose?.();
+              <div key={provider}>
+                <Divider
+                  plain
+                  style={{ marginBottom: "4px", marginTop: "-4px" }}
+                >
+                  {provider}
+                </Divider>
+                <Row
+                  gutter={[16, 8]}
+                  style={{
+                    marginLeft: "-8px",
+                    marginRight: "-8px",
+                    display: "flex",
+                    justifyContent: "center",
+                    rowGap: 0,
+                  }}
+                >
+                  {items.map((item, i) => {
+                    const selected = props.defaultSelectedValue === item.value;
+                    return (
+                      <Col
+                        key={i}
+                        sm={{ flex: "50%" }}
+                        md={{ flex: "20%" }}
+                        style={{
+                          padding: 0,
+                          marginLeft: "8px",
+                          margin: "0 4px",
                         }}
-                        avatar={getCheckCardAvatar(
-                          item.value?.toString() ?? "",
-                        )}
-                        style={{ marginBottom: "8px", width: "250px" }}
-                      />
-                      <div className={styles["model-select-tip-div"]}>
-                        <Progress
-                          steps={3}
-                          percent={100}
-                          size="small"
-                          format={() => getProgressText(item.value as string)}
-                          strokeColor={getProgressColor(
-                            getProgressValue(item.value as string),
+                      >
+                        <CheckCard
+                          title={item.title}
+                          description={item.subTitle}
+                          value={item.value}
+                          extra={ifHot(item.value?.toString() ?? "")}
+                          onClick={() => {
+                            props.onSelection?.([item.value]);
+                            props.onClose?.();
+                          }}
+                          avatar={getCheckCardAvatar(
+                            item.value?.toString() ?? "",
                           )}
-                          percentPosition={{ align: "start", type: "outer" }}
+                          style={{
+                            marginBottom: "8px",
+                            width: "250px",
+                            marginInlineEnd: 0,
+                          }}
                         />
-                        {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}
-                      </div>
-                    </Col>
-                  );
-                })}
-              </Row>
+                        <div className={styles["model-select-tip-div"]}>
+                          <Progress
+                            steps={3}
+                            percent={100}
+                            size="small"
+                            format={() => getProgressText(item.value as string)}
+                            strokeColor={getProgressColor(
+                              getProgressValue(item.value as string),
+                            )}
+                            percentPosition={{ align: "start", type: "outer" }}
+                          />
+                          {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}
+                        </div>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </div>
             ))}
           </CheckCard.Group>
         </AntList>

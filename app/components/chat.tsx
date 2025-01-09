@@ -734,11 +734,12 @@ export function ChatActions(props: {
           <ModalSelector
             defaultSelectedValue={`${currentModel}@${currentProviderName}`}
             items={models.map((m) => ({
-              title: `${m.displayName}${
-                m?.provider?.providerName
-                  ? " (" + m?.provider?.providerName + ")"
-                  : ""
-              }`,
+              // title: `${m.displayName}${
+              //   m?.provider?.providerName
+              //     ? " (" + m?.provider?.providerName + ")"
+              //     : ""
+              // }`,
+              title: `${m.displayName}`,
               subTitle: m.describe,
               value: `${m.name}@${m?.provider?.providerName}`,
               provider: m?.provider?.providerName,
