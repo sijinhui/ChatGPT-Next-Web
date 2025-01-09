@@ -715,7 +715,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     map.get(current.provider)!.push(current);
     return map;
   }, new Map<string, Item[]>());
-  console.log("555555", groupedItems);
+  // console.log("555555", groupedItems);
 
   useEffect(() => {
     // 展开时获取模型的可用率，但是不要阻塞
