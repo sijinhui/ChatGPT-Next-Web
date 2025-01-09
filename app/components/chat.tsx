@@ -741,6 +741,7 @@ export function ChatActions(props: {
               }`,
               subTitle: m.describe,
               value: `${m.name}@${m?.provider?.providerName}`,
+              provider: m?.provider?.providerName,
             }))}
             onClose={() => setShowModelSelector(false)}
             onSelection={(s) => {

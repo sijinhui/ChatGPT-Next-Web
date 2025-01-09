@@ -607,6 +607,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     title: string;
     subTitle?: string;
     value: T;
+    provider?: string;
   }>;
   defaultSelectedValue?: T;
   onSelection?: (selection: T[]) => void;
@@ -690,6 +691,23 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     Record<string, { availability: number }>
   >({});
 
+  type Item = {
+    title: string;
+    subTitle?: string;
+    value: T;
+    provider?: string;
+  };
+  const groupedItems = props.items.reduce((map, current) => {
+    console.log("------", current.provider);
+    if (!current.provider) return map;
+    if (!map.has(current.provider)) {
+      map.set(current.provider, []);
+    }
+    map.get(current.provider)!.push(current);
+    return map;
+  }, new Map<string, Item[]>());
+  console.log("555555", groupedItems);
+
   useEffect(() => {
     // 展开时获取模型的可用率，但是不要阻塞
     const fetchData = async () => {
@@ -731,48 +749,54 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
             size="small"
             defaultValue={props.defaultSelectedValue}
           >
-            <Row
-              gutter={[16, 8]}
-              style={{
-                marginLeft: "-8px",
-                marginRight: "-8px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {props.items.map((item, i) => {
-                const selected = props.defaultSelectedValue === item.value;
-                return (
-                  <Col key={i} sm={{ flex: "50%" }} md={{ flex: "20%" }}>
-                    <CheckCard
-                      title={item.title}
-                      description={item.subTitle}
-                      value={item.value}
-                      extra={ifHot(item.value?.toString() ?? "")}
-                      onClick={() => {
-                        props.onSelection?.([item.value]);
-                        props.onClose?.();
-                      }}
-                      avatar={getCheckCardAvatar(item.value?.toString() ?? "")}
-                      style={{ marginBottom: "8px", width: "250px" }}
-                    />
-                    <div className={styles["model-select-tip-div"]}>
-                      <Progress
-                        steps={3}
-                        percent={100}
-                        size="small"
-                        format={() => getProgressText(item.value as string)}
-                        strokeColor={getProgressColor(
-                          getProgressValue(item.value as string),
+            {Array.from(groupedItems).map(([provider, items]) => (
+              <Row
+                gutter={[16, 8]}
+                key={provider}
+                style={{
+                  marginLeft: "-8px",
+                  marginRight: "-8px",
+                  display: "flex",
+                  justifyContent: "left",
+                  rowGap: 0,
+                }}
+              >
+                {items.map((item, i) => {
+                  const selected = props.defaultSelectedValue === item.value;
+                  return (
+                    <Col key={i} sm={{ flex: "50%" }} md={{ flex: "20%" }}>
+                      <CheckCard
+                        title={item.title}
+                        description={item.subTitle}
+                        value={item.value}
+                        extra={ifHot(item.value?.toString() ?? "")}
+                        onClick={() => {
+                          props.onSelection?.([item.value]);
+                          props.onClose?.();
+                        }}
+                        avatar={getCheckCardAvatar(
+                          item.value?.toString() ?? "",
                         )}
-                        percentPosition={{ align: "start", type: "outer" }}
+                        style={{ marginBottom: "8px", width: "250px" }}
                       />
-                      {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}
-                    </div>
-                  </Col>
-                );
-              })}
-            </Row>
+                      <div className={styles["model-select-tip-div"]}>
+                        <Progress
+                          steps={3}
+                          percent={100}
+                          size="small"
+                          format={() => getProgressText(item.value as string)}
+                          strokeColor={getProgressColor(
+                            getProgressValue(item.value as string),
+                          )}
+                          percentPosition={{ align: "start", type: "outer" }}
+                        />
+                        {/* <span className={styles["model-select-tip-span"]}>24H可用率：</span> */}
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ))}
           </CheckCard.Group>
         </AntList>
       </Modal>
