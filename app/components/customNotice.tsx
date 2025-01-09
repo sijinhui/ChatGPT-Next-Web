@@ -33,7 +33,7 @@ export const CustomNotice = () => {
         router.push("https://si.icu");
       }
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     // 检查 localStorage 中存储的已关闭版本

@@ -417,7 +417,7 @@ export function ChatAction(props: {
       updateWidth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customModelClassName]);
+  }, [customModelClassName, props.text]);
 
   return (
     <div
