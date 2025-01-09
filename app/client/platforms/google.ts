@@ -202,6 +202,9 @@ export class GeminiProApi implements LLMApi {
         () => controller.abort(),
         REQUEST_TIMEOUT_MS,
       );
+      // const [startThought, setStartThought] = useState(true);
+      let startThought = false;
+      let endThought = true;
 
       if (shouldStream) {
         const [tools, funcs] = usePluginStore
@@ -223,6 +226,7 @@ export class GeminiProApi implements LLMApi {
           // parseSSE
           (text: string, runTools: ChatMessageTool[]) => {
             // console.log("parseSSE", text, runTools);
+            // console.log('4444444444', text)
             const chunkJson = JSON.parse(text);
 
             const functionCall = chunkJson?.candidates
@@ -241,7 +245,27 @@ export class GeminiProApi implements LLMApi {
             }
             return chunkJson?.candidates
               ?.at(0)
-              ?.content.parts?.map((part: { text: string }) => part.text)
+              ?.content.parts?.map(
+                (part: { text: string; thought?: boolean }) => {
+                  let returnMessage = part.text;
+                  if (part?.thought) {
+                    if (!startThought) {
+                      startThought = true;
+                      endThought = false;
+                      returnMessage = `> ${returnMessage}`;
+                    }
+                    returnMessage = returnMessage.replace(/\n\n+/g, "\n> ");
+                  }
+                  if (!part.thought) {
+                    if (startThought && !endThought) {
+                      startThought = false;
+                      endThought = true;
+                      returnMessage = `\n\n${returnMessage}`;
+                    }
+                  }
+                  return returnMessage;
+                },
+              )
               .join("\n\n");
           },
           // processToolMessage, include tool_calls message and tool call results

@@ -184,7 +184,8 @@ export const Azure = {
 export const Google = {
   ExampleEndpoint: "https://generativelanguage.googleapis.com/",
   ChatPath: (modelName: string) =>
-    `v1beta/models/${modelName}:streamGenerateContent`,
+    `v1alpha/models/${modelName}:streamGenerateContent`,
+  // v1beta generateContent streamGenerateContent
 };
 
 export const Baidu = {
@@ -595,6 +596,18 @@ export const DEFAULT_MODELS = [
     available: true,
     sorted: seq++,
     describe: "谷歌,新出的,免费,很好用",
+    provider: {
+      id: "google",
+      providerName: "Google",
+      providerType: "google",
+      sorted: 3,
+    },
+  },
+  {
+    name: "gemini-2.0-flash-thinking-exp",
+    available: true,
+    sorted: seq++,
+    describe: "谷歌,新出的,免费,思考模型",
     provider: {
       id: "google",
       providerName: "Google",
