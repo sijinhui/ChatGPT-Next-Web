@@ -34,6 +34,10 @@ COPY --from=base /app/node_modules ./node_modules
 RUN yarn install && yarn build
 
 FROM sijinhui/node:base AS runner
+
+LABEL maintainer="sijinhui@qq.com" \
+      description="自用的聊天镜像."
+
 WORKDIR /app
 
 RUN apk add proxychains-ng
