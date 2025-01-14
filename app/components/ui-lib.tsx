@@ -770,7 +770,11 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
               <div key={provider}>
                 <Divider
                   plain
-                  style={{ marginBottom: "4px", marginTop: "-4px" }}
+                  style={{
+                    marginBottom: "4px",
+                    marginTop: "-4px",
+                    color: "var(--black)",
+                  }}
                 >
                   {provider}
                 </Divider>
