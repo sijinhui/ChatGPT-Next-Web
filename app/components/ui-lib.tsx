@@ -641,25 +641,32 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     return <></>;
   };
   const ifHot = (value: string): React.ReactNode => {
-    // console.log("-------", value);
     const hotModels = [
       "gpt-4o@Azure",
       "o1-preview@Azure",
       "gemini-2.0-flash-exp@Google",
     ];
-    const recommendModel = ["gemini-2.0-flash-thinking-exp@Google"];
+    const recommendModel = [
+      "gemini-2.0-flash-thinking-exp@Google",
+      "o1-preview@Azure",
+      "o1-all@OpenAI",
+      "o1-pro-all@OpenAI",
+    ];
     const expensiveModel = ["o1-all@OpenAI", "o1-pro-all@OpenAI"];
 
+    const icons: React.ReactNode[] = [];
+
     if (hotModels.includes(value)) {
-      return <>🔥</>;
+      icons.push(<span key="hot">🔥</span>);
     }
     if (recommendModel.includes(value)) {
-      return <>💡</>;
+      icons.push(<span key="recommend">💡</span>);
     }
     if (expensiveModel.includes(value)) {
-      return <>💰</>;
+      icons.push(<span key="expensive">💰</span>);
     }
-    return <></>;
+
+    return <>{icons}</>;
   };
 
   const clickMaskEvent = (event: React.MouseEvent) => {

@@ -474,7 +474,7 @@ export const DEFAULT_MODELS = [
   {
     name: "gpt-4o-mini",
     describe: "新出的，可以尝鲜",
-    available: true,
+    available: false,
     sorted: seq++,
     provider: {
       id: "azure",
@@ -615,18 +615,18 @@ export const DEFAULT_MODELS = [
       sorted: 3,
     },
   },
-  ...moonshotModes.map((name) => ({
-    name,
-    available: true,
-    sorted: seq++,
-    describe: "月之暗面,可以试试",
-    provider: {
-      id: "moonshot",
-      providerName: "Moonshot",
-      providerType: "moonshot",
-      sorted: 9,
-    },
-  })),
+  // ...moonshotModes.map((name) => ({
+  //   name,
+  //   available: true,
+  //   sorted: seq++,
+  //   describe: "月之暗面,可以试试",
+  //   provider: {
+  //     id: "moonshot",
+  //     providerName: "Moonshot",
+  //     providerType: "moonshot",
+  //     sorted: 9,
+  //   },
+  // })),
   ...deepseekModels.map((name) => ({
     name,
     available: true,
