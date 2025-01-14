@@ -791,6 +791,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
                         key={i}
                         sm={{ flex: "50%" }}
                         md={{ flex: "20%" }}
+                        flex="auto"
                         style={{
                           padding: 0,
                           marginLeft: "8px",
@@ -811,7 +812,8 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
                           )}
                           style={{
                             marginBottom: "8px",
-                            width: "250px",
+                            minWidth: "250px",
+                            width: "100%",
                             marginInlineEnd: 0,
                           }}
                         />
