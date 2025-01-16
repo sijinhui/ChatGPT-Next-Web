@@ -857,12 +857,14 @@ export const useChatStore = createPersistStore(
         const shouldInjectSystemPrompts =
           modelConfig.enableInjectSystemPrompts &&
           shouldInjectProvider.includes(session.mask.modelConfig.providerName);
-
+        const isGoogle = modelConfig.providerName === ServiceProvider.Google;
         var systemPrompts: ChatMessage[] = [];
+
         systemPrompts = shouldInjectSystemPrompts
           ? [
               createMessage({
-                role: "system",
+                // @ts-ignore
+                role: isGoogle ? "model" : "system",
                 content: fillTemplateWith("", {
                   ...modelConfig,
                   template: DEFAULT_SYSTEM_TEMPLATE,
