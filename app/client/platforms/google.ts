@@ -85,12 +85,7 @@ export class GeminiProApi implements LLMApi {
     let multimodal = false;
 
     // try get base64image from local cache image_url
-    const _messages: ChatOptions["messages"] = [
-      {
-        role: "system",
-        content: "当前系统时间是 " + new Date().toLocaleDateString(),
-      },
-    ];
+    const _messages: ChatOptions["messages"] = [];
     for (const v of options.messages) {
       const content = await preProcessImageContent(v.content);
       _messages.push({ role: v.role, content });
