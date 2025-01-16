@@ -249,7 +249,8 @@ export class GeminiProApi implements LLMApi {
                       endThought = false;
                       returnMessage = `> ${returnMessage}`;
                     }
-                    returnMessage = returnMessage.replace(/\n\n+/g, "\n> ");
+                    returnMessage = returnMessage.replace(/\n+/g, "\n> ");
+                    returnMessage = returnMessage.replace(/\n\n+/g, "\n");
                   }
                   if (!part.thought) {
                     if (startThought && !endThought) {
