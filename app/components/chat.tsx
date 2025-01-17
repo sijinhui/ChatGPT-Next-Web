@@ -134,7 +134,6 @@ import { RealtimeChat } from "@/app/components/realtime-chat";
 import clsx from "clsx";
 
 // anime
-import anime from "animejs";
 
 const localStorage = safeLocalStorage();
 
@@ -456,72 +455,103 @@ function useScrollToBottom(
   // for auto-scroll
 
   const [autoScroll, setAutoScroll] = useState(true);
-
-  const [isScrolling, setIsScrolling] = useState(false);
-  const scrollDelay = 500; // 等待多少毫秒后滚动 (如果行数不够)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
-  let scrollAnimation: null | anime.AnimeInstance = null;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function scrollDomToBottom(height?: number) {
+  function scrollDomToBottom() {
     const dom = scrollRef.current;
     if (dom) {
-      scrollAnimation = anime({
-        targets: dom,
-        scrollTop: height ?? dom.scrollHeight,
-        // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
-        easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
-        // delay: 500,
+      requestAnimationFrame(() => {
+        setAutoScroll(true);
+        dom.scrollTo(0, dom.scrollHeight);
       });
-      scrollAnimation.play();
     }
   }
-  // function scrollDomToBottom() {
-  //   const dom = scrollRef.current;
-  //   if (dom) {
-  //     requestAnimationFrame(() => {
-  //       setAutoScroll(true);
-  //       // dom.scrollTo(0, dom.scrollHeight);
-  //       // 丝滑一点
-  //       dom.scrollTo({
-  //         top: dom.scrollHeight,
-  //         behavior: "smooth",
-  //       });
-  //     });
-  //   }
-  // }
 
   // auto scroll
-
   useEffect(() => {
-    // console.log("3333333 当前变量", isScrolling, autoScroll, !detach);
     if (autoScroll && !detach) {
-      // 增加延迟滚动，避免抖动
-      // 存储并滚动到当前高度
-      const currentHeight = scrollRef.current?.scrollHeight ?? 0;
-      // const lastScrollTop = scrollRef.current?.scrollTop ?? 0;
-      // console.log('444444', currentHeight, lastScrollTop);
-      if (!isScrolling) {
-        clearTimeout(scrollTimeoutRef.current);
-        setIsScrolling(true);
-        scrollTimeoutRef.current = setTimeout(() => {
-          scrollDomToBottom(currentHeight);
-          setIsScrolling(false);
-        }, scrollDelay);
-      } else {
-        // 打断
-        scrollAnimation?.pause();
-      }
+      scrollDomToBottom();
     }
-    if (detach) {
-      scrollAnimation?.pause();
-    }
-    // 自动滚动一直有bug，直接强制修改了
-    // if (autoScroll && !detach) {
-    //   scrollDomToBottom();
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoScroll, detach]);
+  });
+
+  // function useScrollToBottom(
+  //   scrollRef: RefObject<HTMLDivElement>,
+  //   detach: boolean = false,
+  // ) {
+  //   // for auto-scroll
+
+  //   const [autoScroll, setAutoScroll] = useState(true);
+
+  //   const [isScrolling, setIsScrolling] = useState(false);
+  //   const scrollDelay = 500; // 等待多少毫秒后滚动 (如果行数不够)
+  //   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+  //   let scrollAnimation: null | anime.AnimeInstance = null;
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   function scrollDomToBottom(height?: number) {
+  //     const dom = scrollRef.current;
+  //     if (dom) {
+  //       scrollAnimation = anime({
+  //         targets: dom,
+  //         scrollTop: height ?? dom.scrollHeight,
+  //         // duration: 300, // 动画持续时间，单位毫秒，可根据需要调整
+  //         easing: "easeInOutQuad", // 缓动函数，可尝试不同效果
+  //         // delay: 500,
+  //         // Add a complete callback to reset isScrolling
+  //         complete: () => {
+  //           setIsScrolling(false);
+  //         },
+  //         onStart: () => {
+  //           setIsScrolling(true);
+  //         }
+  //       });
+  //       scrollAnimation.play();
+  //     }
+  //   }
+  //   // function scrollDomToBottom() {
+  //   //   const dom = scrollRef.current;
+  //   //   if (dom) {
+  //   //     requestAnimationFrame(() => {
+  //   //       setAutoScroll(true);
+  //   //       // dom.scrollTo(0, dom.scrollHeight);
+  //   //       // 丝滑一点
+  //   //       dom.scrollTo({
+  //   //         top: dom.scrollHeight,
+  //   //         behavior: "smooth",
+  //   //       });
+  //   //     });
+  //   //   }
+  //   // }
+
+  //   // auto scroll
+
+  //   useEffect(() => {
+  //     console.log("3333333 当前变量", "isScrolling", isScrolling, "autoScroll", autoScroll, "detach"  , !detach);
+  //     if (autoScroll && !detach) {
+  //       // 增加延迟滚动，避免抖动
+  //       // 存储并滚动到当前高度
+  //       const currentHeight = scrollRef.current?.scrollHeight ?? 0;
+  //       // const lastScrollTop = scrollRef.current?.scrollTop ?? 0;
+  //       // console.log('444444', currentHeight, lastScrollTop);
+  //       if (!isScrolling) {
+  //         // clearTimeout(scrollTimeoutRef.current);
+  //         // setIsScrolling(true);
+  //         // scrollTimeoutRef.current = setTimeout(() => {
+  //         //   scrollDomToBottom(currentHeight);
+  //         // }, scrollDelay);
+  //         scrollDomToBottom(currentHeight);
+  //       } else {
+  //         // 打断
+  //         scrollAnimation?.pause();
+  //       }
+
+  //     } else {
+  //       scrollAnimation?.pause();
+  //     }
+  //     // 自动滚动一直有bug，直接强制修改了
+  //     // if (autoScroll && !detach) {
+  //     //   scrollDomToBottom();
+  //     // }
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, [autoScroll, detach]);
 
   return {
     scrollRef,
@@ -1466,7 +1496,7 @@ function _Chat() {
     const isTouchTopEdge = e.scrollTop <= edgeThreshold;
     const isTouchBottomEdge = bottomHeight >= e.scrollHeight - edgeThreshold;
     const isHitBottom =
-      bottomHeight >= e.scrollHeight - (isMobileScreen ? 4 : 20);
+      bottomHeight >= e.scrollHeight - (isMobileScreen ? 4 : 10);
 
     const prevPageMsgIndex = msgRenderIndex - CHAT_PAGE_SIZE;
     const nextPageMsgIndex = msgRenderIndex + CHAT_PAGE_SIZE;
@@ -1476,7 +1506,7 @@ function _Chat() {
     } else if (isTouchBottomEdge) {
       setMsgRenderIndex(nextPageMsgIndex);
     }
-    // console.log('33333333333', bottomHeight, e.scrollHeight)
+    console.log("33333333333", bottomHeight, e.scrollHeight, isHitBottom);
 
     setHitBottom(isHitBottom);
     setAutoScroll(isHitBottom);
