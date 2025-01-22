@@ -270,7 +270,7 @@ Latex block: $$e=mc^2$$
 `;
 
 // export const SUMMARIZE_MODEL = "gpt-4o-mini";
-export const SUMMARIZE_MODEL = "gpt-4o";
+// export const SUMMARIZE_MODEL = "gpt-4o";
 export const MCP_TOOLS_TEMPLATE = `
 [clientId]
 {{ clientId }}
@@ -395,7 +395,7 @@ You are an AI assistant with access to system tools. Your role is to help users 
    
 `;
 
-export const SUMMARIZE_MODEL = "gpt-4o-mini";
+export const SUMMARIZE_MODEL = "gpt-4o";
 export const GEMINI_SUMMARIZE_MODEL = "gemini-pro";
 
 export const KnowledgeCutOffDate: Record<string, string> = {

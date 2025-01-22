@@ -20,7 +20,6 @@ import LoadingButtonIcon from "../icons/loading.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
-import ReloadIcon from "../icons/reload.svg";
 import BreakIcon from "../icons/break.svg";
 import DeleteIcon from "../icons/clear.svg";
 import ConfirmIcon from "../icons/confirm.svg";
@@ -115,7 +114,6 @@ import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
 import { useAllModels } from "../utils/hooks";
 import { ClientApi, MultimodalContent } from "../client/api";
-import { MultimodalContent } from "../client/api";
 // import { getTokenLength } from "@/lib/utils";
 import VoiceInput from "./voice-input";
 import { Progress, Tooltip } from "antd";
@@ -1237,10 +1235,7 @@ function _Chat() {
     }
     setIsLoading(true);
     chatStore
-      .onUserInput(userInput, attachImages, {
-        mjImageMode,
-        setAutoScroll,
-      })
+      .onUserInput(userInput, attachImages)
       .then(() => setIsLoading(false));
     setAttachImages([]);
     chatStore.setLastInput(userInput);

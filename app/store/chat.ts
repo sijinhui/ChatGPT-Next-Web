@@ -1,9 +1,4 @@
-import {
-  getMessageTextContent,
-  isDalle3,
-  safeLocalStorage,
-  trimTopic,
-} from "../utils";
+import { getMessageTextContent, trimTopic } from "../utils";
 
 import { indexedDBStorage } from "@/app/utils/indexedDB-storage";
 import { nanoid } from "nanoid";
@@ -17,7 +12,6 @@ import {
   ServiceProvider,
   MCP_SYSTEM_TEMPLATE,
   MCP_TOOLS_TEMPLATE,
-  ServiceProvider,
   StoreKey,
   SUMMARIZE_MODEL,
 } from "../constant";
