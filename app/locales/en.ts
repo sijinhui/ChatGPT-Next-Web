@@ -707,6 +707,9 @@ const en: LocaleType = {
   Discovery: {
     Name: "Discovery",
   },
+  Mcp: {
+    Name: "MCP",
+  },
   FineTuned: {
     Sysmessage: "You are an assistant that",
   },
