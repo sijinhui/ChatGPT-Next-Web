@@ -38,10 +38,11 @@ WORKDIR /app
 
 RUN apk add proxychains-ng
 
-ENV PROXY_URL="" \
-    OPENAI_API_KEY="" \
-    GOOGLE_API_KEY="" \
-    CODE=""
+ENV PROXY_URL=""
+ENV OPENAI_API_KEY=""
+ENV GOOGLE_API_KEY=""
+ENV CODE=""
+ENV ENABLE_MCP=""
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
@@ -52,6 +53,11 @@ COPY --from=builder /app/.next/server ./.next/server
 # COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
 
 RUN rm -f .env
+
+RUN mkdir -p /app/app/mcp && chmod 777 /app/app/mcp
+COPY --from=builder /app/app/mcp/mcp_config.json /app/app/mcp/
+
+EXPOSE 23000
 
 ENV HOSTNAME="" \
     PORT=23000 \
