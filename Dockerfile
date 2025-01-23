@@ -55,7 +55,7 @@ COPY --from=builder /app/.next/server ./.next/server
 RUN rm -f .env
 
 RUN mkdir -p /app/app/mcp && chmod 777 /app/app/mcp
-COPY --from=builder /app/app/mcp/mcp_config.json /app/app/mcp/
+COPY --from=builder /app/app/mcp/mcp_config.default.json /app/app/mcp/mcp_config.json
 
 EXPOSE 23000
 
