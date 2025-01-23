@@ -2,7 +2,7 @@
 
 import { Modal, Button, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getClientConfig } from "../config/client";
+import { getClientConfig } from "@/app/config/client";
 import { useRouter } from "next/navigation";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
