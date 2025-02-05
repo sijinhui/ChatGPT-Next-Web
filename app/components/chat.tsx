@@ -15,6 +15,9 @@ import RenameIcon from "../icons/rename.svg";
 import EditIcon from "../icons/rename.svg";
 import ExportIcon from "../icons/share.svg";
 import ReturnIcon from "../icons/return.svg";
+import CopyIcon from "../icons/copy.svg";
+import SpeakIcon from "../icons/speak.svg";
+import SpeakStopIcon from "../icons/speak-stop.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import LoadingButtonIcon from "../icons/loading.svg";
 import MaxIcon from "../icons/max.svg";
@@ -22,6 +25,7 @@ import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
 import BreakIcon from "../icons/break.svg";
 import DeleteIcon from "../icons/clear.svg";
+import PinIcon from "../icons/pin.svg";
 import ConfirmIcon from "../icons/confirm.svg";
 import CloseIcon from "../icons/close.svg";
 import CancelIcon from "../icons/cancel.svg";
@@ -2086,73 +2090,73 @@ function _Chat() {
                               </div>
                             )}
 
-                            {/*{showActions && (*/}
-                            {/*  <div className={styles["chat-message-actions"]}>*/}
-                            {/*    <div className={styles["chat-input-actions"]}>*/}
-                            {/*      {message.streaming ? (*/}
-                            {/*        <ChatAction*/}
-                            {/*          text={Locale.Chat.Actions.Stop}*/}
-                            {/*          icon={<StopIcon />}*/}
-                            {/*          onClick={() =>*/}
-                            {/*            onUserStop(message.id ?? i)*/}
-                            {/*          }*/}
-                            {/*        />*/}
-                            {/*      ) : (*/}
-                            {/*        <>*/}
-                            {/*          <ChatAction*/}
-                            {/*            text={Locale.Chat.Actions.Retry}*/}
-                            {/*            icon={<ResetIcon />}*/}
-                            {/*            onClick={() => onResend(message)}*/}
-                            {/*          />*/}
+                            {showActions && (
+                              <div className={styles["chat-message-actions"]}>
+                                <div className={styles["chat-input-actions"]}>
+                                  {message.streaming ? (
+                                    <ChatAction
+                                      text={Locale.Chat.Actions.Stop}
+                                      icon={<StopIcon />}
+                                      onClick={() =>
+                                        onUserStop(message.id ?? i)
+                                      }
+                                    />
+                                  ) : (
+                                    <>
+                                      <ChatAction
+                                        text={Locale.Chat.Actions.Retry}
+                                        icon={<ResetIcon />}
+                                        onClick={() => onResend(message)}
+                                      />
 
-                            {/*          <ChatAction*/}
-                            {/*            text={Locale.Chat.Actions.Delete}*/}
-                            {/*            icon={<DeleteIcon />}*/}
-                            {/*            onClick={() =>*/}
-                            {/*              onDelete(message.id ?? i)*/}
-                            {/*            }*/}
-                            {/*          />*/}
+                                      <ChatAction
+                                        text={Locale.Chat.Actions.Delete}
+                                        icon={<DeleteIcon />}
+                                        onClick={() =>
+                                          onDelete(message.id ?? i)
+                                        }
+                                      />
 
-                            {/*          <ChatAction*/}
-                            {/*            text={Locale.Chat.Actions.Pin}*/}
-                            {/*            icon={<PinIcon />}*/}
-                            {/*            onClick={() => onPinMessage(message)}*/}
-                            {/*          />*/}
-                            {/*          <ChatAction*/}
-                            {/*            text={Locale.Chat.Actions.Copy}*/}
-                            {/*            icon={<CopyIcon />}*/}
-                            {/*            onClick={() =>*/}
-                            {/*              copyToClipboard(*/}
-                            {/*                getMessageTextContent(message),*/}
-                            {/*              )*/}
-                            {/*            }*/}
-                            {/*          />*/}
-                            {/*          {config.ttsConfig.enable && (*/}
-                            {/*            <ChatAction*/}
-                            {/*              text={*/}
-                            {/*                speechStatus*/}
-                            {/*                  ? Locale.Chat.Actions.StopSpeech*/}
-                            {/*                  : Locale.Chat.Actions.Speech*/}
-                            {/*              }*/}
-                            {/*              icon={*/}
-                            {/*                speechStatus ? (*/}
-                            {/*                  <SpeakStopIcon />*/}
-                            {/*                ) : (*/}
-                            {/*                  <SpeakIcon />*/}
-                            {/*                )*/}
-                            {/*              }*/}
-                            {/*              onClick={() =>*/}
-                            {/*                openaiSpeech(*/}
-                            {/*                  getMessageTextContent(message),*/}
-                            {/*                )*/}
-                            {/*              }*/}
-                            {/*            />*/}
-                            {/*          )}*/}
-                            {/*        </>*/}
-                            {/*      )}*/}
-                            {/*    </div>*/}
-                            {/*  </div>*/}
-                            {/*)}*/}
+                                      <ChatAction
+                                        text={Locale.Chat.Actions.Pin}
+                                        icon={<PinIcon />}
+                                        onClick={() => onPinMessage(message)}
+                                      />
+                                      <ChatAction
+                                        text={Locale.Chat.Actions.Copy}
+                                        icon={<CopyIcon />}
+                                        onClick={() =>
+                                          copyToClipboard(
+                                            getMessageTextContent(message),
+                                          )
+                                        }
+                                      />
+                                      {config.ttsConfig.enable && (
+                                        <ChatAction
+                                          text={
+                                            speechStatus
+                                              ? Locale.Chat.Actions.StopSpeech
+                                              : Locale.Chat.Actions.Speech
+                                          }
+                                          icon={
+                                            speechStatus ? (
+                                              <SpeakStopIcon />
+                                            ) : (
+                                              <SpeakIcon />
+                                            )
+                                          }
+                                          onClick={() =>
+                                            openaiSpeech(
+                                              getMessageTextContent(message),
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           {message?.tools?.length == 0 && showTyping && (
                             <div className={styles["chat-message-status"]}>

@@ -228,7 +228,7 @@ export class ChatGPTApi implements LLMApi {
       requestPayload = {
         messages,
         stream:
-          options.config.providerName === "Azure" && isO1
+          options.config.providerName === "Azure" && isO1OrO3
             ? false
             : options.config.stream,
         model: modelConfig.model,
@@ -257,7 +257,7 @@ export class ChatGPTApi implements LLMApi {
     const shouldStream =
       !isDalle3 &&
       !!options.config.stream &&
-      !(options.config.providerName === "Azure" && isO1);
+      !(options.config.providerName === "Azure" && isO1OrO3);
     const controller = new AbortController();
     options.onController?.(controller);
 
@@ -464,6 +464,7 @@ export class ChatGPTApi implements LLMApi {
 
   async models(): Promise<LLMModel[]> {
     if (this.disableListModels) {
+      // @ts-ignore
       return DEFAULT_MODELS.slice();
     }
 

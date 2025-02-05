@@ -805,17 +805,17 @@ export const DEFAULT_MODELS = [
       sorted: 13,
     },
   })),
-  ...siliconflowModels.map((name) => ({
-    name,
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "siliconflow",
-      providerName: "SiliconFlow",
-      providerType: "siliconflow",
-      sorted: 14,
-    },
-  })),
+  // ...siliconflowModels.map((name) => ({
+  //   name,
+  //   available: true,
+  //   sorted: seq++,
+  //   provider: {
+  //     id: "siliconflow",
+  //     providerName: "SiliconFlow",
+  //     providerType: "siliconflow",
+  //     sorted: 14,
+  //   },
+  // })),
   {
     name: "midjourney",
     describe: "绘图用,不用选",
