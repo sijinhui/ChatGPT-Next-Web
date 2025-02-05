@@ -294,7 +294,7 @@ const calLogMoney = (logData: Partial<CusLogEntry>): number => {
         case "claude-3-5-sonnet-20241022":
           return logToken * 0.000004;
         case "deepseek-chat":
-        case "deepseek-coder":
+        case "deepseek-reasoner":
           return (logToken * 0.14) / 1000000;
         // 谷歌的本身就免费
         case "gemini-1.5-pro-latest":

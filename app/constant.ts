@@ -421,7 +421,7 @@ export const KnowledgeCutOffDate: Record<string, string> = {
   "gemini-2.0-flash-exp": "2024-08",
   "gemini-2.0-flash-thinking-exp": "2024-08",
   "deepseek-chat": "2024-07",
-  "deepseek-coder": "2024-07",
+  "deepseek-reasoner": "2024-07",
 };
 
 export const DEFAULT_TTS_ENGINE = "OpenAI-TTS";
@@ -563,7 +563,7 @@ const iflytekModels = [
   "4.0Ultra",
 ];
 
-const deepseekModels = ["deepseek-chat", "deepseek-coder", "deepseek-reasoner"];
+const deepseekModels = ["deepseek-chat", "deepseek-reasoner"];
 
 const xAIModes = ["grok-beta"];
 
