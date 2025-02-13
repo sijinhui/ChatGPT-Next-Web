@@ -618,26 +618,29 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
 }) {
   const getCheckCardAvatar = (value: string): React.ReactNode => {
     if (value.startsWith("gemini")) {
-      return <Icon component={GoogleIcon} />;
+      return <Icon component={GoogleIcon} className="provider-icon" />;
     }
     if (value.startsWith("claude")) {
-      return <Icon component={ClaudeInstantIcon} />;
+      return <Icon component={ClaudeInstantIcon} className="provider-icon" />;
     }
     if (value.startsWith("moon")) {
-      return <Icon component={MoonShot} />;
+      return <Icon component={MoonShot} className="provider-icon" />;
+    }
+    if (value.toLowerCase().startsWith("deepseek")) {
+      return <Icon component={DeepSeekIcon} className="provider-icon" />;
     }
 
     const providerName = value.split("@")[1];
     // console.log('========', providerName)
     if (providerName === "Azure") {
-      return <Icon component={AzureIcon} />;
+      return <Icon component={AzureIcon} className="provider-icon" />;
     }
     if (providerName === "OpenAI") {
-      return <OpenAIOutlined />;
+      return <OpenAIOutlined className="provider-icon" />;
     }
     if (providerName === "DeepSeek") {
       // return <DeepSeekIcon />;
-      return <Icon component={DeepSeekIcon} />;
+      return <Icon component={DeepSeekIcon} className="provider-icon" />;
     }
 
     return <></>;
