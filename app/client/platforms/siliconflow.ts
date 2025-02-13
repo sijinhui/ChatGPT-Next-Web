@@ -275,6 +275,7 @@ export class SiliconflowApi implements LLMApi {
     return chatModels.map((m) => ({
       name: m.id,
       available: true,
+      describe: "",
       sorted: seq++,
       provider: {
         id: "siliconflow",

@@ -763,6 +763,30 @@ export const DEFAULT_MODELS = [
       sorted: 2, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   })),
+  {
+    name: "DeepSeek-V3>ep-20250213183802-bm5p5",
+    describe: "DeepSeek-V3 对话模型",
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 3, // 这里是固定的，确保顺序与之前内置的版本一致
+    },
+  },
+  {
+    name: "DeepSeek-R1>ep-20250213183738-zk25s",
+    describe: "DeepSeek-R1 思考模型",
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 3, // 这里是固定的，确保顺序与之前内置的版本一致
+    },
+  },
   // {
   //   name: "gemini-1.5-pro-latest",
   //   available: true,
