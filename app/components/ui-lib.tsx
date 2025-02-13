@@ -626,7 +626,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
     if (value.startsWith("moon")) {
       return <Icon component={MoonShot} className="provider-icon" />;
     }
-    if (value.toLowerCase().startsWith("deepseek")) {
+    if (value.toLowerCase().includes("deepseek")) {
       return <Icon component={DeepSeekIcon} className="provider-icon" />;
     }
 
