@@ -764,7 +764,7 @@ export const DEFAULT_MODELS = [
     },
   })),
   {
-    name: "DeepSeek-V3>ep-20250213183802-bm5p5",
+    name: "deepseek-v3",
     describe: "DeepSeek-V3 对话模型",
     available: true,
     sorted: seq++,
@@ -776,7 +776,7 @@ export const DEFAULT_MODELS = [
     },
   },
   {
-    name: "DeepSeek-R1>ep-20250213183738-zk25s",
+    name: "deepseek-r1",
     describe: "DeepSeek-R1 思考模型",
     available: true,
     sorted: seq++,
