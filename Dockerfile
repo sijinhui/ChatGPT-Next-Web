@@ -57,8 +57,16 @@ RUN rm -f .env
 RUN mkdir -p /app/app/mcp && chmod 777 /app/app/mcp
 COPY --from=builder /app/app/mcp/mcp_config.default.json /app/app/mcp/mcp_config.json
 
-EXPOSE 23000
+FROM scratch
+COPY --from=runner / /
 
+WORKDIR /app
+
+ENV PROXY_URL="" \
+    OPENAI_API_KEY="" \
+    GOOGLE_API_KEY="" \
+    CODE="" \
+    ENABLE_MCP="" \
 ENV HOSTNAME="" \
     PORT=23000 \
     KEEP_ALIVE_TIMEOUT=30
