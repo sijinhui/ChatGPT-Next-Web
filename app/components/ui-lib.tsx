@@ -650,8 +650,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
       "gpt-4o@Azure",
       "gpt-4o@OpenAI",
       "o1-preview@Azure",
-      "gemini-2.0-flash-exp@Google",
-      "gemini-2.0-flash-exp@OpenAI",
+      "gemini-2.0-flash-thinking-exp@OpenAI",
     ];
     const recommendModel = [
       "gemini-2.0-flash-thinking-exp@Google",
