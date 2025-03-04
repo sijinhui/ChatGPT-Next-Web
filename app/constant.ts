@@ -529,9 +529,8 @@ const googleModels = [
 ];
 
 const anthropicModels = [
-  "claude-3-opus-20240229",
-  "claude-3-5-haiku-20241022",
   "claude-3-5-sonnet-20241022",
+  "claude-3-7-sonnet-20250219",
 ];
 
 const baiduModels = [
@@ -661,9 +660,9 @@ export const DEFAULT_MODELS = [
     available: false,
     sorted: seq++,
     provider: {
-      id: "azure",
-      providerName: "Azure",
-      providerType: "azure",
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
       sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
@@ -673,9 +672,9 @@ export const DEFAULT_MODELS = [
     available: true,
     sorted: seq++,
     provider: {
-      id: "azure",
-      providerName: "Azure",
-      providerType: "azure",
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
       sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
@@ -692,62 +691,14 @@ export const DEFAULT_MODELS = [
   //   },
   // },
   {
-    name: "o1-mini",
-    describe: "GPT,最新模型mini版,较快的推理",
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "azure",
-      providerName: "Azure",
-      providerType: "azure",
-      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
-    },
-  },
-  {
-    name: "o1-preview",
-    describe: "GPT,o1,最新模型,高级推理",
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "azure",
-      providerName: "Azure",
-      providerType: "azure",
-      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
-    },
-  },
-  {
-    name: "o1-all",
-    describe: "o1正式版接口,较贵,$0.1/次",
+    name: "o1",
+    describe: "GPT,较快的推理",
     available: true,
     sorted: seq++,
     provider: {
       id: "openai",
       providerName: "OpenAI",
       providerType: "openai",
-      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
-    },
-  },
-  {
-    name: "o1-pro-all",
-    describe: "o1 pro正式版,较贵,$0.2/次",
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "openai",
-      providerName: "OpenAI",
-      providerType: "openai",
-      sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
-    },
-  },
-  {
-    name: "gpt-4-turbo-2024-04-09",
-    describe: "GPT-4,标准版",
-    available: true,
-    sorted: seq++,
-    provider: {
-      id: "azure",
-      providerName: "Azure",
-      providerType: "azure",
       sorted: 1, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
@@ -805,10 +756,10 @@ export const DEFAULT_MODELS = [
     sorted: seq++,
     describe: "谷歌,新出的,免费,很好用",
     provider: {
-      id: "google",
-      providerName: "Google",
-      providerType: "google",
-      sorted: 3,
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 3, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
   {
@@ -817,10 +768,10 @@ export const DEFAULT_MODELS = [
     sorted: seq++,
     describe: "谷歌,新出的,免费,思考模型",
     provider: {
-      id: "google",
-      providerName: "Google",
-      providerType: "google",
-      sorted: 3,
+      id: "openai",
+      providerName: "OpenAI",
+      providerType: "openai",
+      sorted: 3, // 这里是固定的，确保顺序与之前内置的版本一致
     },
   },
   // ...moonshotModes.map((name) => ({

@@ -648,13 +648,15 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
   const ifHot = (value: string): React.ReactNode => {
     const hotModels = [
       "gpt-4o@Azure",
+      "gpt-4o@OpenAI",
       "o1-preview@Azure",
       "gemini-2.0-flash-exp@Google",
+      "gemini-2.0-flash-exp@OpenAI",
     ];
     const recommendModel = [
       "gemini-2.0-flash-thinking-exp@Google",
       "o1-preview@Azure",
-      "o1-all@OpenAI",
+      "o1@OpenAI",
       "o1-pro-all@OpenAI",
     ];
     const expensiveModel = ["o1-all@OpenAI", "o1-pro-all@OpenAI"];
@@ -764,7 +766,7 @@ export function ModalSelector<T extends CheckGroupValueType>(props: {
         onClose={() => props.onClose?.()}
         footer={null}
         is_cus={true}
-        defaultMax={true}
+        defaultMax={false}
       >
         <AntList grid={{ gutter: 16 }}>
           <CheckCard.Group

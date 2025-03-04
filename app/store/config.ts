@@ -73,7 +73,7 @@ export const DEFAULT_CONFIG = {
 
   modelConfig: {
     model: "gpt-4o" as ModelType,
-    providerName: "Azure" as ServiceProvider,
+    providerName: "OpenAI" as ServiceProvider,
     temperature: 0.8,
     top_p: 1,
     max_tokens: 2000,
@@ -83,7 +83,7 @@ export const DEFAULT_CONFIG = {
     historyMessageCount: 5,
     compressMessageLengthThreshold: 4000,
     compressModel: "gpt-4o-mini" as ModelType,
-    compressProviderName: "Azure" as ServiceProvider,
+    compressProviderName: "OpenAI" as ServiceProvider,
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
     size: "1024x1024" as ModelSize,
