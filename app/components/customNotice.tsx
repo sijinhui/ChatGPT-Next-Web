@@ -1,10 +1,10 @@
 "use client";
 
-import { Modal, Button, Typography } from "antd";
+import { Modal, Button, Typography, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getClientConfig } from "@/app/config/client";
 import { useRouter } from "next/navigation";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, WarningOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -94,7 +94,14 @@ export const CustomNotice = () => {
       ]}
     >
       <Typography>
-        <Paragraph>亲爱的用户们，👋</Paragraph>
+        <Paragraph>
+          <Space>
+            <Text strong={true}>亲爱的用户们 👋</Text>
+            <WarningOutlined style={{ color: "#ffa500" }} />
+            <Text type="danger">该网站将于4月1日关停</Text>
+          </Space>
+        </Paragraph>
+
         <Paragraph>
           该开源项目作者不积极维护，很多gpt新功能无法使用，因此决定该网站也不再更新。
           将使用新网址配合全新的项目提供<Text strong>更好的服务体验</Text>。
@@ -106,7 +113,7 @@ export const CustomNotice = () => {
         </Paragraph>
         <Paragraph>
           为了确保您不会丢失任何重要信息，请务必在{" "}
-          <Text type="danger">2025年2月1日</Text> 前完成以下操作：
+          <Text type="danger">2025年4月1日</Text> 前完成以下操作：
         </Paragraph>
         <ul>
           <li>📁 备份您的重要聊天记录</li>
@@ -116,9 +123,10 @@ export const CustomNotice = () => {
           <li>🔗 更新书签以便快速访问新域名</li>
         </ul>
         <Paragraph>
-          如有任何疑问或需要帮助，请随时联系我。感谢您的理解与支持！🌟
+          新域名：<Link strong>si.icu</Link> 需要先加入
+          <Text strong={true}>候补</Text>，后续会通过邮件发送可用说明。
         </Paragraph>
-        <Paragraph>祝您使用愉快！😊</Paragraph>
+        <Paragraph>有问题可以直接联系我，祝您使用愉快！😊</Paragraph>
       </Typography>
     </Modal>
   );
